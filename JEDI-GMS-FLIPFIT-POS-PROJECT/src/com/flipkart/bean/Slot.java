@@ -7,6 +7,7 @@ public class Slot {
     private Date date;
     private String time;
     private Integer centerId;
+    private boolean isAvailable;
 
     // Constructor
     public Slot(Integer slotId, Date date, String time, Integer centerId) {
@@ -14,6 +15,7 @@ public class Slot {
         this.date = date;
         this.time = time;
         this.centerId = centerId;
+        this.isAvailable=true;
     }
 
     // Getter and setter methods
@@ -47,5 +49,13 @@ public class Slot {
 
     public void setCenterId(Integer centerId) {
         this.centerId = centerId;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 }

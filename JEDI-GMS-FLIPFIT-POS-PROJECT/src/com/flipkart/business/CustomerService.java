@@ -7,6 +7,7 @@ import com.flipkart.dao.CustomerDAO;
 import com.flipkart.exception.BookingException;
 import com.flipkart.exception.CustomerAlreadyBookedException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerService {
@@ -24,6 +25,16 @@ public class CustomerService {
         // Implementation to register a customer
         // Validate input, check uniqueness, update database, etc.
         customerDAO.registerCustomer(customer);
+    }
+
+    public boolean authenticateCustomer(String username,String password){
+        ArrayList<Customer> currentCustomers=customerDAO.getDummyData();
+        for(Customer customer:currentCustomers){
+            if(customer.getUsername().equals(username) && customer.getPassword().equals(password)){
+                return true;
+            }
+        }
+        return false;
     }
 
 

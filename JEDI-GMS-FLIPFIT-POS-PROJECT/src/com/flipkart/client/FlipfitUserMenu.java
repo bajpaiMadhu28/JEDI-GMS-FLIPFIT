@@ -85,7 +85,23 @@ public class FlipfitUserMenu {
     private void registrationMenu() {
         // Implementation for user registration
         // You can add logic to register a new user
-        System.out.println("Registration menu placeholder.");
+        int role = getIntInput("Enter your role (1 for Customer, 2 for GymOwner, 3 for Admin): ");
+
+        // Based on the role, display the corresponding menu
+        switch (role) {
+            case 1:
+                customerMenu.displayRegistrationMenu();
+                break;
+//            case 2:
+//                gymOwnerMenu.displayMenu(username, password);
+//                break;
+//            case 3:
+//                adminMenu.displayMenu(username, password);
+//                break;
+            default:
+                System.out.println("Invalid role. Please try again.");
+                registrationMenu();
+        }
     }
 
     // Update password menu
