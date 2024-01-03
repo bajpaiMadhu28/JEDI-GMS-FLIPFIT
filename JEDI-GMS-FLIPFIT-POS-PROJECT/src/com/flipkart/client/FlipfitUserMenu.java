@@ -17,13 +17,20 @@ public class FlipfitUserMenu {
     }
 
     public static void main(String[] args) {
-        FlipfitUserMenu userMenu = new FlipfitUserMenu();
+        Scanner scanner = new Scanner(System.in);
+
+        // Assuming you have instances of FlipfitAdminMenu, FlipfitCustomerMenu, and FlipfitGymOwnerMenu
+        FlipfitAdminMenu adminMenu = new FlipfitAdminMenu();
+        FlipfitCustomerMenu customerMenu = new FlipfitCustomerMenu();
+        FlipfitGymOwnerMenu gymOwnerMenu = new FlipfitGymOwnerMenu();
+
+        FlipfitUserMenu userMenu = new FlipfitUserMenu(scanner, adminMenu, customerMenu, gymOwnerMenu);
         userMenu.displayMenu();
     }
 
     // Display the main user menu
     public void displayMenu() {
-        System.out.println("Welcome to Flipfit!");
+        System.out.println("Welcome to Flipfit !");
         System.out.println("1. Login");
         System.out.println("2. Registration");
         System.out.println("3. Update Password");

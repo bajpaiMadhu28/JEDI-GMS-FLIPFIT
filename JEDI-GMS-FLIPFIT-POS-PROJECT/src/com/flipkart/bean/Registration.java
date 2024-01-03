@@ -1,13 +1,13 @@
 package com.flipkart.bean;
 
-public class RegistrationBean {
+public class Registration {
     private String username;
     private String password;
     private String userType;  // Indicates the type of user (e.g., "Customer", "GymOwner", "Admin")
     private String userId;    // ID associated with the specific type of user
 
     // Constructor
-    public RegistrationBean(String username, String password, String userType, String userId) {
+    public Registration(String username, String password, String userType, String userId) {
         this.username = username;
         this.password = password;
         this.userType = userType;

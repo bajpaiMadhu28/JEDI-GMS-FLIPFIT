@@ -28,23 +28,23 @@ public class CustomerService {
 
 
 
-    // Booking-related operations
-    public boolean makeBooking(Booking booking) throws BookingException {
-        // Implementation to make a booking
-        // Validate input, check availability, update database, etc.
-        return bookingDAO.saveBooking(booking);
-    }
-
-    public List<Booking> getBookingsForCustomer(int customerId) {
-        // Implementation to get bookings for a customer
-        return bookingDAO.getBookingsByCustomerId(customerId);
-    }
-
-    public void cancelBooking(int bookingId) throws BookingException {
-        // Implementation to cancel a booking
-        // Validate input, check validity, update database, etc.
-        bookingDAO.cancelBooking(bookingId);
-    }
+//    // Booking-related operations
+//    public boolean makeBooking(Booking booking) throws BookingException {
+//        // Implementation to make a booking
+//        // Validate input, check availability, update database, etc.
+//        return bookingDAO.saveBooking(booking);
+//    }
+//
+//    public List<Booking> getBookingsForCustomer(int customerId) {
+//        // Implementation to get bookings for a customer
+//        return bookingDAO.getBookingsByCustomerId(customerId);
+//    }
+//
+//    public void cancelBooking(int bookingId) throws BookingException {
+//        // Implementation to cancel a booking
+//        // Validate input, check validity, update database, etc.
+//        bookingDAO.cancelBooking(bookingId);
+//    }
 
     // Other business methods
 }

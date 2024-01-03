@@ -19,22 +19,22 @@ public class FlipfitGymOwnerMenu {
     private SlotService slotService;
 
     // Constructor
-    public FlipfitGymOwnerMenu(
-            Scanner scanner,
-            CenterService centerService,
-            CustomerService customerService,
-            PaymentService paymentService,
-            SlotService slotService
-    ) {
-        this.scanner = scanner;
-        this.centerService = centerService;
-        this.customerService = customerService;
-        this.paymentService = paymentService;
-        this.slotService = slotService;
-    }
+//    public FlipfitGymOwnerMenu(
+//            Scanner scanner,
+//            CenterService centerService,
+//            CustomerService customerService,
+//            PaymentService paymentService,
+//            SlotService slotService
+//    ) {
+//        this.scanner = scanner;
+//        this.centerService = centerService;
+//        this.customerService = customerService;
+//        this.paymentService = paymentService;
+//        this.slotService = slotService;
+//    }
 
     // Methods for gym owner menu options
-    public void displayMenu() {
+    public void displayMenu(String username, String password) {
         // Implementation to display the gym owner menu
     }
 

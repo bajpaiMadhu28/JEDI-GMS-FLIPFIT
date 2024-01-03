@@ -19,22 +19,22 @@ public class FlipfitAdminMenu {
     private SlotService slotService;
 
     // Constructor
-    public FlipfitAdminMenu(
-            Scanner scanner,
-            CenterService centerService,
-            CustomerService customerService,
-            PaymentService paymentService,
-            SlotService slotService
-    ) {
-        this.scanner = scanner;
-        this.centerService = centerService;
-        this.customerService = customerService;
-        this.paymentService = paymentService;
-        this.slotService = slotService;
-    }
+//    public FlipfitAdminMenu(
+//            Scanner scanner,
+//            CenterService centerService,
+//            CustomerService customerService,
+//            PaymentService paymentService,
+//            SlotService slotService
+//    ) {
+//        this.scanner = scanner;
+//        this.centerService = centerService;
+//        this.customerService = customerService;
+//        this.paymentService = paymentService;
+//        this.slotService = slotService;
+//    }
 
     // Methods for admin menu options
-    public void displayMenu() {
+    public void displayMenu(String username, String password) {
         // Implementation to display the admin menu
     }
 

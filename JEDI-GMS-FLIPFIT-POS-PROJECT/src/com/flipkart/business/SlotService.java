@@ -41,7 +41,7 @@ public class SlotService {
     public void cancelBooking(String bookingId) {
         // Implementation to cancel a booking
         // Validate input, update database, etc.
-        slotDAO.cancelBooking(bookingId);
+        slotDAO.deleteSlot(bookingId);
     }
 
     // Other business methods
