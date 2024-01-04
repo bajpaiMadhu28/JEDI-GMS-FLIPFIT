@@ -95,9 +95,9 @@ public class FlipfitUserMenu {
 //            case 2:
 //                gymOwnerMenu.displayMenu(username, password);
 //                break;
-//            case 3:
-//                adminMenu.displayMenu(username, password);
-//                break;
+            case 3:
+                adminMenu.displayAdminRegistrationMenu();
+                break;
             default:
                 System.out.println("Invalid role. Please try again.");
                 registrationMenu();
