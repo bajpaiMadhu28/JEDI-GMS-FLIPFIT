@@ -93,7 +93,7 @@ public class FlipfitUserMenu {
                 customerMenu.displayRegistrationMenu();
                 break;
             case 2:
-                gymOwnerMenu.displayMenu(username, password);
+                gymOwnerMenu.displayRegistrationMenu();
                 break;
             case 3:
                 adminMenu.displayAdminRegistrationMenu();
