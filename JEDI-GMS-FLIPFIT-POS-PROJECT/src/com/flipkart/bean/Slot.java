@@ -9,13 +9,16 @@ public class Slot {
     private Integer centerId;
     private boolean isAvailable;
 
+    private boolean isApproved;
+
     // Constructor
     public Slot(Integer slotId, Date date, String time, Integer centerId) {
         this.slotId = slotId;
         this.date = date;
         this.time = time;
         this.centerId = centerId;
-        this.isAvailable=true;
+        this.isAvailable = true;
+        this.isApproved = false;
     }
 
     // Getter and setter methods
@@ -57,5 +60,13 @@ public class Slot {
 
     public void setAvailable(boolean available) {
         isAvailable = available;
+    }
+
+    public Boolean getApproved() {
+        return isApproved;
+    }
+
+    public void setApproved(Boolean approved) {
+        isApproved = approved;
     }
 }

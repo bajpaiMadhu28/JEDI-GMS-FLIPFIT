@@ -16,6 +16,10 @@ public class FlipfitUserMenu {
         this.gymOwnerMenu = gymOwnerMenu;
     }
 
+    public FlipfitUserMenu() {
+
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -58,7 +62,7 @@ public class FlipfitUserMenu {
     }
 
     // Login menu
-    private void loginMenu() {
+    void loginMenu() {
         // Get username, password, and role from the user
         String username = getStringInput("Enter your username: ");
         String password = getStringInput("Enter your password: ");

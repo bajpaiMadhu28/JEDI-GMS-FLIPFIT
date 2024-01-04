@@ -20,6 +20,9 @@ public class SlotDAO {
         slots.add(new Slot(4,new Date(),"12 PM - 1 PM",1));
     }
 
+    public ArrayList<Slot> getAllDummySlots(){
+        return slots;
+    }
     public ArrayList<Slot> getDummyData(Integer centerId){
         ArrayList<Slot> filteredSlots=new ArrayList<Slot>();
         for(Slot currentSlot:slots){

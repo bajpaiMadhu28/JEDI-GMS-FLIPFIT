@@ -23,6 +23,7 @@ public class FlipfitCustomerMenu {
     private PaymentService paymentService;
     private SlotDAO slotDAO = new SlotDAO();
     private SlotService slotService=new SlotService(slotDAO);
+    private FlipfitUserMenu flipfitUserMenu = new FlipfitUserMenu();
     InputUtils inputUtils=new InputUtils();
 
     // Constructor
@@ -89,7 +90,7 @@ public class FlipfitCustomerMenu {
         Customer customer = new Customer(username,password,customerId,name,email);
         customerService.registerCustomer(customer);
 
-
+        flipfitUserMenu.displayMenu();
 
         // Implementation to display the customer menu
     }
