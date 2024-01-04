@@ -1,7 +1,10 @@
 package com.flipkart.dao;
 
 import com.flipkart.bean.Customer;
+import com.flipkart.bean.Slot;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CustomerDAO {
     ArrayList<Customer> flipfitCustomers = new ArrayList<Customer>();
@@ -24,6 +27,17 @@ public class CustomerDAO {
 
     public ArrayList<Customer> getDummyData(){
         return flipfitCustomers;
+    }
+
+    public Customer getCustomerById(String customerId) {
+        // Implementation to retrieve slot details from the database based on the slotId
+        // You may use JDBC or any other data access mechanism
+        for(Customer currentCustomer:flipfitCustomers){
+            if(Objects.equals(customerId, currentCustomer.getCustomerId())){
+                return currentCustomer;
+            }
+        }
+        return null; // Replace with actual logic
     }
 
     // Other customer-related methods

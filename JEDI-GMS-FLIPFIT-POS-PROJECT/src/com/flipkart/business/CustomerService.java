@@ -47,6 +47,15 @@ public class CustomerService {
         return null;
     }
 
+    public void updateCustomerInfo(String name,String email,String username,String password,String customerId){
+        Customer currentCustomer=customerDAO.getCustomerById(customerId);
+        currentCustomer.setName(name);
+        currentCustomer.setEmail(email);
+        currentCustomer.setUsername(username);
+        currentCustomer.setPassword(password);
+        System.out.println("Customer Info Updated Successfully");
+    }
+
 
 
 //    // Booking-related operations

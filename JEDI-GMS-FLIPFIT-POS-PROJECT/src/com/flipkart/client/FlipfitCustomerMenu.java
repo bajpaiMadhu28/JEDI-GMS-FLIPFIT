@@ -52,6 +52,14 @@ public class FlipfitCustomerMenu {
         slotService.bookSlot(slotId,customerId);
     }
 
+    private void displayCustomerUpdate(){
+        String name = inputUtils.getStringInput("Enter your new name: ");
+        String email = inputUtils.getStringInput("Enter your new email: ");
+        String username = inputUtils.getStringInput("Enter your new username: ");
+        String password = inputUtils.getStringInput("Enter your new password: ");
+        customerService.updateCustomerInfo(name,email,username,password,customerId);
+    }
+
     private void displayLoggedInUserMenu(){
         int functionCode = inputUtils.getIntInput("Enter your functions (1 for Display Centers, 2 for Edit Profile): ");
         switch (functionCode) {
@@ -62,6 +70,7 @@ public class FlipfitCustomerMenu {
                 break;
             case 2:
                 System.out.println("Edit Profile Code");
+                displayCustomerUpdate();
                 break;
             default:
                 System.out.println("Invalid function. Please try again.");
@@ -89,9 +98,9 @@ public class FlipfitCustomerMenu {
         String username = inputUtils.getStringInput("Enter your username: ");
         String password = inputUtils.getStringInput("Enter your password: ");
 
-        String customerId=customerDAO.getCustomerId();
+        String generatedCustomerId=customerDAO.getCustomerId();
 
-        Customer customer = new Customer(username,password,customerId,name,email);
+        Customer customer = new Customer(username,password,generatedCustomerId,name,email);
         customerService.registerCustomer(customer);
 
 
