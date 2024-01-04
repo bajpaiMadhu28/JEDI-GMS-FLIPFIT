@@ -15,9 +15,9 @@ public class CenterDAO {
     }
 
     public void addDummyDataCenter(){
-        flipfitCenters.add(new Center(1,"Fitness123","Bellandur"));
-        flipfitCenters.add(new Center(2,"NewFitness123","ETV"));
-        flipfitCenters.add(new Center(3,"SuperFitness123","HSR"));
+        flipfitCenters.add(new Center(1,"Fitness123","Bellandur", "1"));
+        flipfitCenters.add(new Center(2,"NewFitness123","ETV", "2"));
+        flipfitCenters.add(new Center(3,"SuperFitness123","HSR", "3"));
     }
 
     public ArrayList<Center> getDummyData(){

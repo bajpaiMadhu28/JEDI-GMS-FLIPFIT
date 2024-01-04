@@ -3,6 +3,7 @@ package com.flipkart.business;
 import java.util.ArrayList;
 import java.util.List;
 import com.flipkart.bean.Center;
+import com.flipkart.bean.GymOwner;
 import com.flipkart.dao.CenterDAO;
 
 public class CenterService {
@@ -26,6 +27,34 @@ public class CenterService {
     public Center getCenterById(int centerId) {
         // Implementation to get a center by ID
         return null;
+    }
+
+    public Center getCenterByOwnerId(String ownerId) {
+        for(Center center : centerDAO.getDummyData()) {
+            System.out.println(center.getOwnerId()+ " - " + ownerId);
+            if(center.getOwnerId().equals(ownerId)) {
+                return center;
+            }
+        }
+        System.out.println("Center Not found by owner Id !");
+        return null;
+    }
+
+    public void updateCenterProfile(Center center) {
+        Center centerUpdated = getCenterByOwnerId(center.getOwnerId());
+
+        centerUpdated.setCenterId(center.getCenterId());
+        centerUpdated.setOwnerId(center.getOwnerId());
+        centerUpdated.setName(center.getName());
+        centerUpdated.setLocation(center.getLocation());
+
+        System.out.println("\nProfile updated successfully! \n\nUpdated profile is");
+
+        System.out.println("Updated Gym name : " + center.getName());
+        System.out.println("Updated location : " + center.getLocation());
+        System.out.println("Owner Id : " + center.getOwnerId());
+        System.out.println("Center Id : " + center.getCenterId());
+
     }
 
     // Other business methods
