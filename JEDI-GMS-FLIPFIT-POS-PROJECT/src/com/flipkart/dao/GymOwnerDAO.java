@@ -1,15 +1,34 @@
 package com.flipkart.dao;
 
+import com.flipkart.bean.Customer;
 import com.flipkart.bean.GymOwner;
 
-public class GymOwnerDAO {
+import java.util.ArrayList;
 
-    // Add methods for CRUD operations on GymOwner entities
+public class GymOwnerDAO {
+    ArrayList<GymOwner> flipfitGymOwners = new ArrayList<GymOwner>();
+
+    static Integer gymOwnerId = 0;
 
     // Register a new GymOwner
     public void registerGymOwner(GymOwner gymOwner) {
         // Implementation to register a new gym owner in the database
         // You may use JDBC or any other data access mechanism
+        flipfitGymOwners.add(gymOwner);
+    }
+
+    public String getGymOwnerId() {
+        return (++gymOwnerId).toString();
+    }
+
+    public void addDummyDataGymOwner() {
+        flipfitGymOwners.add(new GymOwner("Arjav", "arjavjn", "12345", "45", "Spartan", "arjav@gmail.com" ));
+        flipfitGymOwners.add(new GymOwner("Madhu", "Madhubp", "12345", "46", "Cult fit", "madhu@gmail.com" ));
+        flipfitGymOwners.add(new GymOwner("Prachir", "prachirag", "12345", "47", "Gold Gym", "prachir@gmail.com" ));
+    }
+
+    public ArrayList<GymOwner> getDummyData() {
+        return flipfitGymOwners;
     }
 
     // Onboard a gym for a GymOwner
@@ -22,15 +41,13 @@ public class GymOwnerDAO {
 
     // Retrieve GymOwner details by ownerId
     public GymOwner getGymOwnerById(String ownerId) {
-        // Implementation to retrieve gym owner details from the database based on the ownerId
-        // You may use JDBC or any other data access mechanism
-        return null; // Replace with actual logic
-    }
-
-    // Update GymOwner details
-    public void updateGymOwner(GymOwner gymOwner) {
-        // Implementation to update gym owner details in the database
-        // You may use JDBC or any other data access mechanism
+        for( GymOwner gymOwner : flipfitGymOwners) {
+            if( gymOwner.getOwnerId().equals(ownerId)) {
+                return gymOwner;
+            }
+        }
+        System.out.println("No Gym Owner with this id found");
+        return null;
     }
 
     // Delete GymOwner by ownerId
