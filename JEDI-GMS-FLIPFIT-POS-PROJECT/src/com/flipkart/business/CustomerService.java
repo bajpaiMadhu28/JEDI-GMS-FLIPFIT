@@ -37,6 +37,16 @@ public class CustomerService {
         return false;
     }
 
+    public String getCustomerIdByLoginCreds(String username,String password){
+        ArrayList<Customer> currentCustomers=customerDAO.getDummyData();
+        for(Customer customer:currentCustomers){
+            if(customer.getUsername().equals(username) && customer.getPassword().equals(password)){
+                return customer.getCustomerId();
+            }
+        }
+        return null;
+    }
+
 
 
 //    // Booking-related operations

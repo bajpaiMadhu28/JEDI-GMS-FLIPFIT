@@ -30,10 +30,21 @@ public class SlotService {
     }
 
     // Book a slot for a customer
-    public boolean bookSlot(Booking booking) {
+    public void bookSlot(Integer slotId,String customerId) {
         // Implementation to book a slot
         // Validate input, check availability, update database, etc.
-        return slotDAO.bookSlot(booking);
+        Slot currentSlot=slotDAO.getSlotById(slotId);
+        if(currentSlot.isAvailable()){
+            currentSlot.setAvailable(false);
+            currentSlot.setCustomerId(customerId);
+            System.out.println("Slot Booked Successfully");
+        }
+        else{
+            currentSlot.addWaitlistedCustomerIds(customerId);
+            Integer currentWaitlist=currentSlot.getWaitlistedCustomerIds().size();
+            String waitlistString=String.format("Slot Booked With Waitlist Number : %d",currentWaitlist);
+            System.out.println(waitlistString);
+        }
     }
 
     // Update the waitlist for a slot

@@ -23,6 +23,8 @@ public class FlipfitCustomerMenu {
     private PaymentService paymentService;
     private SlotDAO slotDAO = new SlotDAO();
     private SlotService slotService=new SlotService(slotDAO);
+
+    private String customerId;
     InputUtils inputUtils=new InputUtils();
 
     // Constructor
@@ -46,6 +48,8 @@ public class FlipfitCustomerMenu {
         int centerId = inputUtils.getIntInput("Enter Center ID to see slots: ");
         slotDAO.addDummyDataSlot();
         slotService.getAllSlots(centerId);
+        int slotId = inputUtils.getIntInput("Enter Slot ID to book slot: ");
+        slotService.bookSlot(slotId,customerId);
     }
 
     private void displayLoggedInUserMenu(){
@@ -69,6 +73,7 @@ public class FlipfitCustomerMenu {
         customerDAO.addDummyDataCustomer();
         if(customerService.authenticateCustomer(username,password)){
             System.out.println("Actual Customer Options!!!");
+            customerId=customerService.getCustomerIdByLoginCreds(username,password);
             displayLoggedInUserMenu();
         }
         else{

@@ -7,6 +7,7 @@ import com.flipkart.bean.Slot;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class SlotDAO {
 
@@ -18,6 +19,7 @@ public class SlotDAO {
         slots.add(new Slot(2,new Date(),"10 AM - 11 AM",1));
         slots.add(new Slot(3,new Date(),"11 AM - 12 PM",1));
         slots.add(new Slot(4,new Date(),"12 PM - 1 PM",1));
+        slots.get(0).setAvailable(false);
     }
 
     public ArrayList<Slot> getDummyData(Integer centerId){
@@ -40,9 +42,14 @@ public class SlotDAO {
     }
 
     // Retrieve Slot details by slotId
-    public Slot getSlotById(String slotId) {
+    public Slot getSlotById(Integer slotId) {
         // Implementation to retrieve slot details from the database based on the slotId
         // You may use JDBC or any other data access mechanism
+        for(Slot currentSlot:slots){
+            if(Objects.equals(currentSlot.getSlotId(), slotId)){
+                return currentSlot;
+            }
+        }
         return null; // Replace with actual logic
     }
 
