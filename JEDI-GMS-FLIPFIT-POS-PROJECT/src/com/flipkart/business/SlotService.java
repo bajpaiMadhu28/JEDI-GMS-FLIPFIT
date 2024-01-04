@@ -47,6 +47,14 @@ public class SlotService {
         }
     }
 
+    public void showBookedSlots(String customerId){
+        ArrayList<Slot> bookedSlots=slotDAO.getBookedSlotsByCustomerId(customerId);
+        for(Slot currentSlot:bookedSlots){
+            String slotString=String.format("Slot ID : %d Slot Date : %s Slot Time : %s Availability : %b ",currentSlot.getSlotId(),currentSlot.getDate().toString(),currentSlot.getTime(),currentSlot.isAvailable());
+            System.out.println(slotString);
+        }
+    }
+
     // Update the waitlist for a slot
     public void updateWaitlist(String slotId, List<String> waitlist) {
         // Implementation to update the waitlist for a slot
@@ -55,10 +63,19 @@ public class SlotService {
     }
 
     // Cancel a booking for a slot
-    public void cancelBooking(String bookingId) {
+    public void cancelBooking(Integer slotId) {
         // Implementation to cancel a booking
         // Validate input, update database, etc.
-        slotDAO.deleteSlot(bookingId);
+        Slot currentSlot=slotDAO.getSlotById(slotId);
+        currentSlot.setAvailable(true);
+        currentSlot.setCustomerId(null);
+        if(!currentSlot.getWaitlistedCustomerIds().isEmpty()){
+            currentSlot.setAvailable(false);
+            String removedCustomerId=currentSlot.getWaitlistedCustomerIds().remove(0);
+            currentSlot.setCustomerId(removedCustomerId);
+        }
+//        System.out.println(currentSlot.getCustomerId());
+        System.out.println("Booking Cancelled");
     }
 
     // Other business methods

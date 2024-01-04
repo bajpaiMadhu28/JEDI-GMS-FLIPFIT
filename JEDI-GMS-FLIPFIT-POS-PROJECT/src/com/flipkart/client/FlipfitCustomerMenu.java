@@ -60,8 +60,30 @@ public class FlipfitCustomerMenu {
         customerService.updateCustomerInfo(name,email,username,password,customerId);
     }
 
+    private void displayCancelBooking(){
+        int slotId = inputUtils.getIntInput("Enter Slot ID to cancel: ");
+        slotService.cancelBooking(slotId);
+    }
+
+    private void displayBookedCustomerSlots(){
+        slotService.showBookedSlots(customerId);
+        int functionCode = inputUtils.getIntInput("Enter your functions (1 for Cancel Booking, 2 for Exit):");
+        switch (functionCode) {
+            case 1:
+                displayCancelBooking();
+                break;
+            case 2:
+                break;
+            default:
+                System.out.println("Invalid function. Please try again.");
+                displayBookedCustomerSlots();
+        }
+
+
+    }
+
     private void displayLoggedInUserMenu(){
-        int functionCode = inputUtils.getIntInput("Enter your functions (1 for Display Centers, 2 for Edit Profile): ");
+        int functionCode = inputUtils.getIntInput("Enter your functions (1 for Display Centers, 2 for Edit Profile,3 for View Booked Slots): ");
         switch (functionCode) {
             case 1:
                 centerDAO.addDummyDataCenter();
@@ -69,8 +91,13 @@ public class FlipfitCustomerMenu {
                 displaySlotsForCenter();
                 break;
             case 2:
-                System.out.println("Edit Profile Code");
+                System.out.println("Edit Profile Menu");
                 displayCustomerUpdate();
+                break;
+            case 3:
+                slotDAO.addDummyDataSlot();
+                System.out.println("Booked Slots Info");
+                displayBookedCustomerSlots();
                 break;
             default:
                 System.out.println("Invalid function. Please try again.");

@@ -21,8 +21,8 @@ public class CustomerDAO {
 
     public void addDummyDataCustomer(){
         flipfitCustomers.add(new Customer("prachir123","12345","45","prachir","prachir@prachir.com"));
-        flipfitCustomers.add(new Customer("arjav123","12345","45","arjav","arjav@prachir.com"));
-        flipfitCustomers.add(new Customer("madhu123","12345","45","madhu","madhu@prachir.com"));
+        flipfitCustomers.add(new Customer("arjav123","12345","46","arjav","arjav@prachir.com"));
+        flipfitCustomers.add(new Customer("madhu123","12345","47","madhu","madhu@prachir.com"));
     }
 
     public ArrayList<Customer> getDummyData(){

@@ -20,6 +20,8 @@ public class SlotDAO {
         slots.add(new Slot(3,new Date(),"11 AM - 12 PM",1));
         slots.add(new Slot(4,new Date(),"12 PM - 1 PM",1));
         slots.get(0).setAvailable(false);
+        slots.get(0).setCustomerId("45");
+        slots.get(0).addWaitlistedCustomerIds("test ID 123");
     }
 
     public ArrayList<Slot> getDummyData(Integer centerId){
@@ -51,6 +53,16 @@ public class SlotDAO {
             }
         }
         return null; // Replace with actual logic
+    }
+
+    public ArrayList<Slot> getBookedSlotsByCustomerId(String customerId){
+        ArrayList<Slot> currentSlots=new ArrayList<Slot>();
+        for(Slot currentSlot:slots){
+            if(Objects.equals(currentSlot.getCustomerId(), customerId)&& !currentSlot.isAvailable()){
+                currentSlots.add(currentSlot);
+            }
+        }
+        return currentSlots;
     }
 
     // Update Slot details

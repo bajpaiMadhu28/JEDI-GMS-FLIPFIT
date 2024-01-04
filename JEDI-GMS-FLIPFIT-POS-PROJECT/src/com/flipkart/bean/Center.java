@@ -4,9 +4,6 @@ public class Center {
     private Integer centerId;
     private String name;
     private String location;
-
-
-
     private Boolean isApproved;
 
     // Constructor
