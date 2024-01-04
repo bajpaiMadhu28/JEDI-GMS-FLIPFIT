@@ -1,9 +1,11 @@
 package com.flipkart.business;
 
 import com.flipkart.bean.Booking;
+import com.flipkart.bean.Center;
 import com.flipkart.bean.Slot;
 import com.flipkart.dao.SlotDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SlotService {
@@ -17,17 +19,32 @@ public class SlotService {
     // Business logic methods for slots
 
     // Get available slots for a given center
-    public List<Slot> getAvailableSlots(String centerId) {
+    public void getAllSlots(Integer centerId) {
         // Implementation to get available slots for a center
         // Query database, apply business rules, etc.
-        return slotDAO.getAvailableSlots(centerId);
+        ArrayList<Slot> currentSlots=slotDAO.getDummyData(centerId);
+        for(Slot currentSlot:currentSlots){
+            String slotString=String.format("Slot ID : %d Slot Date : %s Slot Time : %s Availability : %b ",currentSlot.getSlotId(),currentSlot.getDate().toString(),currentSlot.getTime(),currentSlot.isAvailable());
+            System.out.println(slotString);
+        }
     }
 
     // Book a slot for a customer
-    public boolean bookSlot(Booking booking) {
+    public void bookSlot(Integer slotId,String customerId) {
         // Implementation to book a slot
         // Validate input, check availability, update database, etc.
-        return slotDAO.bookSlot(booking);
+        Slot currentSlot=slotDAO.getSlotById(slotId);
+        if(currentSlot.isAvailable()){
+            currentSlot.setAvailable(false);
+            currentSlot.setCustomerId(customerId);
+            System.out.println("Slot Booked Successfully");
+        }
+        else{
+            currentSlot.addWaitlistedCustomerIds(customerId);
+            Integer currentWaitlist=currentSlot.getWaitlistedCustomerIds().size();
+            String waitlistString=String.format("Slot Booked With Waitlist Number : %d",currentWaitlist);
+            System.out.println(waitlistString);
+        }
     }
 
     // Update the waitlist for a slot
