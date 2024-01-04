@@ -13,7 +13,6 @@ import java.util.List;
 public class GymOwnerService {
     private GymOwnerDAO gymOwnerDAO;
     private SlotDAO slotDAO;
-    private InputUtils inputUtils = new InputUtils();
     // Constructor
     public GymOwnerService(GymOwnerDAO gymOwnerDAO, SlotDAO slotDAO) {
         this.gymOwnerDAO = gymOwnerDAO;
@@ -75,6 +74,10 @@ public class GymOwnerService {
         }
         System.out.println("getGymOwnerById failed");
         return null;
+    }
+
+    public GymOwner getGymOwnerByLoginCreds ( String username, String password) {
+        return getGymOwnerById(getGymOwnerIdByLoginCreds(username, password));
     }
 
     public void onboardGym(int gymOwnerId, int centerId) {

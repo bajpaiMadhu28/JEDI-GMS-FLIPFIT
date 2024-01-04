@@ -4,12 +4,15 @@ public class Center {
     private Integer centerId;
     private String name;
     private String location;
+    private String ownerId;
+    private boolean isApproved = false;
 
     // Constructor
-    public Center(Integer centerId, String name, String location) {
+    public Center(Integer centerId, String name, String location, String ownerId) {
         this.centerId = centerId;
         this.name = name;
         this.location = location;
+        this.ownerId = ownerId;
     }
 
     // Getter and setter methods
@@ -35,5 +38,22 @@ public class Center {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public boolean isApproved() {
+        return isApproved;
+    }
+
+    public void setApproved(boolean approved) {
+        isApproved = approved;
     }
 }

@@ -22,9 +22,9 @@ public class GymOwnerDAO {
     }
 
     public void addDummyDataGymOwner() {
-        flipfitGymOwners.add(new GymOwner("Arjav", "arjavjn", "12345", "45", "Spartan", "arjav@gmail.com" ));
-        flipfitGymOwners.add(new GymOwner("Madhu", "Madhubp", "12345", "46", "Cult fit", "madhu@gmail.com" ));
-        flipfitGymOwners.add(new GymOwner("Prachir", "prachirag", "12345", "47", "Gold Gym", "prachir@gmail.com" ));
+        flipfitGymOwners.add(new GymOwner("Arjav", "arjavjn", "12345", "1", "Spartan", "arjav@gmail.com" ));
+        flipfitGymOwners.add(new GymOwner("Madhu", "Madhubp", "12345", "2", "Cult fit", "madhu@gmail.com" ));
+        flipfitGymOwners.add(new GymOwner("Prachir", "prachirag", "12345", "3", "Gold Gym", "prachir@gmail.com" ));
     }
 
     public ArrayList<GymOwner> getDummyData() {
