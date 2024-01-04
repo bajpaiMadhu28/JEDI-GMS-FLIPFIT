@@ -58,7 +58,7 @@ public class FlipfitAdminMenu {
         ArrayList<Center> flipfitCenters = centerDAO.getDummyData();
         ArrayList<Center> unapprovedCenters = new ArrayList<>();
         for (Center center : flipfitCenters) {
-            if (!center.getApproved()) {
+            if (!center.isApproved()) {
                 unapprovedCenters.add(center);
             }
         }
