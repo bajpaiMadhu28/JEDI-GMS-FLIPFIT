@@ -23,8 +23,6 @@ public class FlipfitCustomerMenu {
     private PaymentService paymentService;
     private SlotDAO slotDAO = new SlotDAO();
     private SlotService slotService=new SlotService(slotDAO);
-
-    private String customerId;
     InputUtils inputUtils=new InputUtils();
 
     // Constructor

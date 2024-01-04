@@ -12,6 +12,8 @@ public class Slot {
     private ArrayList<String> waitlistedCustomerIds;
     private String customerId;
 
+    private boolean isApproved;
+
     // Constructor
     public Slot(Integer slotId, Date date, String time, Integer centerId) {
         this.slotId = slotId;
@@ -21,6 +23,7 @@ public class Slot {
         this.isAvailable=true;
         this.waitlistedCustomerIds=new ArrayList<String>();
         this.customerId=null;
+        this.isApproved = false;
     }
 
     // Getter and setter methods
@@ -77,5 +80,13 @@ public class Slot {
 
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
+    }
+
+    public Boolean getApproved() {
+        return isApproved;
+    }
+
+    public void setApproved(Boolean approved) {
+        isApproved = approved;
     }
 }

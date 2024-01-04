@@ -24,6 +24,9 @@ public class SlotDAO {
         slots.get(0).addWaitlistedCustomerIds("test ID 123");
     }
 
+    public ArrayList<Slot> getAllDummySlots(){
+        return slots;
+    }
     public ArrayList<Slot> getDummyData(Integer centerId){
         ArrayList<Slot> filteredSlots=new ArrayList<Slot>();
         for(Slot currentSlot:slots){
