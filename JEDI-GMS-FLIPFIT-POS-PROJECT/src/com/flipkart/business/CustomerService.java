@@ -28,23 +28,11 @@ public class CustomerService {
     }
 
     public boolean authenticateCustomer(String username,String password){
-        ArrayList<Customer> currentCustomers=customerDAO.getDummyData();
-        for(Customer customer:currentCustomers){
-            if(customer.getUsername().equals(username) && customer.getPassword().equals(password)){
-                return true;
-            }
-        }
-        return false;
+        return customerDAO.authenticateCustomer(username,password);
     }
 
     public String getCustomerIdByLoginCreds(String username,String password){
-        ArrayList<Customer> currentCustomers=customerDAO.getDummyData();
-        for(Customer customer:currentCustomers){
-            if(customer.getUsername().equals(username) && customer.getPassword().equals(password)){
-                return customer.getCustomerId();
-            }
-        }
-        return null;
+        return customerDAO.getCustomerIdByLoginCreds(username,password);
     }
 
     public void updateCustomerInfo(String name,String email,String username,String password,String customerId){

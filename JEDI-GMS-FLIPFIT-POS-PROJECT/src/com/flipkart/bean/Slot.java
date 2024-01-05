@@ -14,6 +14,8 @@ public class Slot {
 
     private boolean isApproved;
 
+
+
     // Constructor
     public Slot(Integer slotId, Date date, String time, Integer centerId) {
         this.slotId = slotId;
@@ -88,5 +90,9 @@ public class Slot {
 
     public void setApproved(Boolean approved) {
         isApproved = approved;
+    }
+
+    public void setWaitlistedCustomerIds(ArrayList<String> waitlistedCustomerIds) {
+        this.waitlistedCustomerIds = waitlistedCustomerIds;
     }
 }

@@ -3,7 +3,12 @@ package com.flipkart.dao;
 import com.flipkart.bean.Booking;
 import com.flipkart.bean.Customer;
 import com.flipkart.bean.Slot;
+import com.flipkart.utils.DBUtils;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +17,8 @@ import java.util.Objects;
 public class SlotDAO {
 
     ArrayList<Slot> slots = new ArrayList<Slot>();
+    Connection conn = null;
+    PreparedStatement stmt = null;
     // Add methods for CRUD operations on Slot entities
 
     public void addDummyDataSlot(){
@@ -37,6 +44,27 @@ public class SlotDAO {
         }
         System.out.println(filteredSlots.size());
         return filteredSlots;
+    }
+
+    public ResultSet getAllSlots(Integer centerId){
+        ResultSet answerSet=null;
+        try{
+            conn = DBUtils.getConnection();
+            stmt = conn.prepareStatement("Select * From slot Where center_id=?");
+            stmt.setInt(1, centerId);
+            ResultSet output = stmt.executeQuery();
+            answerSet=output;
+
+            //STEP 6: Clean-up environment
+            // rs.close();
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+        return answerSet;
     }
 
     // Save a new Slot

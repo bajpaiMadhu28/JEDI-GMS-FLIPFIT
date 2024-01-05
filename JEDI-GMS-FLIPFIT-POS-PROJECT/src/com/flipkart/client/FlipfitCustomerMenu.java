@@ -129,7 +129,7 @@ public class FlipfitCustomerMenu {
 
         Customer customer = new Customer(username,password,generatedCustomerId,name,email);
         customerService.registerCustomer(customer);
-        displayMenu(username,password);
+//        displayMenu(username,password);
     }
 
 

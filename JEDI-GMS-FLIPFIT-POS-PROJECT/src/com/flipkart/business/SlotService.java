@@ -5,7 +5,10 @@ import com.flipkart.bean.Center;
 import com.flipkart.bean.Slot;
 import com.flipkart.dao.SlotDAO;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SlotService {
@@ -22,7 +25,49 @@ public class SlotService {
     public void getAllSlots(Integer centerId) {
         // Implementation to get available slots for a center
         // Query database, apply business rules, etc.
-        ArrayList<Slot> currentSlots=slotDAO.getDummyData(centerId);
+        ResultSet slotResult= slotDAO.getAllSlots(centerId);
+        ArrayList<Slot> currentSlots=new ArrayList<Slot>();
+
+        try{
+            while (slotResult.next()){
+                Slot slotToShow=new Slot(null,null,null,null);
+                slotToShow.setSlotId(slotResult.getInt(1));
+                slotToShow.setDate(slotResult.getDate(2));
+                slotToShow.setTime(slotResult.getString(3));
+                slotToShow.setCenterId(slotResult.getInt(4));
+
+                Integer isAvailable=slotResult.getInt(5);
+                if(isAvailable==1){
+                    slotToShow.setAvailable(true);
+                }
+                else{
+                    slotToShow.setAvailable(false);
+                }
+
+                ArrayList<String> waitlistedCustomers=new ArrayList<String>();
+                String waitlistedCustomersString=slotResult.getString(6);
+                if(waitlistedCustomersString!=null){
+                    String[] convertedCustomerList = waitlistedCustomersString.split(",");
+                    waitlistedCustomers.addAll(Arrays.asList(convertedCustomerList));
+                }
+                slotToShow.setWaitlistedCustomerIds(waitlistedCustomers);
+
+                slotToShow.setCustomerId(slotResult.getString(7));
+
+                Integer isApproved=slotResult.getInt(8);
+                if(isApproved==1){
+                    slotToShow.setApproved(true);
+                }
+                else{
+                    slotToShow.setApproved(false);
+                }
+
+                currentSlots.add(slotToShow);
+            }
+        }catch(SQLException sqlExcep) {
+            System.out.println(sqlExcep);
+        }
+
         for(Slot currentSlot:currentSlots){
             String slotString=String.format("Slot ID : %d Slot Date : %s Slot Time : %s Availability : %b ",currentSlot.getSlotId(),currentSlot.getDate().toString(),currentSlot.getTime(),currentSlot.isAvailable());
             System.out.println(slotString);
