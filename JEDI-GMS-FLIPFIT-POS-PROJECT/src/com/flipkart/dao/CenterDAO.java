@@ -5,7 +5,7 @@ import com.flipkart.bean.Center;
 import java.util.ArrayList;
 
 
-public class CenterDAO {
+public class CenterDAO implements CenterInterfaceDAO {
     ArrayList<Center> flipfitCenters = new ArrayList<>();
 
     public void addDummyDataCenter() {
@@ -29,6 +29,14 @@ public class CenterDAO {
 
     public void saveCenter(Center center) {
         flipfitCenters.add(center);
+    }
+
+    public void updateCenter(Center center, Center updatedCenter) {
+        for(int i = 0 ; i < flipfitCenters.size(); i++) {
+            if(center.getCenterId().equals(flipfitCenters.get(i).getCenterId())) {
+                flipfitCenters.set(i, updatedCenter);
+            }
+        }
     }
 
     // Other center-related methods

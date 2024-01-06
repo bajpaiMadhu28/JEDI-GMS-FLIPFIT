@@ -1,16 +1,15 @@
 package com.flipkart.business;
 
 import com.flipkart.bean.Admin;
-import com.flipkart.bean.Customer;
-import com.flipkart.dao.AdminDAO;
+import com.flipkart.dao.AdminInterfaceDAO;
 
 import java.util.ArrayList;
 
 public class AdminService {
-    private AdminDAO adminDAO;
+    private AdminInterfaceDAO adminDAO;
 
     // Constructor
-    public AdminService(AdminDAO adminDAO) {
+    public AdminService(AdminInterfaceDAO adminDAO) {
         this.adminDAO = adminDAO;
     }
 

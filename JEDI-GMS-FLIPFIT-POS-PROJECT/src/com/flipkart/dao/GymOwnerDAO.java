@@ -5,7 +5,7 @@ import com.flipkart.bean.GymOwner;
 
 import java.util.ArrayList;
 
-public class GymOwnerDAO {
+public class GymOwnerDAO implements GymOwnerInterfaceDAO {
     ArrayList<GymOwner> flipfitGymOwners = new ArrayList<GymOwner>();
 
     static Integer gymOwnerId = 0;
@@ -48,6 +48,18 @@ public class GymOwnerDAO {
         }
         System.out.println("No Gym Owner with this id found");
         return null;
+    }
+
+    @Override
+    public void updateGymOwner(GymOwner gymOwner) {
+        String ownerId = gymOwner.getOwnerId();
+
+        for (int i = 0 ; i < flipfitGymOwners.size(); i++) {
+            if(flipfitGymOwners.get(i).getOwnerId().equals(ownerId)) {
+                flipfitGymOwners.set(i, gymOwner);
+            }
+        }
+
     }
 
     // Delete GymOwner by ownerId

@@ -2,8 +2,8 @@ package com.flipkart.business;
 
 import com.flipkart.bean.Booking;
 import com.flipkart.bean.Customer;
-import com.flipkart.dao.BookingDAO;
-import com.flipkart.dao.CustomerDAO;
+import com.flipkart.dao.BookingInterfaceDAO;
+import com.flipkart.dao.CustomerInterfaceDAO;
 import com.flipkart.exception.BookingException;
 import com.flipkart.exception.CustomerAlreadyBookedException;
 
@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerService {
-    private CustomerDAO customerDAO;
-    private BookingDAO bookingDAO;
+    private CustomerInterfaceDAO customerDAO;
+    private BookingInterfaceDAO bookingDAO;
 
     // Constructor
-    public CustomerService(CustomerDAO customerDAO, BookingDAO bookingDAO) {
+    public CustomerService(CustomerInterfaceDAO customerDAO, BookingInterfaceDAO bookingDAO) {
         this.customerDAO = customerDAO;
         this.bookingDAO = bookingDAO;
     }
@@ -27,36 +27,34 @@ public class CustomerService {
         customerDAO.registerCustomer(customer);
     }
 
-    public boolean authenticateCustomer(String username,String password){
-        ArrayList<Customer> currentCustomers=customerDAO.getDummyData();
-        for(Customer customer:currentCustomers){
-            if(customer.getUsername().equals(username) && customer.getPassword().equals(password)){
+    public boolean authenticateCustomer(String username, String password) {
+        ArrayList<Customer> currentCustomers = customerDAO.getDummyData();
+        for (Customer customer : currentCustomers) {
+            if (customer.getUsername().equals(username) && customer.getPassword().equals(password)) {
                 return true;
             }
         }
         return false;
     }
 
-    public String getCustomerIdByLoginCreds(String username,String password){
-        ArrayList<Customer> currentCustomers=customerDAO.getDummyData();
-        for(Customer customer:currentCustomers){
-            if(customer.getUsername().equals(username) && customer.getPassword().equals(password)){
+    public String getCustomerIdByLoginCreds(String username, String password) {
+        ArrayList<Customer> currentCustomers = customerDAO.getDummyData();
+        for (Customer customer : currentCustomers) {
+            if (customer.getUsername().equals(username) && customer.getPassword().equals(password)) {
                 return customer.getCustomerId();
             }
         }
         return null;
     }
 
-    public void updateCustomerInfo(String name,String email,String username,String password,String customerId){
-        Customer currentCustomer=customerDAO.getCustomerById(customerId);
+    public void updateCustomerInfo(String name, String email, String username, String password, String customerId) {
+        Customer currentCustomer = customerDAO.getCustomerById(customerId);
         currentCustomer.setName(name);
         currentCustomer.setEmail(email);
         currentCustomer.setUsername(username);
         currentCustomer.setPassword(password);
         System.out.println("Customer Info Updated Successfully");
     }
-
-
 
 //    // Booking-related operations
 //    public boolean makeBooking(Booking booking) throws BookingException {

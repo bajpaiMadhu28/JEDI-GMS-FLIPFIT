@@ -1,16 +1,14 @@
 package com.flipkart.client;
 
-import java.text.ParseException;
-import java.util.Date;
-import java.util.Scanner;
-
 import com.flipkart.bean.Center;
-import com.flipkart.bean.Customer;
 import com.flipkart.bean.GymOwner;
 import com.flipkart.bean.Slot;
 import com.flipkart.business.*;
-import com.flipkart.dao.*;
+import com.flipkart.dao.CenterDAO;
+import com.flipkart.dao.GymOwnerDAO;
 import com.flipkart.utils.InputUtils;
+
+import java.util.Scanner;
 
 public class FlipfitGymOwnerMenu {
     private Scanner scanner;
@@ -18,14 +16,10 @@ public class FlipfitGymOwnerMenu {
     private PaymentService paymentService;
     private SlotService slotService;
 
-    private SlotDAO slotDAO = new SlotDAO();
-    private CenterDAO centerDAO = new CenterDAO();
-    private GymOwnerDAO gymOwnerDAO = new GymOwnerDAO();
-    private GymOwnerService gymOwnerService = new GymOwnerService(gymOwnerDAO, slotDAO, centerDAO);
-    private CenterService centerService = new CenterService(centerDAO);
+    private GymOwnerService gymOwnerService = new GymOwnerService();
+    private CenterService centerService = new CenterService();
 
     private String gymOwnerId;
-    private String centerId;
 
     InputUtils inputUtils = new InputUtils();
 
@@ -46,7 +40,6 @@ public class FlipfitGymOwnerMenu {
 
     private void displaySlotsForCenter() {
         int centerId = inputUtils.getIntInput("\nEnter Center ID to see slots: ");
-        slotDAO.addDummyDataSlot();
         slotService.getAllSlots(centerId);
     }
 
@@ -73,7 +66,6 @@ public class FlipfitGymOwnerMenu {
                 displayLoggedInUserMenu(username, password);
                 break;
             case 5:
-                slotDAO.addDummyDataSlot();
                 displaySlotDetailsMenu(username, password);
                 displayLoggedInUserMenu(username, password);
                 break;
@@ -92,6 +84,7 @@ public class FlipfitGymOwnerMenu {
     public void displaySlotDetailsMenu(String username, String password) {
         int functionCode = inputUtils.getIntInput("\nEnter your functions : \n1 to add slot." +
                 "\n2 to delete slot. \n\nEnter Input : ");
+
         switch (functionCode) {
             case 1:
                 addNewSlot(username, password);
@@ -106,7 +99,7 @@ public class FlipfitGymOwnerMenu {
     }
 
     public void addNewSlot(String username, String password) {
-        Integer slotId = slotDAO.getSlotId();
+        Integer slotId = slotService.getSlotId();
         String date = inputUtils.getDateInput("Enter the date (DD/MM/YYYY) : ", "dd/MM/yyyy");
         String time = inputUtils.getStringInput("Enter slot timings (eg HH:MM AM - HH:MM PM) : ");
         String ownerId = gymOwnerService.getGymOwnerIdByLoginCreds(username, password);
@@ -116,7 +109,7 @@ public class FlipfitGymOwnerMenu {
         gymOwnerService.addGymSlot(slot);
         System.out.println("Slot date    -    Slot time   -    Slot Id ");
 
-        for (Slot updatedSlots : slotDAO.getAllDummySlots()) {
+        for (Slot updatedSlots : slotService.getAllDummySlots()) {
             String centerId = updatedSlots.getCenterId().toString();
 
             if ((updatedSlots.getDate().equals(date)) && centerService.getOwnerIdByCenterId(centerId).equals(ownerId)) {
@@ -128,10 +121,10 @@ public class FlipfitGymOwnerMenu {
     public void removeExistingSlot(String username, String password) {
         String ownerId = gymOwnerService.getGymOwnerIdByLoginCreds(username, password);
 
-        System.out.println("Size is : " + slotDAO.getAllDummySlots().size());
+        System.out.println("Size is : " + slotService.getAllDummySlots().size());
         System.out.println("\n\nSlot date    -    Slot time   -    Slot Id ");
 
-        for (Slot updatedSlots : slotDAO.getAllDummySlots()) {
+        for (Slot updatedSlots : slotService.getAllDummySlots()) {
             String centerId = updatedSlots.getCenterId().toString();
 
             if (centerService.getOwnerIdByCenterId(centerId).equals(ownerId)) {
@@ -144,7 +137,7 @@ public class FlipfitGymOwnerMenu {
         gymOwnerService.removeGymSlot(slotId);
 
         System.out.println("\n\nSlot date    -    Slot time ");
-        for (Slot updatedSlots : slotDAO.getAllDummySlots()) {
+        for (Slot updatedSlots : slotService.getAllDummySlots()) {
             String centerId = updatedSlots.getCenterId().toString();
 
             if (centerService.getOwnerIdByCenterId(centerId).equals(ownerId)) {
@@ -159,7 +152,7 @@ public class FlipfitGymOwnerMenu {
         String location = inputUtils.getStringInput("Enter Gym's location: ");
         String ownerId = gymOwnerService.getGymOwnerIdByLoginCreds(username, password);
 
-        Center center = new Center(centerDAO.getCenterId(), name, location, ownerId);
+        Center center = new Center(centerService.getCenterId(), name, location, ownerId);
 
         gymOwnerService.onboardGym(center);
 
@@ -170,8 +163,7 @@ public class FlipfitGymOwnerMenu {
 
     public void displayMenu(String username, String password) {
         System.out.println("\nYou are inside Gym Owner Menu !!!");
-        gymOwnerDAO.addDummyDataGymOwner();
-        centerDAO.addDummyDataCenter();
+//        centerDAO.addDummyDataCenter();
 
         if (gymOwnerService.authenticateGymOwner(username, password)) {
             System.out.println("Actual Gym Owner Options!!!");
@@ -188,8 +180,7 @@ public class FlipfitGymOwnerMenu {
         String email = inputUtils.getStringInput("Enter your email: ");
         String username = inputUtils.getStringInput("Enter your username: ");
         String password = inputUtils.getStringInput("Enter your password: ");
-
-        String gymOwnerId = gymOwnerDAO.getGymOwnerId();
+        String gymOwnerId = gymOwnerService.getGymOwnerId();
 
         GymOwner gymOwner = new GymOwner(name, username, password, gymOwnerId, email);
         gymOwnerService.registerGymOwner(gymOwner);

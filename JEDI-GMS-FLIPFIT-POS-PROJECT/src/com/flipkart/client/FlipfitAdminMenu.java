@@ -1,28 +1,25 @@
 package com.flipkart.client;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
 import com.flipkart.bean.Admin;
 import com.flipkart.bean.Center;
 import com.flipkart.bean.Slot;
-import com.flipkart.business.*;
-import com.flipkart.dao.*;
 import com.flipkart.business.AdminService;
+import com.flipkart.business.CenterService;
 import com.flipkart.business.PaymentService;
 import com.flipkart.business.SlotService;
-import com.flipkart.utils.InputUtils;
-import com.flipkart.dao.BookingDAO;
-import com.flipkart.dao.CenterDAO;
 import com.flipkart.dao.AdminDAO;
+import com.flipkart.dao.CenterDAO;
 import com.flipkart.dao.SlotDAO;
 import com.flipkart.utils.InputUtils;
+
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class FlipfitAdminMenu {
     private Scanner scanner;
     private CenterService centerService;
 
-//    private CenterDAO centerDAO;
+    //    private CenterDAO centerDAO;
     private PaymentService paymentService;
     private SlotService slotService;
     private AdminDAO adminDAO = new AdminDAO();
@@ -30,7 +27,7 @@ public class FlipfitAdminMenu {
     private SlotDAO slotDAO = new SlotDAO();
 
     private CenterDAO centerDAO = new CenterDAO();
-    private AdminService adminService=new AdminService(adminDAO);
+    private AdminService adminService = new AdminService(adminDAO);
 
     InputUtils inputUtils = new InputUtils();
 
@@ -57,7 +54,7 @@ public class FlipfitAdminMenu {
 
     public ArrayList<Slot> getUnapprovedSlots() {
         slotDAO.addDummyDataSlot();
-        ArrayList<Slot> flipfitSlots =  slotDAO.getAllDummySlots();
+        ArrayList<Slot> flipfitSlots = slotDAO.getAllDummySlots();
         ArrayList<Slot> unapprovedCenters = new ArrayList<>();
         for (Slot slot : flipfitSlots) {
             if (!slot.getApproved()) {
@@ -80,12 +77,13 @@ public class FlipfitAdminMenu {
         }
         return unapprovedCenters;
     }
+
     // Display unapproved gym centers and approve by ID
     private void displayLoggedInAdminMenu() {
         System.out.println("1 to Approve Gym Center\n 2 to approve Slots");
         Scanner scanner = new Scanner(System.in);
         int action = scanner.nextInt();
-        if(action == 1) {
+        if (action == 1) {
             ArrayList<Center> unapprovedCenters = getUnapprovedGymCenters();
             if (unapprovedCenters.isEmpty()) {
                 System.out.println("No unapproved gym centers found.");
@@ -111,8 +109,7 @@ public class FlipfitAdminMenu {
 
                 }
             }
-        }
-        else{
+        } else {
             ArrayList<Slot> unapprovedSlots = getUnapprovedSlots();
             if (unapprovedSlots.isEmpty()) {
                 System.out.println("No unapproved gym slots found.");
@@ -139,18 +136,17 @@ public class FlipfitAdminMenu {
             }
         }
 
-            System.out.println("Exiting admin menu.");
+        System.out.println("Exiting admin menu.");
     }
 
 
     public void displayMenu(String username, String password) {
         System.out.println("Admin Menu !!!");
         adminDAO.addDummyAdminData();
-        if(adminService.authenticateAdmin(username,password)){
+        if (adminService.authenticateAdmin(username, password)) {
             System.out.println("Actual Customer Options!!!");
             displayLoggedInAdminMenu();
-        }
-        else{
+        } else {
             System.out.println("Incorrect Credentials");
         }
 

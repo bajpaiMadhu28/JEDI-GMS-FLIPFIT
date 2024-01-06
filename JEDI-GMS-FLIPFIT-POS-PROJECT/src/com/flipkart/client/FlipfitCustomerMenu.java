@@ -19,7 +19,7 @@ public class FlipfitCustomerMenu {
     private CustomerDAO customerDAO = new CustomerDAO();
     private CenterDAO centerDAO = new CenterDAO();
     private CustomerService customerService = new CustomerService(customerDAO, bookingDAO);
-    private CenterService centerService = new CenterService(centerDAO);
+    private CenterService centerService = new CenterService();
     private PaymentService paymentService;
     private SlotDAO slotDAO = new SlotDAO();
     private SlotService slotService = new SlotService(slotDAO);

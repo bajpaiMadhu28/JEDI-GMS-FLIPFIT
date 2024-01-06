@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-public class SlotDAO {
+public class SlotDAO implements SlotInterfaceDAO {
 
     ArrayList<Slot> slots = new ArrayList<Slot>();
     // Add methods for CRUD operations on Slot entities
@@ -84,8 +84,8 @@ public class SlotDAO {
 
     // Delete Slot by slotId
     public void deleteSlot(String slotId) {
-        for(Slot slot : slots) {
-            if(slot.getSlotId().toString().equals(slotId)) {
+        for (Slot slot : slots) {
+            if (slot.getSlotId().toString().equals(slotId)) {
                 slots.remove(slot);
                 break;
             }
