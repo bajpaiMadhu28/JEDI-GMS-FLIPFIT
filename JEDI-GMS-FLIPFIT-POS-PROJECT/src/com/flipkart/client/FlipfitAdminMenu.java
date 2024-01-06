@@ -93,10 +93,7 @@ public class FlipfitAdminMenu {
         return unapprovedCenters;
     }
 
-    public ArrayList<Center> getAllGymCenters() {
-        centerDAO.addDummyDataCenter();
-        return centerDAO.getDummyData();
-    }
+
 
     // Display unapproved gym centers and approve by ID
     private void displayLoggedInAdminMenu() {
@@ -113,7 +110,7 @@ public class FlipfitAdminMenu {
         Scanner scanner = new Scanner(System.in);
         int action = scanner.nextInt();
         if (action == 1) {
-            ArrayList<Center> allGymCenters = getAllGymCenters();
+            ArrayList<Center> allGymCenters = adminService.getAllGymCenters();
             if (allGymCenters.isEmpty()) {
                 displayErrorMessage("No unapproved gym centers found.");
             } else {

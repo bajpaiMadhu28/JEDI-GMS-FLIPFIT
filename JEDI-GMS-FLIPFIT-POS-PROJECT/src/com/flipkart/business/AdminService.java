@@ -1,9 +1,12 @@
 package com.flipkart.business;
 
 import com.flipkart.bean.Admin;
+import com.flipkart.bean.Center;
 import com.flipkart.bean.Customer;
 import com.flipkart.dao.AdminDAO;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class AdminService {
@@ -20,13 +23,30 @@ public class AdminService {
     }
 
     public boolean authenticateAdmin(String username, String password) {
-        ArrayList<Admin> currentAdmins = adminDAO.getDummyAdminData();
-        for (Admin admin : currentAdmins) {
-            if (admin.getUsername().equals(username) && admin.getPassword().equals(password)) {
-                return true;
+        return adminDAO.authenticateAdmin(username,password);
+    }
+
+    public ArrayList<Center> getAllGymCenters() {
+        ResultSet centerInfo= adminDAO.getAllUnapprovedCenters();
+        ArrayList<Center> centerList= new ArrayList<Center>();
+
+        try{
+            while (centerInfo.next()){
+                Center centerToShow=new Center(centerInfo.getInt(1),centerInfo.getString(2),centerInfo.getString(3),centerInfo.getString(4));
+                Integer isApproved=centerInfo.getInt(5);
+                if(isApproved==1){
+                    centerToShow.setApproved(true);
+                }
+                else{
+                    centerToShow.setApproved(false);
+                }
+                centerList.add(centerToShow);
             }
+        }catch(SQLException sqlExcep) {
+            System.out.println(sqlExcep);
         }
-        return false;
+
+        return centerList;
     }
 
     // Other business methods

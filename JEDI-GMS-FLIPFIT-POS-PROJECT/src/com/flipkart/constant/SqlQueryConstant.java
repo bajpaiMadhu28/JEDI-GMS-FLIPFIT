@@ -13,10 +13,8 @@ public class SqlQueryConstant {
     public static final String BOOK_SLOT="Update slot Set is_available=0,customer_id=? WHERE id=?";
     public static final String UPDATE_WAITLIST="Update slot Set waitlisted_customers=? WHERE id=?";
     public static final String CANCEL_BOOKING="Update slot Set is_available=?,customer_id=?,waitlisted_customers=? WHERE id=?";
-
-
-
-
-
+    public static final String REGISTER_ADMIN="INSERT INTO admin(department,username,password) values(?, ?, ?)";
+    public static final String AUTHENTICATE_ADMIN="Select * From admin Where username=? AND password=?";
+    public static final String GET_UNAPPROVED_CENTERS_QUERY="Select * From center Where approved is NULL or approved=0";
 
 }
