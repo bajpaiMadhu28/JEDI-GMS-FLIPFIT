@@ -44,28 +44,28 @@ public class FlipfitCustomerMenu {
 
     // Methods for customer menu options
 
-    private void displaySlotsForCenter(){
+    private void displaySlotsForCenter() {
         int centerId = inputUtils.getIntInput("Enter Center ID to see slots: ");
         slotDAO.addDummyDataSlot();
         slotService.getAllSlots(centerId);
         int slotId = inputUtils.getIntInput("Enter Slot ID to book slot: ");
-        slotService.bookSlot(slotId,customerId);
+        slotService.bookSlot(slotId, customerId);
     }
 
-    private void displayCustomerUpdate(){
+    private void displayCustomerUpdate() {
         String name = inputUtils.getStringInput("Enter your new name: ");
         String email = inputUtils.getStringInput("Enter your new email: ");
         String username = inputUtils.getStringInput("Enter your new username: ");
         String password = inputUtils.getStringInput("Enter your new password: ");
-        customerService.updateCustomerInfo(name,email,username,password,customerId);
+        customerService.updateCustomerInfo(name, email, username, password, customerId);
     }
 
-    private void displayCancelBooking(){
+    private void displayCancelBooking() {
         int slotId = inputUtils.getIntInput("Enter Slot ID to cancel: ");
         slotService.cancelBooking(slotId);
     }
 
-    private void displayBookedCustomerSlots(){
+    private void displayBookedCustomerSlots() {
         slotService.showBookedSlots(customerId);
         int functionCode = inputUtils.getIntInput("Enter your functions (1 for Cancel Booking, 2 for Exit):");
         switch (functionCode) {
@@ -75,15 +75,13 @@ public class FlipfitCustomerMenu {
             case 2:
                 break;
             default:
-                System.out.println("Invalid function. Please try again.");
+                displayErrorMessage("Invalid function. Please try again.");
                 displayBookedCustomerSlots();
         }
-
-
     }
 
-    private void displayLoggedInUserMenu(){
-        int functionCode = inputUtils.getIntInput("Enter your functions (1 for Display Centers, 2 for Edit Profile,3 for View Booked Slots): ");
+    private void displayLoggedInUserMenu() {
+        int functionCode = inputUtils.getIntInput("Enter your functions (1 for Display Centers, 2 for Edit Profile, 3 for View Booked Slots): ");
         switch (functionCode) {
             case 1:
                 centerDAO.addDummyDataCenter();
@@ -91,46 +89,56 @@ public class FlipfitCustomerMenu {
                 displaySlotsForCenter();
                 break;
             case 2:
-                System.out.println("Edit Profile Menu");
                 displayCustomerUpdate();
                 break;
             case 3:
                 slotDAO.addDummyDataSlot();
-                System.out.println("Booked Slots Info");
                 displayBookedCustomerSlots();
                 break;
             default:
-                System.out.println("Invalid function. Please try again.");
+                displayErrorMessage("Invalid function. Please try again.");
                 displayLoggedInUserMenu();
         }
     }
-    public void displayMenu(String username, String password) {
-        System.out.println("You are inside Customer Menu !!!");
-        customerDAO.addDummyDataCustomer();
-        if(customerService.authenticateCustomer(username,password)){
-            System.out.println("Actual Customer Options!!!");
-            customerId=customerService.getCustomerIdByLoginCreds(username,password);
-            displayLoggedInUserMenu();
-        }
-        else{
-            System.out.println("Incorrect Credentials");
-        }
 
-        // Implementation to display the customer menu
+    public void displayMenu(String username, String password) {
+        displaySuccessMessage("You are inside Customer Menu !!!");
+        customerDAO.addDummyDataCustomer();
+        if (customerService.authenticateCustomer(username, password)) {
+            displaySuccessMessage("Actual Customer Options!!!");
+            customerId = customerService.getCustomerIdByLoginCreds(username, password);
+            displayLoggedInUserMenu();
+        } else {
+            displayErrorMessage("Incorrect Credentials");
+        }
     }
+
     public void displayRegistrationMenu() {
-        System.out.println("You are inside Customer Registration Menu !!!");
+        displaySuccessMessage("You are inside Customer Registration Menu !!!");
         String name = inputUtils.getStringInput("Enter your name: ");
         String email = inputUtils.getStringInput("Enter your email: ");
         String username = inputUtils.getStringInput("Enter your username: ");
         String password = inputUtils.getStringInput("Enter your password: ");
 
-        String generatedCustomerId=customerDAO.getCustomerId();
+        String generatedCustomerId = customerDAO.getCustomerId();
 
-        Customer customer = new Customer(username,password,generatedCustomerId,name,email);
+        Customer customer = new Customer(username, password, generatedCustomerId, name, email);
         customerService.registerCustomer(customer);
-//        displayMenu(username,password);
     }
+
+    // Helper methods for displaying formatted messages
+    private void displayErrorMessage(String message) {
+        System.out.println("\u001B[31m" + message + "\u001B[0m");
+    }
+
+    private void displaySuccessMessage(String message) {
+        System.out.println("\u001B[32m" + message + "\u001B[0m");
+    }
+
+    private void displayTableMessage(String message) {
+        System.out.println("\u001B[33m" + message + "\u001B[0m");
+    }
+
 
 
 
