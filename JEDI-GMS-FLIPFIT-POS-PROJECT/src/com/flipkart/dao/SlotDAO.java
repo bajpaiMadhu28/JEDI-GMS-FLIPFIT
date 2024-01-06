@@ -97,14 +97,25 @@ public class SlotDAO {
         return answerSet;
     }
 
-    public ArrayList<Slot> getBookedSlotsByCustomerId(String customerId){
-        ArrayList<Slot> currentSlots=new ArrayList<Slot>();
-        for(Slot currentSlot:slots){
-            if(Objects.equals(currentSlot.getCustomerId(), customerId)&& !currentSlot.isAvailable()){
-                currentSlots.add(currentSlot);
-            }
+    public ResultSet getBookedSlotsByCustomerId(String customerId){
+        ResultSet answerSet=null;
+        try{
+            conn = DBUtils.getConnection();
+            stmt = conn.prepareStatement("Select * From slot Where customer_id=? AND is_available=0");
+            stmt.setString(1, customerId);
+            ResultSet output = stmt.executeQuery();
+            answerSet=output;
+
+            //STEP 6: Clean-up environment
+            // rs.close();
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
         }
-        return currentSlots;
+        return answerSet;
     }
 
     // Update Slot details
@@ -149,8 +160,6 @@ public class SlotDAO {
             //Handle errors for Class.forName
             e.printStackTrace();
         }
-
-
     }
 
     // Update the waitlist for a slot
@@ -167,6 +176,36 @@ public class SlotDAO {
 
             stmt.setString(1,commaSeparatedList);
             stmt.setInt(2, slot.getSlotId());  // This would set age
+            stmt.executeUpdate();
+
+            //STEP 6: Clean-up environment
+            // rs.close();
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void cancelSlotBooking(Slot slot) {
+        try{
+            conn = DBUtils.getConnection();
+            stmt = conn.prepareStatement("Update slot Set is_available=?,customer_id=?,waitlisted_customers=? WHERE id=?");
+
+            // Hard coded d
+            //Bind values into the parameters.
+
+            String commaSeparatedList = slot.getWaitlistedCustomerIds().toString();
+            commaSeparatedList = commaSeparatedList.replace("[", "").replace("]", "").replace(" ", "");
+
+            stmt.setInt(1,slot.isAvailable() ? 1 : 0);
+            stmt.setString(2, slot.getCustomerId());
+            stmt.setString(3, commaSeparatedList);
+            stmt.setInt(4,slot.getSlotId());// This would set age
             stmt.executeUpdate();
 
             //STEP 6: Clean-up environment

@@ -36,11 +36,7 @@ public class CustomerService {
     }
 
     public void updateCustomerInfo(String name,String email,String username,String password,String customerId){
-        Customer currentCustomer=customerDAO.getCustomerById(customerId);
-        currentCustomer.setName(name);
-        currentCustomer.setEmail(email);
-        currentCustomer.setUsername(username);
-        currentCustomer.setPassword(password);
+        customerDAO.updateCustomerInfo(name,email,username,password,customerId);
         System.out.println("Customer Info Updated Successfully");
     }
 

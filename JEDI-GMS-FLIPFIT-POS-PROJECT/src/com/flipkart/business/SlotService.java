@@ -135,7 +135,50 @@ public class SlotService {
     }
 
     public void showBookedSlots(String customerId){
-        ArrayList<Slot> bookedSlots=slotDAO.getBookedSlotsByCustomerId(customerId);
+        ResultSet bookedSlotsInfo=slotDAO.getBookedSlotsByCustomerId(customerId);
+
+        ArrayList<Slot> bookedSlots=new ArrayList<Slot>();
+
+        try{
+            while (bookedSlotsInfo.next()){
+                Slot slotToShow=new Slot(null,null,null,null);
+                slotToShow.setSlotId(bookedSlotsInfo.getInt(1));
+                slotToShow.setDate(bookedSlotsInfo.getDate(2));
+                slotToShow.setTime(bookedSlotsInfo.getString(3));
+                slotToShow.setCenterId(bookedSlotsInfo.getInt(4));
+
+                Integer isAvailable=bookedSlotsInfo.getInt(5);
+                if(isAvailable==1){
+                    slotToShow.setAvailable(true);
+                }
+                else{
+                    slotToShow.setAvailable(false);
+                }
+
+                ArrayList<String> waitlistedCustomers=new ArrayList<String>();
+                String waitlistedCustomersString=bookedSlotsInfo.getString(6);
+                if(waitlistedCustomersString!=null){
+                    String[] convertedCustomerList = waitlistedCustomersString.split(",");
+                    waitlistedCustomers.addAll(Arrays.asList(convertedCustomerList));
+                }
+                slotToShow.setWaitlistedCustomerIds(waitlistedCustomers);
+
+                slotToShow.setCustomerId(bookedSlotsInfo.getString(7));
+
+                Integer isApproved=bookedSlotsInfo.getInt(8);
+                if(isApproved==1){
+                    slotToShow.setApproved(true);
+                }
+                else{
+                    slotToShow.setApproved(false);
+                }
+
+                bookedSlots.add(slotToShow);
+            }
+        }catch(SQLException sqlExcep) {
+            System.out.println(sqlExcep);
+        }
+
         for(Slot currentSlot:bookedSlots){
             String slotString=String.format("Slot ID : %d Slot Date : %s Slot Time : %s Availability : %b ",currentSlot.getSlotId(),currentSlot.getDate().toString(),currentSlot.getTime(),currentSlot.isAvailable());
             System.out.println(slotString);
@@ -151,18 +194,59 @@ public class SlotService {
 
     // Cancel a booking for a slot
     public void cancelBooking(Integer slotId) {
-        // Implementation to cancel a booking
-        // Validate input, update database, etc.
-//        Slot currentSlot=slotDAO.getSlotById(slotId);
-//        currentSlot.setAvailable(true);
-//        currentSlot.setCustomerId(null);
-//        if(!currentSlot.getWaitlistedCustomerIds().isEmpty()){
-//            currentSlot.setAvailable(false);
-//            String removedCustomerId=currentSlot.getWaitlistedCustomerIds().remove(0);
-//            currentSlot.setCustomerId(removedCustomerId);
-//        }
-////        System.out.println(currentSlot.getCustomerId());
-//        System.out.println("Booking Cancelled");
+//         Implementation to cancel a booking
+//         Validate input, update database, etc.
+        ResultSet slotResult=slotDAO.getSlotById(slotId);
+        Slot currentSlot=new Slot(null,null,null,null);
+
+        try{
+            while (slotResult.next()){
+                currentSlot.setSlotId(slotResult.getInt(1));
+                currentSlot.setDate(slotResult.getDate(2));
+                currentSlot.setTime(slotResult.getString(3));
+                currentSlot.setCenterId(slotResult.getInt(4));
+
+                Integer isAvailable=slotResult.getInt(5);
+                if(isAvailable==1){
+                    currentSlot.setAvailable(true);
+                }
+                else{
+                    currentSlot.setAvailable(false);
+                }
+
+                ArrayList<String> waitlistedCustomers=new ArrayList<String>();
+                String waitlistedCustomersString=slotResult.getString(6);
+                if(waitlistedCustomersString!=null){
+                    String[] convertedCustomerList = waitlistedCustomersString.split(",");
+                    waitlistedCustomers.addAll(Arrays.asList(convertedCustomerList));
+                }
+                currentSlot.setWaitlistedCustomerIds(waitlistedCustomers);
+
+                currentSlot.setCustomerId(slotResult.getString(7));
+
+                Integer isApproved=slotResult.getInt(8);
+                if(isApproved==1){
+                    currentSlot.setApproved(true);
+                }
+                else{
+                    currentSlot.setApproved(false);
+                }
+            }
+        }catch(SQLException sqlExcep) {
+            System.out.println(sqlExcep);
+        }
+
+        currentSlot.setAvailable(true);
+        currentSlot.setCustomerId(null);
+        if(!currentSlot.getWaitlistedCustomerIds().isEmpty()){
+            currentSlot.setAvailable(false);
+            String removedCustomerId=currentSlot.getWaitlistedCustomerIds().remove(0);
+            currentSlot.setCustomerId(removedCustomerId);
+        }
+
+        slotDAO.cancelSlotBooking(currentSlot);
+//        System.out.println(currentSlot.getCustomerId());
+        System.out.println("Booking Cancelled");
     }
 
     // Other business methods

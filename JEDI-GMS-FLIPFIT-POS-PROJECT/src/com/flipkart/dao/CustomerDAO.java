@@ -125,6 +125,31 @@ public class CustomerDAO {
         return isAuthenticated;
     }
 
+    public void updateCustomerInfo(String name,String email,String username,String password,String customerId){
+        try{
+            conn = DBUtils.getConnection();
+            stmt = conn.prepareStatement("Update customer Set name=?,email=?,username=?,password=? WHERE id=?");
+
+            // Hard coded d
+            //Bind values into the parameters.
+            stmt.setString(1,name);
+            stmt.setString(2,email);
+            stmt.setString(3,username);
+            stmt.setString(4,password);
+            stmt.setString(5,customerId);
+            stmt.executeUpdate();
+
+            //STEP 6: Clean-up environment
+            // rs.close();
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+    }
+
     public Customer getCustomerById(String customerId) {
         // Implementation to retrieve slot details from the database based on the slotId
         // You may use JDBC or any other data access mechanism
