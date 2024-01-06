@@ -2,6 +2,7 @@ package com.flipkart.business;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.flipkart.bean.Center;
 import com.flipkart.bean.GymOwner;
 import com.flipkart.dao.CenterDAO;
@@ -17,9 +18,9 @@ public class CenterService {
     // Business logic methods for centers
     public void getAllCenters() {
         // Implementation to get all centers
-        ArrayList<Center> centerList= centerDAO.getDummyData();
-        for(Center center:centerList){
-            String centerString=String.format("Center ID : %d Center Name : %s Center Location : %s",center.getCenterId(),center.getName(),center.getLocation());
+        ArrayList<Center> centerList = centerDAO.getDummyData();
+        for (Center center : centerList) {
+            String centerString = String.format("Center ID : %d Center Name : %s Center Location : %s", center.getCenterId(), center.getName(), center.getLocation());
             System.out.println(centerString);
         }
     }
@@ -30,15 +31,34 @@ public class CenterService {
     }
 
     public Center getCenterByOwnerId(String ownerId) {
-        for(Center center : centerDAO.getDummyData()) {
-            System.out.println(center.getOwnerId()+ " - " + ownerId);
-            if(center.getOwnerId().equals(ownerId)) {
+        for (Center center : centerDAO.getDummyData()) {
+            if (center.getOwnerId().equals(ownerId)) {
                 return center;
             }
         }
         System.out.println("Center Not found by owner Id !");
         return null;
     }
+
+    public String getOwnerIdByCenterId(String centerId) {
+        for (Center center : centerDAO.getDummyData()) {
+            if (center.getCenterId().toString().equals(centerId)) {
+                return center.getOwnerId();
+            }
+        }
+        System.out.println("OwnerId Not found by Center Id !");
+        return null;
+    }
+
+//    public Integer getCenterIdByOwnerId(String ownerId) {
+//        for(Center center : centerDAO.getDummyData() ) {
+//            if(center.getOwnerId().equals(ownerId)) {
+//                return center.getCenterId();
+//            }
+//        }
+//        System.out.println("No Co");
+//        return null;
+//    }
 
     public void updateCenterProfile(Center center) {
         Center centerUpdated = getCenterByOwnerId(center.getOwnerId());

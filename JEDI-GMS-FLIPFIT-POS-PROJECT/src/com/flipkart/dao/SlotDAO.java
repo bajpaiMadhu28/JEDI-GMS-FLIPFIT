@@ -14,24 +14,27 @@ public class SlotDAO {
     ArrayList<Slot> slots = new ArrayList<Slot>();
     // Add methods for CRUD operations on Slot entities
 
-    public void addDummyDataSlot(){
-        slots.add(new Slot(1,new Date(),"9 AM - 10 AM",1));
-        slots.add(new Slot(2,new Date(),"10 AM - 11 AM",1));
-        slots.add(new Slot(3,new Date(),"11 AM - 12 PM",1));
-        slots.add(new Slot(4,new Date(),"12 PM - 1 PM",1));
+    Integer slotId;
+
+    public void addDummyDataSlot() {
+        slots.add(new Slot(1, "05/01/2023", "9 AM - 10 AM", 1));
+        slots.add(new Slot(2, "05/01/2023", "10 AM - 11 AM", 2));
+        slots.add(new Slot(3, "05/01/2023", "11 AM - 12 PM", 3));
+        slots.add(new Slot(4, "05/01/2023", "12 PM - 1 PM", 4));
         slots.get(0).setAvailable(false);
         slots.get(0).setCustomerId("45");
         slots.get(0).addWaitlistedCustomerIds("test ID 123");
     }
 
-    public ArrayList<Slot> getAllDummySlots(){
+    public ArrayList<Slot> getAllDummySlots() {
         return slots;
     }
-    public ArrayList<Slot> getDummyData(Integer centerId){
-        ArrayList<Slot> filteredSlots=new ArrayList<Slot>();
-        for(Slot currentSlot:slots){
+
+    public ArrayList<Slot> getDummyData(Integer centerId) {
+        ArrayList<Slot> filteredSlots = new ArrayList<Slot>();
+        for (Slot currentSlot : slots) {
 //            System.out.println(filteredSlots.size()+" "+centerId+" "+currentSlot.getCenterId());
-            if(currentSlot.getCenterId()==centerId){
+            if (currentSlot.getCenterId() == centerId) {
                 filteredSlots.add(currentSlot);
             }
         }
@@ -46,22 +49,27 @@ public class SlotDAO {
         return false;
     }
 
+    public Integer getSlotId() {
+        int newSlotId = slots.size();
+        return ++newSlotId;
+    }
+
     // Retrieve Slot details by slotId
     public Slot getSlotById(Integer slotId) {
         // Implementation to retrieve slot details from the database based on the slotId
         // You may use JDBC or any other data access mechanism
-        for(Slot currentSlot:slots){
-            if(Objects.equals(currentSlot.getSlotId(), slotId)){
+        for (Slot currentSlot : slots) {
+            if (Objects.equals(currentSlot.getSlotId(), slotId)) {
                 return currentSlot;
             }
         }
         return null; // Replace with actual logic
     }
 
-    public ArrayList<Slot> getBookedSlotsByCustomerId(String customerId){
-        ArrayList<Slot> currentSlots=new ArrayList<Slot>();
-        for(Slot currentSlot:slots){
-            if(Objects.equals(currentSlot.getCustomerId(), customerId)&& !currentSlot.isAvailable()){
+    public ArrayList<Slot> getBookedSlotsByCustomerId(String customerId) {
+        ArrayList<Slot> currentSlots = new ArrayList<Slot>();
+        for (Slot currentSlot : slots) {
+            if (Objects.equals(currentSlot.getCustomerId(), customerId) && !currentSlot.isAvailable()) {
                 currentSlots.add(currentSlot);
             }
         }
@@ -76,8 +84,12 @@ public class SlotDAO {
 
     // Delete Slot by slotId
     public void deleteSlot(String slotId) {
-        // Implementation to delete slot details from the database based on the slotId
-        // You may use JDBC or any other data access mechanism
+        for(Slot slot : slots) {
+            if(slot.getSlotId().toString().equals(slotId)) {
+                slots.remove(slot);
+                break;
+            }
+        }
     }
 
     // Get available slots for a center
@@ -102,10 +114,8 @@ public class SlotDAO {
     }
 
     // Add a new slot to the database
-    public boolean addSlot(Slot slot) {
-        // Implementation to add a new slot to the database
-        // Validate input, insert into the database, etc.
-        return false; // Placeholder, replace with actual implementation
+    public void addSlot(Slot slot) {
+        slots.add(slot);
     }
 
     // Check if a slot already exists in the database

@@ -16,16 +16,16 @@ import com.flipkart.utils.InputUtils;
 public class FlipfitCustomerMenu {
     private Scanner scanner;
     private BookingDAO bookingDAO = new BookingDAO();
-    private CustomerDAO customerDAO=new CustomerDAO();
-    private CenterDAO centerDAO=new CenterDAO();
-    private CustomerService customerService=new CustomerService(customerDAO,bookingDAO);
-    private CenterService centerService=new CenterService(centerDAO);
+    private CustomerDAO customerDAO = new CustomerDAO();
+    private CenterDAO centerDAO = new CenterDAO();
+    private CustomerService customerService = new CustomerService(customerDAO, bookingDAO);
+    private CenterService centerService = new CenterService(centerDAO);
     private PaymentService paymentService;
     private SlotDAO slotDAO = new SlotDAO();
-    private SlotService slotService=new SlotService(slotDAO);
+    private SlotService slotService = new SlotService(slotDAO);
 
     private String customerId;
-    InputUtils inputUtils=new InputUtils();
+    InputUtils inputUtils = new InputUtils();
 
     // Constructor
 //    public FlipfitCustomerMenu(
@@ -44,28 +44,28 @@ public class FlipfitCustomerMenu {
 
     // Methods for customer menu options
 
-    private void displaySlotsForCenter(){
+    private void displaySlotsForCenter() {
         int centerId = inputUtils.getIntInput("Enter Center ID to see slots: ");
         slotDAO.addDummyDataSlot();
         slotService.getAllSlots(centerId);
         int slotId = inputUtils.getIntInput("Enter Slot ID to book slot: ");
-        slotService.bookSlot(slotId,customerId);
+        slotService.bookSlot(slotId, customerId);
     }
 
-    private void displayCustomerUpdate(){
+    private void displayCustomerUpdate() {
         String name = inputUtils.getStringInput("Enter your new name: ");
         String email = inputUtils.getStringInput("Enter your new email: ");
         String username = inputUtils.getStringInput("Enter your new username: ");
         String password = inputUtils.getStringInput("Enter your new password: ");
-        customerService.updateCustomerInfo(name,email,username,password,customerId);
+        customerService.updateCustomerInfo(name, email, username, password, customerId);
     }
 
-    private void displayCancelBooking(){
+    private void displayCancelBooking() {
         int slotId = inputUtils.getIntInput("Enter Slot ID to cancel: ");
         slotService.cancelBooking(slotId);
     }
 
-    private void displayBookedCustomerSlots(){
+    private void displayBookedCustomerSlots() {
         slotService.showBookedSlots(customerId);
         int functionCode = inputUtils.getIntInput("Enter your functions (1 for Cancel Booking, 2 for Exit):");
         switch (functionCode) {
@@ -78,11 +78,9 @@ public class FlipfitCustomerMenu {
                 System.out.println("Invalid function. Please try again.");
                 displayBookedCustomerSlots();
         }
-
-
     }
 
-    private void displayLoggedInUserMenu(){
+    private void displayLoggedInUserMenu() {
         int functionCode = inputUtils.getIntInput("Enter your functions (1 for Display Centers, 2 for Edit Profile,3 for View Booked Slots): ");
         switch (functionCode) {
             case 1:
@@ -104,20 +102,21 @@ public class FlipfitCustomerMenu {
                 displayLoggedInUserMenu();
         }
     }
+
     public void displayMenu(String username, String password) {
         System.out.println("You are inside Customer Menu !!!");
         customerDAO.addDummyDataCustomer();
-        if(customerService.authenticateCustomer(username,password)){
+        if (customerService.authenticateCustomer(username, password)) {
             System.out.println("Actual Customer Options!!!");
-            customerId=customerService.getCustomerIdByLoginCreds(username,password);
+            customerId = customerService.getCustomerIdByLoginCreds(username, password);
             displayLoggedInUserMenu();
-        }
-        else{
+        } else {
             System.out.println("Incorrect Credentials");
         }
 
         // Implementation to display the customer menu
     }
+
     public void displayRegistrationMenu() {
         System.out.println("You are inside Customer Registration Menu !!!");
         String name = inputUtils.getStringInput("Enter your name: ");
@@ -125,14 +124,12 @@ public class FlipfitCustomerMenu {
         String username = inputUtils.getStringInput("Enter your username: ");
         String password = inputUtils.getStringInput("Enter your password: ");
 
-        String generatedCustomerId=customerDAO.getCustomerId();
+        String generatedCustomerId = customerDAO.getCustomerId();
 
-        Customer customer = new Customer(username,password,generatedCustomerId,name,email);
+        Customer customer = new Customer(username, password, generatedCustomerId, name, email);
         customerService.registerCustomer(customer);
-        displayMenu(username,password);
+        displayMenu(username, password);
     }
-
-
 
 
     // Other customer menu methods
