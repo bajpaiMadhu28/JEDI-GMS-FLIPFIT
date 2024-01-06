@@ -2,6 +2,7 @@ package com.flipkart.dao;
 
 import com.flipkart.bean.Center;
 import com.flipkart.bean.Customer;
+import com.flipkart.constant.SqlQueryConstant;
 import com.flipkart.utils.DBUtils;
 
 import java.sql.Connection;
@@ -35,7 +36,7 @@ public class CenterDAO {
         ResultSet answerSet=null;
         try{
             conn = DBUtils.getConnection();
-            stmt = conn.prepareStatement("Select * From center Where approved=1");
+            stmt = conn.prepareStatement(SqlQueryConstant.GET_CENTERS_QUERY);
             ResultSet output = stmt.executeQuery();
             answerSet=output;
 

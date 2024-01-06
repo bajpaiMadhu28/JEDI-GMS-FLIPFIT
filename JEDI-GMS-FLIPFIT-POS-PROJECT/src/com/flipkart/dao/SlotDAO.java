@@ -51,7 +51,7 @@ public class SlotDAO {
         ResultSet answerSet=null;
         try{
             conn = DBUtils.getConnection();
-            stmt = conn.prepareStatement("Select * From slot Where center_id=?");
+            stmt = conn.prepareStatement(SqlQueryConstant.GET_ALL_SLOTS);
             stmt.setInt(1, centerId);
             ResultSet output = stmt.executeQuery();
             answerSet=output;
@@ -80,7 +80,7 @@ public class SlotDAO {
         ResultSet answerSet=null;
         try{
             conn = DBUtils.getConnection();
-            stmt = conn.prepareStatement("Select * From slot Where id=?");
+            stmt = conn.prepareStatement(SqlQueryConstant.GET_SLOT_BY_ID);
             stmt.setInt(1, slotId);
             ResultSet output = stmt.executeQuery();
             answerSet=output;
@@ -101,7 +101,7 @@ public class SlotDAO {
         ResultSet answerSet=null;
         try{
             conn = DBUtils.getConnection();
-            stmt = conn.prepareStatement("Select * From slot Where customer_id=? AND is_available=0");
+            stmt = conn.prepareStatement(SqlQueryConstant.GET_BOOKED_SLOTS_BY_CUSTOMER_ID);
             stmt.setString(1, customerId);
             ResultSet output = stmt.executeQuery();
             answerSet=output;
@@ -143,7 +143,7 @@ public class SlotDAO {
         // Validate input, check availability, update database, etc.
         try{
             conn = DBUtils.getConnection();
-            stmt = conn.prepareStatement("Update slot Set is_available=0,customer_id=? WHERE id=?");
+            stmt = conn.prepareStatement(SqlQueryConstant.BOOK_SLOT);
 
             // Hard coded d
             //Bind values into the parameters.
@@ -166,7 +166,7 @@ public class SlotDAO {
     public void updateWaitlist(Slot slot) {
         try{
             conn = DBUtils.getConnection();
-            stmt = conn.prepareStatement("Update slot Set waitlisted_customers=? WHERE id=?");
+            stmt = conn.prepareStatement(SqlQueryConstant.UPDATE_WAITLIST);
 
             // Hard coded d
             //Bind values into the parameters.
@@ -194,7 +194,7 @@ public class SlotDAO {
     public void cancelSlotBooking(Slot slot) {
         try{
             conn = DBUtils.getConnection();
-            stmt = conn.prepareStatement("Update slot Set is_available=?,customer_id=?,waitlisted_customers=? WHERE id=?");
+            stmt = conn.prepareStatement(SqlQueryConstant.CANCEL_BOOKING);
 
             // Hard coded d
             //Bind values into the parameters.

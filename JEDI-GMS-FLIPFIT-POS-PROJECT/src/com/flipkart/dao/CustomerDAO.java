@@ -53,7 +53,7 @@ public class CustomerDAO {
         String customerId=null;
         try{
             conn = DBUtils.getConnection();
-            stmt = conn.prepareStatement("Select * From customer Where username=? AND password=?");
+            stmt = conn.prepareStatement(SqlQueryConstant.GET_CUSTOMER_BY_LOGIN_CREDS);
             stmt.setString(1, username);
             stmt.setString(2, password);
 
@@ -102,7 +102,7 @@ public class CustomerDAO {
             //String sql = "UPDATE Employees set age=? WHERE id=?";
             // String sql1="delete from employee where id=?";
             // stmt.setInt(1, 101);
-            stmt = conn.prepareStatement("Select * From customer Where username=? AND password=?");
+            stmt = conn.prepareStatement(SqlQueryConstant.AUTHENTICATE_CUSTOMER);
 
             // Hard coded d
             //Bind values into the parameters.
@@ -128,7 +128,7 @@ public class CustomerDAO {
     public void updateCustomerInfo(String name,String email,String username,String password,String customerId){
         try{
             conn = DBUtils.getConnection();
-            stmt = conn.prepareStatement("Update customer Set name=?,email=?,username=?,password=? WHERE id=?");
+            stmt = conn.prepareStatement(SqlQueryConstant.UPDATE_CUSTOMER_INFO);
 
             // Hard coded d
             //Bind values into the parameters.
