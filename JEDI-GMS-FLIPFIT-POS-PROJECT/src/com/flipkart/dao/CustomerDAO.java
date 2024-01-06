@@ -2,6 +2,7 @@ package com.flipkart.dao;
 
 import com.flipkart.bean.Customer;
 import com.flipkart.bean.Slot;
+import com.flipkart.constant.SqlQueryConstant;
 import com.flipkart.utils.DBUtils;
 
 import java.sql.Connection;
@@ -27,13 +28,7 @@ public class CustomerDAO {
 
     //			      System.out.println("Connecting to database...");
                 conn = DBUtils.getConnection();
-
-                //STEP 4: Execute a query
-    //			      System.out.println("Creating statement...");
-                //String sql = "UPDATE Employees set age=? WHERE id=?";
-                // String sql1="delete from employee where id=?";
-                // stmt.setInt(1, 101);
-                stmt = conn.prepareStatement("INSERT INTO customer(name,email,username,password) values(?, ?, ?, ?)");
+                stmt = conn.prepareStatement(SqlQueryConstant.INSERT_CUSTOMER_QUERY);
 
                 // Hard coded d
                 //Bind values into the parameters.

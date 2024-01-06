@@ -3,6 +3,7 @@ package com.flipkart.dao;
 import com.flipkart.bean.Booking;
 import com.flipkart.bean.Customer;
 import com.flipkart.bean.Slot;
+import com.flipkart.constant.SqlQueryConstant;
 import com.flipkart.utils.DBUtils;
 
 import java.sql.Connection;
@@ -75,15 +76,25 @@ public class SlotDAO {
     }
 
     // Retrieve Slot details by slotId
-    public Slot getSlotById(Integer slotId) {
-        // Implementation to retrieve slot details from the database based on the slotId
-        // You may use JDBC or any other data access mechanism
-        for(Slot currentSlot:slots){
-            if(Objects.equals(currentSlot.getSlotId(), slotId)){
-                return currentSlot;
-            }
+    public ResultSet getSlotById(Integer slotId) {
+        ResultSet answerSet=null;
+        try{
+            conn = DBUtils.getConnection();
+            stmt = conn.prepareStatement("Select * From slot Where id=?");
+            stmt.setInt(1, slotId);
+            ResultSet output = stmt.executeQuery();
+            answerSet=output;
+
+            //STEP 6: Clean-up environment
+            // rs.close();
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
         }
-        return null; // Replace with actual logic
+        return answerSet;
     }
 
     public ArrayList<Slot> getBookedSlotsByCustomerId(String customerId){
@@ -116,17 +127,59 @@ public class SlotDAO {
     }
 
     // Book a slot for a customer
-    public boolean bookSlot(Booking booking) {
+    public void bookSlot(Slot slot) {
         // Implementation to book a slot
         // Validate input, check availability, update database, etc.
-        return false; // Placeholder, replace with actual implementation
+        try{
+            conn = DBUtils.getConnection();
+            stmt = conn.prepareStatement("Update slot Set is_available=0,customer_id=? WHERE id=?");
+
+            // Hard coded d
+            //Bind values into the parameters.
+            stmt.setString(1,slot.getCustomerId());
+            stmt.setInt(2, slot.getSlotId());  // This would set age
+            stmt.executeUpdate();
+
+            //STEP 6: Clean-up environment
+            // rs.close();
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+
+
     }
 
     // Update the waitlist for a slot
-    public void updateWaitlist(String slotId, List<String> waitlist) {
-        // Implementation to update the waitlist for a slot
-        // Validate input, update database, etc.
-        // Placeholder, replace with actual implementation
+    public void updateWaitlist(Slot slot) {
+        try{
+            conn = DBUtils.getConnection();
+            stmt = conn.prepareStatement("Update slot Set waitlisted_customers=? WHERE id=?");
+
+            // Hard coded d
+            //Bind values into the parameters.
+
+            String commaSeparatedList = slot.getWaitlistedCustomerIds().toString();
+            commaSeparatedList = commaSeparatedList.replace("[", "").replace("]", "").replace(" ", "");
+
+            stmt.setString(1,commaSeparatedList);
+            stmt.setInt(2, slot.getSlotId());  // This would set age
+            stmt.executeUpdate();
+
+            //STEP 6: Clean-up environment
+            // rs.close();
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+
+
     }
 
     // Add a new slot to the database

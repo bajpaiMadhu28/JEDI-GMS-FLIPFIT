@@ -78,16 +78,58 @@ public class SlotService {
     public void bookSlot(Integer slotId,String customerId) {
         // Implementation to book a slot
         // Validate input, check availability, update database, etc.
-        Slot currentSlot=slotDAO.getSlotById(slotId);
+        ResultSet slotResult=slotDAO.getSlotById(slotId);
+        Slot currentSlot=new Slot(null,null,null,null);
+
+        try{
+            while (slotResult.next()){
+                currentSlot.setSlotId(slotResult.getInt(1));
+                currentSlot.setDate(slotResult.getDate(2));
+                currentSlot.setTime(slotResult.getString(3));
+                currentSlot.setCenterId(slotResult.getInt(4));
+
+                Integer isAvailable=slotResult.getInt(5);
+                if(isAvailable==1){
+                    currentSlot.setAvailable(true);
+                }
+                else{
+                    currentSlot.setAvailable(false);
+                }
+
+                ArrayList<String> waitlistedCustomers=new ArrayList<String>();
+                String waitlistedCustomersString=slotResult.getString(6);
+                if(waitlistedCustomersString!=null){
+                    String[] convertedCustomerList = waitlistedCustomersString.split(",");
+                    waitlistedCustomers.addAll(Arrays.asList(convertedCustomerList));
+                }
+                currentSlot.setWaitlistedCustomerIds(waitlistedCustomers);
+
+                currentSlot.setCustomerId(slotResult.getString(7));
+
+                Integer isApproved=slotResult.getInt(8);
+                if(isApproved==1){
+                    currentSlot.setApproved(true);
+                }
+                else{
+                    currentSlot.setApproved(false);
+                }
+            }
+        }catch(SQLException sqlExcep) {
+            System.out.println(sqlExcep);
+        }
+
+
         if(currentSlot.isAvailable()){
             currentSlot.setAvailable(false);
             currentSlot.setCustomerId(customerId);
+            slotDAO.bookSlot(currentSlot);
             System.out.println("Slot Booked Successfully");
         }
         else{
             currentSlot.addWaitlistedCustomerIds(customerId);
             Integer currentWaitlist=currentSlot.getWaitlistedCustomerIds().size();
             String waitlistString=String.format("Slot Booked With Waitlist Number : %d",currentWaitlist);
+            slotDAO.updateWaitlist(currentSlot);
             System.out.println(waitlistString);
         }
     }
@@ -101,26 +143,26 @@ public class SlotService {
     }
 
     // Update the waitlist for a slot
-    public void updateWaitlist(String slotId, List<String> waitlist) {
-        // Implementation to update the waitlist for a slot
-        // Validate input, update database, etc.
-        slotDAO.updateWaitlist(slotId, waitlist);
-    }
+//    public void updateWaitlist(String slotId, List<String> waitlist) {
+//        // Implementation to update the waitlist for a slot
+//        // Validate input, update database, etc.
+//        slotDAO.updateWaitlist(slotId, waitlist);
+//    }
 
     // Cancel a booking for a slot
     public void cancelBooking(Integer slotId) {
         // Implementation to cancel a booking
         // Validate input, update database, etc.
-        Slot currentSlot=slotDAO.getSlotById(slotId);
-        currentSlot.setAvailable(true);
-        currentSlot.setCustomerId(null);
-        if(!currentSlot.getWaitlistedCustomerIds().isEmpty()){
-            currentSlot.setAvailable(false);
-            String removedCustomerId=currentSlot.getWaitlistedCustomerIds().remove(0);
-            currentSlot.setCustomerId(removedCustomerId);
-        }
-//        System.out.println(currentSlot.getCustomerId());
-        System.out.println("Booking Cancelled");
+//        Slot currentSlot=slotDAO.getSlotById(slotId);
+//        currentSlot.setAvailable(true);
+//        currentSlot.setCustomerId(null);
+//        if(!currentSlot.getWaitlistedCustomerIds().isEmpty()){
+//            currentSlot.setAvailable(false);
+//            String removedCustomerId=currentSlot.getWaitlistedCustomerIds().remove(0);
+//            currentSlot.setCustomerId(removedCustomerId);
+//        }
+////        System.out.println(currentSlot.getCustomerId());
+//        System.out.println("Booking Cancelled");
     }
 
     // Other business methods
