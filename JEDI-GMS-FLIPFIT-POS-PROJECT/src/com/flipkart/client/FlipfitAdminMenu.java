@@ -22,7 +22,7 @@ public class FlipfitAdminMenu {
     private Scanner scanner;
     private CenterService centerService;
 
-//    private CenterDAO centerDAO;
+    //    private CenterDAO centerDAO;
     private PaymentService paymentService;
     private SlotService slotService;
     private AdminDAO adminDAO = new AdminDAO();
@@ -30,9 +30,21 @@ public class FlipfitAdminMenu {
     private SlotDAO slotDAO = new SlotDAO();
 
     private CenterDAO centerDAO = new CenterDAO();
-    private AdminService adminService=new AdminService(adminDAO);
+    private AdminService adminService = new AdminService(adminDAO);
 
     InputUtils inputUtils = new InputUtils();
+
+    private void displaySuccessMessage(String message) {
+        System.out.println("\u001B[32m" + message + "\u001B[0m"); // Green color for success message
+    }
+
+    private void displayErrorMessage(String message) {
+        System.out.println("\u001B[31m" + message + "\u001B[0m"); // Red color for error message
+    }
+
+    private void displayTableMessage(String message) {
+        System.out.println("\u001B[33m" + message + "\u001B[0m"); // Yellow color for table message
+    }
 
 
     // Constructor
@@ -57,7 +69,7 @@ public class FlipfitAdminMenu {
 
     public ArrayList<Slot> getUnapprovedSlots() {
         slotDAO.addDummyDataSlot();
-        ArrayList<Slot> flipfitSlots =  slotDAO.getAllDummySlots();
+        ArrayList<Slot> flipfitSlots = slotDAO.getAllDummySlots();
         ArrayList<Slot> unapprovedCenters = new ArrayList<>();
         for (Slot slot : flipfitSlots) {
             if (!slot.getApproved()) {
@@ -80,77 +92,134 @@ public class FlipfitAdminMenu {
         }
         return unapprovedCenters;
     }
+
+    public ArrayList<Center> getAllGymCenters() {
+        centerDAO.addDummyDataCenter();
+        return centerDAO.getDummyData();
+    }
+
     // Display unapproved gym centers and approve by ID
     private void displayLoggedInAdminMenu() {
-        System.out.println("1 to Approve Gym Center\n 2 to approve Slots");
+//        System.out.println("\u001B[34m\n1 - Approve Gym Center\n2 - approve Slots\u001B[0m");
+        System.out.println("1. View All Gyms");
+        System.out.println("2. View All Gym Owners");
+        System.out.println("3. View Pending Gym Owner Requests");
+        System.out.println("4. View Pending Gym Requests");
+        System.out.println("5. Approve Single slot at once");
+        System.out.println("6. Approve All Gym Owner Requests");
+        System.out.println("7. Approve Single Gym Request ");
+        System.out.println("8. Approve All Gym Requests");
+        System.out.println("9. Exit");
         Scanner scanner = new Scanner(System.in);
         int action = scanner.nextInt();
-        if(action == 1) {
+        if (action == 1) {
+            ArrayList<Center> allGymCenters = getAllGymCenters();
+            if (allGymCenters.isEmpty()) {
+                displayErrorMessage("No unapproved gym centers found.");
+            } else {
+                displaySuccessMessage("all Gym Centers:");
+                displayTableMessage("----------------------------");
+                System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m |%n", "Center ID", "Name");
+                displayTableMessage("----------------------------");
+                for (Center center : allGymCenters) {
+                    System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m |%n", center.getCenterId(), center.getName());
+
+                    displayTableMessage("----------------------------");
+
+                }
+                System.out.println("----------------------------");
+            }
+        } else if (action == 2) {
+
+
+
+        } else if (action == 7) {
             ArrayList<Center> unapprovedCenters = getUnapprovedGymCenters();
             if (unapprovedCenters.isEmpty()) {
-                System.out.println("No unapproved gym centers found.");
+                displayErrorMessage("No unapproved gym centers found.");
             } else {
-                System.out.println("Unapproved Gym Centers:");
+                displaySuccessMessage("Unapproved Gym Centers:");
+                displayTableMessage("----------------------------");
+                System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m |%n", "Center ID", "Name");
+                displayTableMessage("----------------------------");
                 for (Center center : unapprovedCenters) {
-                    System.out.println("Center ID: " + center.getCenterId() + ", Name: " + center.getName());
-                }
+                    System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m |%n", center.getCenterId(), center.getName());
 
+                    displayTableMessage("----------------------------");
+
+                }
+                System.out.println("----------------------------");
                 int centerId;
                 centerId = 1;
                 while (centerId != 0) {
-                    System.out.println("Enter the ID of the gym center to approve (or 0 to exit):");
+                    System.out.println("Enter the ID of the gym center to approve (or 0 to exit");
                     centerId = scanner.nextInt();
+                    boolean f = false;
                     for (Center center : unapprovedCenters) {
                         if (center.getCenterId() == centerId) {
+                            f = true;
                             center.setApproved(true);
-                            System.out.println("Gym center with ID " + centerId + " has been approved.");
+                            System.out.println("\n \u001B[32mGym center with ID " + centerId + " has been approved.\n\n\u001B[0m");
                             break; // Exit the loop once the center is found and approved
                         }
                     }
-                    System.out.println("Gym slot with ID does not exist ");
+                    if (f == false) {
+                        System.out.println("\u001B[31mNo centre for the given centreID\u001B[0m");
+                    }
 
                 }
             }
-        }
-        else{
+        } else if (action == 5) {
             ArrayList<Slot> unapprovedSlots = getUnapprovedSlots();
             if (unapprovedSlots.isEmpty()) {
-                System.out.println("No unapproved gym slots found.");
+                System.out.println("\u001B[31mNo unapproved gym slots found.\u001B[0m");
             } else {
-                System.out.println("Unapproved Gym Slots:");
+                System.out.println("\u001B[32mUnapproved Gym Slots:\u001B[0m");
+                System.out.println("\u001B[33m-----------------------------------------------------------------\u001B[0m");
+                System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m | \u001B[33m%-15s\u001B[0m |\n", "Centre ID", "Name", "Slot ID");
+                System.out.println("\u001B[33m-----------------------------------------------------------------\u001B[0m");
                 for (Slot slot : unapprovedSlots) {
-                    System.out.println("Center ID: " + slot.getCenterId() + ", Name: " + slot.getTime() + ", slotID" + slot.getSlotId());
+                    System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m | \u001B[33m%-15s\u001B[0m |\n", slot.getCenterId(), slot.getTime(), slot.getSlotId());
                 }
-                int centerId;
-                centerId = 1;
-                while (centerId != 0) {
-                    System.out.println("Enter the ID of the gym slot to approve (or 0 to exit):");
-                    centerId = scanner.nextInt();
+                System.out.println("\u001B[33m-----------------------------------------------------------------\u001B[0m");
+                int slotId;
+                slotId = 1;
+                while (slotId != 0) {
+                    System.out.println("\u001B[33mEnter the ID of the gym slot to approve (or 0 to exit):\u001B[0m");
+                    slotId = scanner.nextInt();
+                    boolean found = false;
                     for (Slot slot : unapprovedSlots) {
-                        if (slot.getCenterId() == centerId) {
+                        if (slot.getSlotId() == slotId) {
                             slot.setApproved(true);
-                            System.out.println("Gym slot with ID " + centerId + " has been approved.");
-                            break; // Exit the loop once the center is found and approved
+                            System.out.println("\u001B[32mGym slot with ID " + slotId + " has been approved.\u001B[0m");
+                            found = true;
+                            break; // Exit the loop once the slot is found and approved
                         }
                     }
-                    System.out.println("Gym slot with ID does not exist ");
-
+                    if (!found) {
+                        System.out.println("\u001B[31mGym slot with ID does not exist\u001B[0m");
+                    }
                 }
             }
-        }
 
-            System.out.println("Exiting admin menu.");
+            System.out.println("\u001B[32mExiting admin menu.\u001B[0m");
+        }
     }
 
 
     public void displayMenu(String username, String password) {
-        System.out.println("Admin Menu !!!");
+        String text = "\u001B[34mAdmin Menu !!!\u001B[0m";
+        int width = 80; // Adjust this value based on your console width
+
+// Calculate padding for center alignment
+        int padding = (width - text.length()) / 2;
+
+// Print centered text in blue color
+        System.out.println(String.format("%" + padding + "s%s%" + padding + "s", "", text, ""));
         adminDAO.addDummyAdminData();
-        if(adminService.authenticateAdmin(username,password)){
-            System.out.println("Actual Customer Options!!!");
+        if (adminService.authenticateAdmin(username, password)) {
             displayLoggedInAdminMenu();
-        }
-        else{
+        } else {
             System.out.println("Incorrect Credentials");
         }
 
@@ -158,7 +227,14 @@ public class FlipfitAdminMenu {
     }
 
     public void displayAdminRegistrationMenu() {
-        System.out.println("Admin Registration Menu !!!");
+        String text = "\u001B[34mAdmin Registration Menu !!!\u001B[0m";
+        int width = 80; // Adjust this value based on your console width
+
+// Calculate padding for center alignment
+        int padding = (width - text.length()) / 2;
+
+// Print centered text in blue color
+        System.out.println(String.format("%" + padding + "s%s%" + padding + "s", "", text, ""));
         String username = inputUtils.getStringInput("Enter your username: ");
         String password = inputUtils.getStringInput("Enter your password: ");
         String department = inputUtils.getStringInput("Enter your department: ");

@@ -42,14 +42,14 @@ public class FlipfitGymOwnerMenu {
 //    }
 
     private void displaySlotsForCenter() {
-        int centerId = inputUtils.getIntInput("\nEnter Center ID to see slots: ");
+        int centerId = inputUtils.getIntInput("\u001B[33m\n== Enter Center ID to see slots ==\u001B[0m\n");
         slotDAO.addDummyDataSlot();
         slotService.getAllSlots(centerId);
     }
 
     private void displayLoggedInUserMenu(String username, String password) {
-        int functionCode = inputUtils.getIntInput("\nEnter your functions (1 for Edit Your Profile," +
-                " 2 for Editing Gym details, 3 for Editing slot details): ");
+        int functionCode = inputUtils.getIntInput("\u001B[33m\n== Enter your functions (1 for Edit Your Profile, " +
+                "2 for Editing Gym details, 3 for Editing slot details) ==\u001B[0m\n");
         switch (functionCode) {
             case 1:
                 displayGymOwnerUpdateForm();
@@ -58,30 +58,30 @@ public class FlipfitGymOwnerMenu {
                 displayGymDetailsEditForm(username, password);
                 break;
             case 3:
-                System.out.println("Edit slot Details");
+                System.out.println("\u001B[31mEdit slot Details\u001B[0m");
                 break;
             default:
-                System.out.println("Invalid function. Please try again.");
+                System.out.println("\u001B[31mInvalid function. Please try again.\u001B[0m");
                 displayLoggedInUserMenu(username, password);
         }
     }
 
     public void displayMenu(String username, String password) {
-        System.out.println("\nYou are inside Gym Owner Menu !!!");
+        System.out.println("\u001B[36m\n== You are inside Gym Owner Menu !!! ==\u001B[0m\n");
         gymOwnerDAO.addDummyDataGymOwner();
         centerDAO.addDummyDataCenter();
 
         if (gymOwnerService.authenticateGymOwner(username, password)) {
-            System.out.println("Actual Gym Owner Options!!!");
+            System.out.println("\u001B[32mActual Gym Owner Options!!!\u001B[0m");
             gymOwnerId = gymOwnerService.getGymOwnerIdByLoginCreds(username, password);
             displayLoggedInUserMenu(username, password);
         } else {
-            System.out.println("\nIncorrect Credentials");
+            System.out.println("\u001B[31m\nIncorrect Credentials\u001B[0m");
         }
     }
 
     public void displayRegistrationMenu() {
-        System.out.println("\nYou are inside Gym Owner Registration Menu !!!");
+        System.out.println("\u001B[36m\n== You are inside Gym Owner Registration Menu !!! ==\u001B[0m\n");
         String name = inputUtils.getStringInput("Enter your name: ");
         String email = inputUtils.getStringInput("Enter your email: ");
         String username = inputUtils.getStringInput("Enter your username: ");
@@ -95,7 +95,7 @@ public class FlipfitGymOwnerMenu {
     }
 
     public void displayGymOwnerUpdateForm() {
-        System.out.println("\nPlease Enter Updated Gym Owner Details :");
+        System.out.println("\u001B[36m\n== Please Enter Updated Gym Owner Details ==\u001B[0m\n");
 
         String name = inputUtils.getStringInput("Enter your name: ");
         String email = inputUtils.getStringInput("Enter your email: ");
@@ -110,13 +110,13 @@ public class FlipfitGymOwnerMenu {
         GymOwner gymOwner = gymOwnerService.getGymOwnerByLoginCreds(username, password);
         Center center = centerService.getCenterByOwnerId(gymOwner.getOwnerId());
 
-        System.out.println("\nCurrent Gym Details : ");
+        System.out.println("\u001B[36m\n== Current Gym Details ==\u001B[0m\n");
         System.out.println("Gym Name : " + center.getName());
         System.out.println("Gym Location : " + center.getLocation());
         System.out.println("Gym Id : " + center.getCenterId());
         System.out.println("Owner Id : " + center.getOwnerId());
 
-        System.out.println("\nPlease Enter Updated Gym Details :");
+        System.out.println("\u001B[36m\n== Please Enter Updated Gym Details ==\u001B[0m\n");
 
         String name = inputUtils.getStringInput("Enter Gym's name: ");
         String location = inputUtils.getStringInput("Enter your Gym's location: ");
@@ -124,5 +124,4 @@ public class FlipfitGymOwnerMenu {
         centerService.updateCenterProfile(new Center(center.getCenterId(), name, location, gymOwner.getOwnerId()));
     }
 
-    // Other gym owner menu methods
 }
