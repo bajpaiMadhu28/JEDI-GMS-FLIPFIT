@@ -44,9 +44,13 @@ public class FlipfitCustomerMenu {
     private void displaySlotsForCenter(){
         int centerId = inputUtils.getIntInput("Enter Center ID to see slots: ");
         slotDAO.addDummyDataSlot();
-        slotService.getAllSlots(centerId);
-        int slotId = inputUtils.getIntInput("Enter Slot ID to book slot: ");
-        slotService.bookSlot(slotId,customerId);
+        if(slotService.getAllSlots(centerId)){
+            int slotId = inputUtils.getIntInput("Enter Slot ID to book slot: ");
+            slotService.bookSlot(slotId,customerId);
+        }
+//       else{
+//           return;
+//        }
     }
 
     private void displayCustomerUpdate() {
@@ -64,15 +68,18 @@ public class FlipfitCustomerMenu {
 
 
     private void displayCancelBooking() {
+        System.out.println("\n");
         System.out.println("\u001B[31m\n==== Cancel Booking ====\u001B[0m");
-        int slotId = inputUtils.getIntInput("Enter Slot ID to cancel: ");
+        int slotId = inputUtils.getIntInput("\nEnter Slot ID to cancel: ");
         slotService.cancelBooking(slotId);
     }
 
     private void displayBookedCustomerSlots() {
         System.out.println("\u001B[33m\n==== Booked Customer Slots ====\u001B[0m");
+        System.out.println("\n");
+
         slotService.showBookedSlots(customerId);
-        int functionCode = inputUtils.getIntInput("\u001B[36mEnter your functions (1 for Cancel Booking, 2 for Exit): \u001B[0m");
+        int functionCode = inputUtils.getIntInput("\u001B[36mMake a choice:\n1 - Cancel Booking\n2 - Exit \u001B[0m");
         switch (functionCode) {
             case 1:
                 displayCancelBooking();
@@ -89,10 +96,9 @@ public class FlipfitCustomerMenu {
 
     private void displayLoggedInUserMenu() {
         System.out.println("\u001B[33m\n==== Logged In User Menu ====\u001B[0m");
-        int functionCode = inputUtils.getIntInput("\u001B[36mEnter your functions :\n 1 to  Display Centers, \n2 to Edit Profile, \n3 to View Booked Slots \u001B[0m");
+        int functionCode = inputUtils.getIntInput("\u001B[36m\nMake a choice :\n1 - Display Centers \n2 - Edit Profile \n3 - View Booked Slots\n \u001B[0m");
         switch (functionCode) {
             case 1:
-                centerDAO.addDummyDataCenter();
                 centerService.getAllCenters();
                 displaySlotsForCenter();
                 break;
@@ -100,7 +106,6 @@ public class FlipfitCustomerMenu {
                 displayCustomerUpdate();
                 break;
             case 3:
-                slotDAO.addDummyDataSlot();
                 displayBookedCustomerSlots();
                 break;
             default:
@@ -125,7 +130,7 @@ public class FlipfitCustomerMenu {
         String name = inputUtils.getStringInput("Enter your name: ");
         String email = inputUtils.getStringInput("Enter your email: ");
         String username = inputUtils.getStringInput("Enter your username: ");
-        String password = inputUtils.getStringInput("Enter your password: ");
+        String password = inputUtils.getStringInput("Enter your password: \n");
 
 
         Customer customer = new Customer(username,password,null,name,email);
