@@ -7,6 +7,7 @@ import com.flipkart.business.CenterService;
 import com.flipkart.business.CustomerService;
 import com.flipkart.business.PaymentService;
 import com.flipkart.business.SlotService;
+import com.flipkart.constant.CommonConstant;
 import com.flipkart.dao.*;
 import com.flipkart.utils.InputUtils;
 
@@ -59,10 +60,10 @@ public class FlipfitCustomerMenu {
         System.out.printf("\u001B[33m| \u001B[36m%-20s\u001B[33m | \u001B[36m%-20s\u001B[33m |\u001B[0m%n", "Field", "New Value");
         System.out.println("\u001B[33m|----------------------|----------------------|\u001B[0m");
 
-        String name = inputUtils.getStringInput("Enter your new name: ");
-        String email = inputUtils.getStringInput("Enter your new email: ");
-        String username = inputUtils.getStringInput("Enter your new username: ");
-        String password = inputUtils.getStringInput("Enter your new password: ");
+        String name = inputUtils.getStringInput(CommonConstant.INPUT_NAME);
+        String email = inputUtils.getStringInput(CommonConstant.INPUT_EMAIL);
+        String username = inputUtils.getStringInput(CommonConstant.INPUT_USERNAME);
+        String password = inputUtils.getStringInput(CommonConstant.INPUT_PASSWORD);
         customerService.updateCustomerInfo(name,email,username,password,customerId);
     }
 
@@ -120,17 +121,17 @@ public class FlipfitCustomerMenu {
             customerId = customerService.getCustomerIdByLoginCreds(username, password);
             displayLoggedInUserMenu();
         } else {
-            System.out.println("\u001B[31mIncorrect Credentials\u001B[0m");
+            System.out.println(CommonConstant.INCORRECT_CREDENTIALS);
         }
 
         // Implementation to display the customer menu
     }
     public void displayRegistrationMenu() {
         System.out.println("\u001B[36mYou are inside Customer Registration Menu !!!\u001B[0m");
-        String name = inputUtils.getStringInput("Enter your name: ");
-        String email = inputUtils.getStringInput("Enter your email: ");
-        String username = inputUtils.getStringInput("Enter your username: ");
-        String password = inputUtils.getStringInput("Enter your password: \n");
+        String name = inputUtils.getStringInput(CommonConstant.INPUT_NAME);
+        String email = inputUtils.getStringInput(CommonConstant.INPUT_EMAIL);
+        String username = inputUtils.getStringInput(CommonConstant.INPUT_USERNAME);
+        String password = inputUtils.getStringInput(CommonConstant.INPUT_PASSWORD);
 
 
         Customer customer = new Customer(username,password,null,name,email);

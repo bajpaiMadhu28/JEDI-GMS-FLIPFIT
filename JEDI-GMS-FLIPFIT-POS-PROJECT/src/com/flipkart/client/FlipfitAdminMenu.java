@@ -7,16 +7,15 @@ import com.flipkart.bean.Admin;
 import com.flipkart.bean.Center;
 import com.flipkart.bean.Slot;
 import com.flipkart.business.*;
+import com.flipkart.constant.CommonConstant;
 import com.flipkart.dao.*;
 import com.flipkart.business.AdminService;
 import com.flipkart.business.PaymentService;
 import com.flipkart.business.SlotService;
 import com.flipkart.utils.InputUtils;
-import com.flipkart.dao.BookingDAO;
 import com.flipkart.dao.CenterDAO;
 import com.flipkart.dao.AdminDAO;
 import com.flipkart.dao.SlotDAO;
-import com.flipkart.utils.InputUtils;
 
 public class FlipfitAdminMenu {
     private Scanner scanner;
@@ -166,7 +165,7 @@ public class FlipfitAdminMenu {
         if (adminService.authenticateAdmin(username, password)) {
             displayLoggedInAdminMenu();
         } else {
-            System.out.println("Incorrect Credentials");
+           System.out.println(CommonConstant.INCORRECT_CREDENTIALS);
         }
 
         // Implementation to display the customer menu
@@ -181,8 +180,8 @@ public class FlipfitAdminMenu {
 
 // Print centered text in blue color
         System.out.println(String.format("%" + padding + "s%s%" + padding + "s", "", text, ""));
-        String username = inputUtils.getStringInput("Enter your username: ");
-        String password = inputUtils.getStringInput("Enter your password: ");
+        String username = inputUtils.getStringInput(CommonConstant.INPUT_USERNAME);
+        String password = inputUtils.getStringInput(CommonConstant.INPUT_PASSWORD);
         String department = inputUtils.getStringInput("Enter your department: ");
 
 

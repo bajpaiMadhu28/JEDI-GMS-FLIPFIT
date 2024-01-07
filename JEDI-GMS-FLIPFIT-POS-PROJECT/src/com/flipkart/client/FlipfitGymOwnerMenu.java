@@ -3,9 +3,9 @@ package com.flipkart.client;
 import java.util.Scanner;
 
 import com.flipkart.bean.Center;
-import com.flipkart.bean.Customer;
 import com.flipkart.bean.GymOwner;
 import com.flipkart.business.*;
+import com.flipkart.constant.CommonConstant;
 import com.flipkart.dao.*;
 import com.flipkart.utils.InputUtils;
 
@@ -76,17 +76,17 @@ public class FlipfitGymOwnerMenu {
             gymOwnerId = gymOwnerService.getGymOwnerIdByLoginCreds(username, password);
             displayLoggedInUserMenu(username, password);
         } else {
-            System.out.println("\u001B[31m\nIncorrect Credentials\u001B[0m");
+            System.out.println(CommonConstant.INCORRECT_CREDENTIALS);
         }
     }
 
     public void displayRegistrationMenu() {
         System.out.println("\u001B[36m\n== You are inside Gym Owner Registration Menu !!! ==\u001B[0m\n");
-        String name = inputUtils.getStringInput("Enter your name: ");
-        String email = inputUtils.getStringInput("Enter your email: ");
-        String username = inputUtils.getStringInput("Enter your username: ");
-        String password = inputUtils.getStringInput("Enter your password: ");
-        String gymName = inputUtils.getStringInput("Enter your GYM Name: ");
+        String name = inputUtils.getStringInput(CommonConstant.INPUT_NAME);
+        String email = inputUtils.getStringInput(CommonConstant.INPUT_EMAIL);
+        String username = inputUtils.getStringInput(CommonConstant.INPUT_USERNAME);
+        String password = inputUtils.getStringInput(CommonConstant.INPUT_PASSWORD);
+        String gymName = inputUtils.getStringInput(CommonConstant.INPUT_GYM_NAME);
 
         String gymOwnerId = gymOwnerDAO.getGymOwnerId();
 
@@ -97,11 +97,11 @@ public class FlipfitGymOwnerMenu {
     public void displayGymOwnerUpdateForm() {
         System.out.println("\u001B[36m\n== Please Enter Updated Gym Owner Details ==\u001B[0m\n");
 
-        String name = inputUtils.getStringInput("Enter your name: ");
-        String email = inputUtils.getStringInput("Enter your email: ");
-        String username = inputUtils.getStringInput("Enter your username: ");
-        String password = inputUtils.getStringInput("Enter your password: ");
-        String gymName = inputUtils.getStringInput("Enter your GYM Name: ");
+        String name = inputUtils.getStringInput(CommonConstant.INPUT_NAME);
+        String email = inputUtils.getStringInput(CommonConstant.INPUT_EMAIL);
+        String username = inputUtils.getStringInput(CommonConstant.INPUT_USERNAME);
+        String password = inputUtils.getStringInput(CommonConstant.INPUT_PASSWORD);
+        String gymName = inputUtils.getStringInput(CommonConstant.INPUT_GYM_NAME);
 
         gymOwnerService.updateGymOwnerProfile(new GymOwner(name, username, password, gymOwnerId, gymName, email));
     }
@@ -118,8 +118,8 @@ public class FlipfitGymOwnerMenu {
 
         System.out.println("\u001B[36m\n== Please Enter Updated Gym Details ==\u001B[0m\n");
 
-        String name = inputUtils.getStringInput("Enter Gym's name: ");
-        String location = inputUtils.getStringInput("Enter your Gym's location: ");
+        String name = inputUtils.getStringInput(CommonConstant.INPUT_GYM_NAME);
+        String location = inputUtils.getStringInput(CommonConstant.INPUT_GYM_LOC);
 
         centerService.updateCenterProfile(new Center(center.getCenterId(), name, location, gymOwner.getOwnerId()));
     }
