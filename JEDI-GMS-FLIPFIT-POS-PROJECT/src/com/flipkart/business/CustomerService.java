@@ -1,14 +1,10 @@
 package com.flipkart.business;
 
-import com.flipkart.bean.Booking;
 import com.flipkart.bean.Customer;
 import com.flipkart.dao.BookingInterfaceDAO;
 import com.flipkart.dao.CustomerInterfaceDAO;
-import com.flipkart.exception.BookingException;
-import com.flipkart.exception.CustomerAlreadyBookedException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CustomerService {
     private CustomerInterfaceDAO customerDAO;
