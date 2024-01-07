@@ -2,7 +2,7 @@ package com.flipkart.dao;
 
 import com.flipkart.bean.Payment;
 
-public class PaymentDAO {
+public class PaymentDAO implements PaymentInterfaceDAO {
     public boolean savePayment(Payment payment) {
         // Implementation to save a payment to the database
         // Validate input, insert into the database, etc.

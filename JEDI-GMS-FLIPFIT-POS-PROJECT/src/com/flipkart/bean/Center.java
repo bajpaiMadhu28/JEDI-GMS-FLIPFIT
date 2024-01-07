@@ -5,7 +5,7 @@ public class Center {
     private String name;
     private String location;
     private String ownerId;
-    private boolean isApproved = false;
+    private boolean isApproved;
 
     // Constructor
     public Center(Integer centerId, String name, String location, String ownerId) {
@@ -13,6 +13,7 @@ public class Center {
         this.name = name;
         this.location = location;
         this.ownerId = ownerId;
+        this.isApproved = false;
     }
 
     // Getter and setter methods

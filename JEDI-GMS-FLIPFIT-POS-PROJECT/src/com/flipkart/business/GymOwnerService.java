@@ -1,32 +1,29 @@
 package com.flipkart.business;
 
+import com.flipkart.bean.Center;
 import com.flipkart.bean.Customer;
 import com.flipkart.bean.GymOwner;
 import com.flipkart.bean.Slot;
-import com.flipkart.dao.GymOwnerDAO;
-import com.flipkart.dao.SlotDAO;
+import com.flipkart.dao.*;
 import com.flipkart.utils.InputUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class GymOwnerService {
-    private GymOwnerDAO gymOwnerDAO;
-    private SlotDAO slotDAO;
-    // Constructor
-    public GymOwnerService(GymOwnerDAO gymOwnerDAO, SlotDAO slotDAO) {
-        this.gymOwnerDAO = gymOwnerDAO;
-        this.slotDAO = slotDAO;
-    }
+    private GymOwnerInterfaceDAO gymOwnerDAO = new GymOwnerDAO();
+    private SlotInterfaceDAO slotDAO = new SlotDAO();
+    private CenterInterfaceDAO centerDAO = new CenterDAO();
 
-    // Business logic methods for gym owners
     public void registerGymOwner(GymOwner gymOwner) {
-        // Implementation to register a gym owner
-        // Validate input, check uniqueness, update database, etc.
         gymOwnerDAO.registerGymOwner(gymOwner);
     }
 
     public boolean authenticateGymOwner(String username, String password) {
+        gymOwnerDAO.addDummyDataGymOwner();
         ArrayList<GymOwner> currentGymOwners = gymOwnerDAO.getDummyData();
         for (GymOwner gymOwner : currentGymOwners) {
             if (gymOwner.getUsername().equals(username) && gymOwner.getPassword().equals(password)) {
@@ -37,81 +34,91 @@ public class GymOwnerService {
     }
 
     public void updateGymOwnerProfile(GymOwner gymOwner) {
-
         GymOwner gymOwnerUpdated = getGymOwnerById(gymOwner.getOwnerId());
-
         gymOwnerUpdated.setOwnerName(gymOwner.getOwnerName());
         gymOwnerUpdated.setUsername(gymOwner.getUsername());
         gymOwnerUpdated.setPassword(gymOwner.getPassword());
         gymOwnerUpdated.setEmail(gymOwner.getEmail());
-        gymOwnerUpdated.setGymName(gymOwner.getGymName());
-
-        System.out.println("Profile updated successfully! \n Updated profile is");
-
-        System.out.println("Updated owner name : " + gymOwnerUpdated.getOwnerName());
-        System.out.println("Updated username : " + gymOwnerUpdated.getUsername());
-        System.out.println("Updated password : " + gymOwnerUpdated.getPassword());
-        System.out.println("Updated email : " + gymOwnerUpdated.getEmail());
-        System.out.println("Updated gym name : " + gymOwnerUpdated.getGymName());
-
+        gymOwnerDAO.updateGymOwner(gymOwnerUpdated);
     }
 
-    public String getGymOwnerIdByLoginCreds(String username, String password){
+    public String getGymOwnerIdByLoginCreds(String username, String password) {
         ArrayList<GymOwner> currentGymOwners = gymOwnerDAO.getDummyData();
-        for(GymOwner gymOwner:currentGymOwners){
-            if(gymOwner.getUsername().equals(username) && gymOwner.getPassword().equals(password)){
+        for (GymOwner gymOwner : currentGymOwners) {
+            if (gymOwner.getUsername().equals(username) && gymOwner.getPassword().equals(password)) {
                 return gymOwner.getOwnerId();
             }
         }
         return null;
     }
 
-    public GymOwner getGymOwnerById ( String gymOwnerId) {
-        for(GymOwner gymOwner : gymOwnerDAO.getDummyData()) {
-            if(gymOwner.getOwnerId().equals(gymOwnerId)) {
+    public GymOwner getGymOwnerById(String gymOwnerId) {
+        for (GymOwner gymOwner : gymOwnerDAO.getDummyData()) {
+            if (gymOwner.getOwnerId().equals(gymOwnerId)) {
                 return gymOwner;
             }
         }
-        System.out.println("getGymOwnerById failed");
         return null;
     }
 
-    public GymOwner getGymOwnerByLoginCreds ( String username, String password) {
+    public GymOwner getGymOwnerByLoginCreds(String username, String password) {
         return getGymOwnerById(getGymOwnerIdByLoginCreds(username, password));
     }
 
-    public void onboardGym(int gymOwnerId, int centerId) {
-        // Implementation to onboard a gym for a gym owner
-        // Validate input, check availability, update database, etc.
-        // Example: Save gym registration information
-        // Implementation depends on your specific requirements
-        gymOwnerDAO.onboardGym(gymOwnerId, centerId);
+    public void onboardGym(Center center) {
+        centerDAO.saveCenter(center);
     }
 
-    // Gym Owner-specific method to add a new gym slot
+    public void displayAllGyms(String username, String password) {
+        centerDAO.addDummyDataCenter();
+        String ownerId = getGymOwnerIdByLoginCreds(username, password);
+        System.out.println("\n\nGym name    -     Gym location    -     Gym Id");
+        for (Center center : centerDAO.getDummyData()) {
+            if (center.getOwnerId().equals(ownerId)) {
+                System.out.println(center.getName() + "   -   " + center.getLocation() + "   -   " + center.getCenterId());
+            }
+        }
+    }
+
     public void addGymSlot(Slot slot) {
-        // Example: Validate input parameters
+        slotDAO.addDummyDataSlot();
+
         if (isValidSlot(slot)) {
-            // Example: Check uniqueness
             if (!slotDAO.isSlotAlreadyExists(slot)) {
-                // Example: Save the new slot to the database
                 slotDAO.addSlot(slot);
             } else {
-                // Handle case where the slot already exists
                 System.out.println("Error: Slot already exists.");
             }
         } else {
-            // Handle case where input parameters are not valid
             System.out.println("Error: Invalid slot parameters.");
         }
     }
 
-    // Example: Validation method (customize based on your requirements)
     private boolean isValidSlot(Slot slot) {
-        // Your validation logic here
-        // Check if the time, duration, and other parameters are valid
-        return true; // Placeholder, replace with actual validation logic
+        if (slot.getDate() == null || !isValidDateFormat(slot.getDate())) {
+            System.out.println("Error: Invalid date format. Please enter date in DD/MM/YYYY format.");
+            return false;
+        }
+        return true;
     }
 
-    // Other business methods for gym owners
+    private boolean isValidDateFormat(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat.setLenient(false);
+        try {
+            dateFormat.parse(date);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    public void removeGymSlot(String slotId) {
+        slotDAO.addDummyDataSlot();
+        slotDAO.deleteSlot(slotId);
+    }
+
+    public String getGymOwnerId() {
+        return gymOwnerDAO.getGymOwnerId();
+    }
 }

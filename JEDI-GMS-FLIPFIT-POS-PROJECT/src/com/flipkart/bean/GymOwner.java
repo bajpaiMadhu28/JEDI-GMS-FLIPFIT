@@ -3,15 +3,15 @@ package com.flipkart.bean;
 public class GymOwner extends User {
     private String ownerId;
     private String ownerName;
-    private String gymName;
+    //    private String gymName;
     private String email;
 
     // Constructor
-    public GymOwner( String ownerName, String username, String password, String ownerId, String gymName, String email
+    public GymOwner(String ownerName, String username, String password, String ownerId, String email
     ) {
         super(username, password);
         this.ownerId = ownerId;
-        this.gymName = gymName;
+//        this.gymName = gymName;
         this.ownerName = ownerName;
         this.email = email;
     }
@@ -25,13 +25,6 @@ public class GymOwner extends User {
         this.ownerId = ownerId;
     }
 
-    public String getGymName() {
-        return gymName;
-    }
-
-    public void setGymName(String gymName) {
-        this.gymName = gymName;
-    }
     public String getOwnerName() {
         return ownerName;
     }
