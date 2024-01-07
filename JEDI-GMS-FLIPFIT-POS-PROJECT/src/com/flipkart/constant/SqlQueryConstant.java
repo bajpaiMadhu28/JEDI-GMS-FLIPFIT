@@ -18,5 +18,7 @@ public class SqlQueryConstant {
     public static final String GET_UNAPPROVED_CENTERS_QUERY="Select * From center Where approved is NULL or approved=0";
     public static final String GET_ALL_CENTERS_QUERY="Select * From center";
     public static final String APPROVE_GYM_CENTER="Update center Set approved=1 WHERE id=?";
+    public static final String GET_ALL_UNAPPROVED_SLOTS="Select * From slot Where is_approved is NULL or is_approved=0";
+    public static final String APPROVE_GYM_SLOT="Update slot Set is_approved=1 WHERE id=?";
 
 }

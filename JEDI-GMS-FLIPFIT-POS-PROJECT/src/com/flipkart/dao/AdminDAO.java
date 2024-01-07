@@ -156,6 +156,45 @@ public class AdminDAO {
             //Handle errors for Class.forName
             e.printStackTrace();
         }
+    }
+    public ResultSet getAllUnapprovedSlots(){
+        ResultSet answerSet=null;
+        try{
+            conn = DBUtils.getConnection();
+            stmt = conn.prepareStatement(SqlQueryConstant.GET_ALL_UNAPPROVED_SLOTS);
+            ResultSet output = stmt.executeQuery();
+            answerSet=output;
 
+            //STEP 6: Clean-up environment
+            // rs.close();
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+        return answerSet;
+    }
+
+    public void approveGymSlot(Integer slotId){
+        try{
+            conn = DBUtils.getConnection();
+            stmt = conn.prepareStatement(SqlQueryConstant.APPROVE_GYM_SLOT);
+
+            // Hard coded d
+            //Bind values into the parameters.
+            stmt.setInt(1,slotId);
+            stmt.executeUpdate();
+
+            //STEP 6: Clean-up environment
+            // rs.close();
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
     }
 }

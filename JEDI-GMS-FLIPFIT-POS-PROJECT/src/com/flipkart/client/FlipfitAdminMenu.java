@@ -67,21 +67,8 @@ public class FlipfitAdminMenu {
 //        // Implementation to display the admin menu
 //    }
 
-    public ArrayList<Slot> getUnapprovedSlots() {
-        slotDAO.addDummyDataSlot();
-        ArrayList<Slot> flipfitSlots = slotDAO.getAllDummySlots();
-        ArrayList<Slot> unapprovedCenters = new ArrayList<>();
-        for (Slot slot : flipfitSlots) {
-            if (!slot.getApproved()) {
-                unapprovedCenters.add(slot);
-            }
-        }
-        return unapprovedCenters;
-    }
-
 
     // Method to approve a gym center by ID
-
 
 
 
@@ -137,13 +124,13 @@ public class FlipfitAdminMenu {
                 }
                 System.out.println("----------------------------");
                 int centerId;
-                System.out.println("Enter the ID of the gym center to approve (or 0 to exit");
+                System.out.println("Enter the ID of the gym center to approve");
                 centerId = scanner.nextInt();
                 adminService.approveCenter(centerId);
                 System.out.println("\n \u001B[32mGym center with ID " + centerId + " has been approved.\n\n\u001B[0m");
             }
         } else if (action == 5) {
-            ArrayList<Slot> unapprovedSlots = getUnapprovedSlots();
+            ArrayList<Slot> unapprovedSlots = adminService.getUnapprovedSlots();
             if (unapprovedSlots.isEmpty()) {
                 System.out.println("\u001B[31mNo unapproved gym slots found.\u001B[0m");
             } else {
@@ -156,23 +143,10 @@ public class FlipfitAdminMenu {
                 }
                 System.out.println("\u001B[33m-----------------------------------------------------------------\u001B[0m");
                 int slotId;
-                slotId = 1;
-                while (slotId != 0) {
-                    System.out.println("\u001B[33mEnter the ID of the gym slot to approve (or 0 to exit):\u001B[0m");
-                    slotId = scanner.nextInt();
-                    boolean found = false;
-                    for (Slot slot : unapprovedSlots) {
-                        if (slot.getSlotId() == slotId) {
-                            slot.setApproved(true);
-                            System.out.println("\u001B[32mGym slot with ID " + slotId + " has been approved.\u001B[0m");
-                            found = true;
-                            break; // Exit the loop once the slot is found and approved
-                        }
-                    }
-                    if (!found) {
-                        System.out.println("\u001B[31mGym slot with ID does not exist\u001B[0m");
-                    }
-                }
+                System.out.println("\u001B[33mEnter the ID of the gym slot to approve:\u001B[0m");
+                slotId = scanner.nextInt();
+                adminService.approveSlot(slotId);
+                System.out.println("\u001B[32mGym slot with ID " + slotId + " has been approved.\u001B[0m");
             }
 
             System.out.println("\u001B[32mExiting admin menu.\u001B[0m");
