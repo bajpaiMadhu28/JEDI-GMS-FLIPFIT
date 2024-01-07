@@ -7,6 +7,8 @@ import com.flipkart.bean.Slot;
 import com.flipkart.dao.*;
 import com.flipkart.utils.InputUtils;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,42 +16,27 @@ import java.util.Date;
 import java.util.List;
 
 public class GymOwnerService {
-    private GymOwnerInterfaceDAO gymOwnerDAO = new GymOwnerDAO();
-    private SlotInterfaceDAO slotDAO = new SlotDAO();
-    private CenterInterfaceDAO centerDAO = new CenterDAO();
+    private GymOwnerDAO gymOwnerDAO = new GymOwnerDAO();
+    private SlotDAO slotDAO = new SlotDAO();
+    private CenterDAO centerDAO = new CenterDAO();
+    final String ANSI_RESET = "\u001B[0m";
+    final String ANSI_YELLOW = "\u001B[33m";
+    final String ANSI_GREEN = "\u001B[32m";
 
     public void registerGymOwner(GymOwner gymOwner) {
         gymOwnerDAO.registerGymOwner(gymOwner);
     }
 
     public boolean authenticateGymOwner(String username, String password) {
-        gymOwnerDAO.addDummyDataGymOwner();
-        ArrayList<GymOwner> currentGymOwners = gymOwnerDAO.getDummyData();
-        for (GymOwner gymOwner : currentGymOwners) {
-            if (gymOwner.getUsername().equals(username) && gymOwner.getPassword().equals(password)) {
-                return true;
-            }
-        }
-        return false;
+        return gymOwnerDAO.authenticateGymOwner(username, password);
     }
 
     public void updateGymOwnerProfile(GymOwner gymOwner) {
-        GymOwner gymOwnerUpdated = getGymOwnerById(gymOwner.getOwnerId());
-        gymOwnerUpdated.setOwnerName(gymOwner.getOwnerName());
-        gymOwnerUpdated.setUsername(gymOwner.getUsername());
-        gymOwnerUpdated.setPassword(gymOwner.getPassword());
-        gymOwnerUpdated.setEmail(gymOwner.getEmail());
-        gymOwnerDAO.updateGymOwner(gymOwnerUpdated);
+        gymOwnerDAO.updateGymOwnerInfo(gymOwner);
     }
 
     public String getGymOwnerIdByLoginCreds(String username, String password) {
-        ArrayList<GymOwner> currentGymOwners = gymOwnerDAO.getDummyData();
-        for (GymOwner gymOwner : currentGymOwners) {
-            if (gymOwner.getUsername().equals(username) && gymOwner.getPassword().equals(password)) {
-                return gymOwner.getOwnerId();
-            }
-        }
-        return null;
+        return gymOwnerDAO.getGymOwnerIdByLoginCreds(username, password);
     }
 
     public GymOwner getGymOwnerById(String gymOwnerId) {
@@ -66,40 +53,54 @@ public class GymOwnerService {
     }
 
     public void onboardGym(Center center) {
-        centerDAO.saveCenter(center);
+        gymOwnerDAO.addGymCenter(center);
     }
 
     public void displayAllGyms(String username, String password) {
-        centerDAO.addDummyDataCenter();
         String ownerId = getGymOwnerIdByLoginCreds(username, password);
-        System.out.println("\n\nGym name    -     Gym location    -     Gym Id");
-        for (Center center : centerDAO.getDummyData()) {
-            if (center.getOwnerId().equals(ownerId)) {
-                System.out.println(center.getName() + "   -   " + center.getLocation() + "   -   " + center.getCenterId());
+        ResultSet centerInfo = gymOwnerDAO.getCentersForOwner(ownerId);
+        ArrayList<Center> centerList = new ArrayList<Center>();
+
+        try {
+            while (centerInfo.next()) {
+                Center centerToShow = new Center(centerInfo.getInt(1), centerInfo.getString(2), centerInfo.getString(3), centerInfo.getString(4));
+                Integer isApproved = centerInfo.getInt(5);
+                if (isApproved == 1) {
+                    centerToShow.setApproved(true);
+                } else {
+                    centerToShow.setApproved(false);
+                }
+                centerList.add(centerToShow);
             }
+        } catch (SQLException sqlExcep) {
+            System.out.println(sqlExcep);
         }
+
+
+
+// Assuming centerList is the list of Center objects to be displayed in tabular format
+
+// Print table header
+        System.out.println(ANSI_YELLOW + "------------------------------------------------------------");
+        System.out.printf("| %-10s | %-20s | %-20s |%n", "Center ID", "Center Name", "Center Location");
+        System.out.println("------------------------------------------------------------" + ANSI_RESET);
+
+// Loop through the list and display each center in tabular format
+        for (Center center : centerList) {
+            System.out.printf("| %-10s | %-20s | %-20s |%n", center.getCenterId(), center.getName(), center.getLocation());
+        }
+
+// Print table footer
+        System.out.println(ANSI_YELLOW + "------------------------------------------------------------" + ANSI_RESET);
     }
 
     public void addGymSlot(Slot slot) {
         slotDAO.addDummyDataSlot();
-
-        if (isValidSlot(slot)) {
-            if (!slotDAO.isSlotAlreadyExists(slot)) {
-                slotDAO.addSlot(slot);
-            } else {
-                System.out.println("Error: Slot already exists.");
-            }
+        if (!slotDAO.isSlotAlreadyExists(slot)) {
+            slotDAO.addSlot(slot);
         } else {
-            System.out.println("Error: Invalid slot parameters.");
+            System.out.println("Error: Slot already exists.");
         }
-    }
-
-    private boolean isValidSlot(Slot slot) {
-        if (slot.getDate() == null || !isValidDateFormat(slot.getDate())) {
-            System.out.println("Error: Invalid date format. Please enter date in DD/MM/YYYY format.");
-            return false;
-        }
-        return true;
     }
 
     private boolean isValidDateFormat(String date) {

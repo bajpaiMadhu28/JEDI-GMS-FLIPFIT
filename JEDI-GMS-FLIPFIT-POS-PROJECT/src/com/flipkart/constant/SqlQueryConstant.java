@@ -20,5 +20,11 @@ public class SqlQueryConstant {
     public static final String APPROVE_GYM_CENTER="Update center Set approved=1 WHERE id=?";
     public static final String GET_ALL_UNAPPROVED_SLOTS="Select * From slot Where is_approved is NULL or is_approved=0";
     public static final String APPROVE_GYM_SLOT="Update slot Set is_approved=1 WHERE id=?";
+    public static final String INSERT_GYM_OWNER_QUERY = "INSERT INTO gym_owner(name,username,password,email) values(?, ?, ?, ?)";
+    public static final String AUTHENTICATE_GYM_OWNER="Select * From gym_owner Where username=? AND password=?";
+    public static final String GET_GYM_OWNER_BY_LOGIN_CREDS="Select * From gym_owner Where username=? AND password=?";
+    public static final String GET_CENTERS_FOR_GYM_OWNER="Select * From center Where owner_id=?";
+    public static final String UPDATE_GYM_OWNER_INFO="Update gym_owner Set name=?,username=?,password=?,email=? WHERE id=?";
+    public static final String INSERT_GYM_CENTER_QUERY = "INSERT INTO center(name,location,owner_id) values(?, ?, ?)";
 
 }
