@@ -116,4 +116,46 @@ public class AdminDAO {
         }
         return answerSet;
     }
+
+    public ResultSet getAllGymCenters(){
+        ResultSet answerSet=null;
+        try{
+            conn = DBUtils.getConnection();
+            stmt = conn.prepareStatement(SqlQueryConstant.GET_ALL_CENTERS_QUERY);
+            ResultSet output = stmt.executeQuery();
+            answerSet=output;
+
+            //STEP 6: Clean-up environment
+            // rs.close();
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+        return answerSet;
+    }
+
+    public void approveGymCenter(Integer centerId){
+        try{
+            conn = DBUtils.getConnection();
+            stmt = conn.prepareStatement(SqlQueryConstant.APPROVE_GYM_CENTER);
+
+            // Hard coded d
+            //Bind values into the parameters.
+            stmt.setInt(1,centerId);
+            stmt.executeUpdate();
+
+            //STEP 6: Clean-up environment
+            // rs.close();
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+
+    }
 }

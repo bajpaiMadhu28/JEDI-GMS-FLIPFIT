@@ -16,5 +16,7 @@ public class SqlQueryConstant {
     public static final String REGISTER_ADMIN="INSERT INTO admin(department,username,password) values(?, ?, ?)";
     public static final String AUTHENTICATE_ADMIN="Select * From admin Where username=? AND password=?";
     public static final String GET_UNAPPROVED_CENTERS_QUERY="Select * From center Where approved is NULL or approved=0";
+    public static final String GET_ALL_CENTERS_QUERY="Select * From center";
+    public static final String APPROVE_GYM_CENTER="Update center Set approved=1 WHERE id=?";
 
 }

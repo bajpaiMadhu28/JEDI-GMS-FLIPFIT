@@ -27,6 +27,29 @@ public class AdminService {
     }
 
     public ArrayList<Center> getAllGymCenters() {
+        ResultSet centerInfo= adminDAO.getAllGymCenters();
+        ArrayList<Center> centerList= new ArrayList<Center>();
+
+        try{
+            while (centerInfo.next()){
+                Center centerToShow=new Center(centerInfo.getInt(1),centerInfo.getString(2),centerInfo.getString(3),centerInfo.getString(4));
+                Integer isApproved=centerInfo.getInt(5);
+                if(isApproved==1){
+                    centerToShow.setApproved(true);
+                }
+                else{
+                    centerToShow.setApproved(false);
+                }
+                centerList.add(centerToShow);
+            }
+        }catch(SQLException sqlExcep) {
+            System.out.println(sqlExcep);
+        }
+
+        return centerList;
+    }
+
+    public ArrayList<Center> getAllUnapprovedGymCenters() {
         ResultSet centerInfo= adminDAO.getAllUnapprovedCenters();
         ArrayList<Center> centerList= new ArrayList<Center>();
 
@@ -47,6 +70,12 @@ public class AdminService {
         }
 
         return centerList;
+    }
+
+    public void approveCenter(Integer centerId){
+        adminDAO.approveGymCenter(centerId);
+
+
     }
 
     // Other business methods

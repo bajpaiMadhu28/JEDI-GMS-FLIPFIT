@@ -81,17 +81,7 @@ public class FlipfitAdminMenu {
 
 
     // Method to approve a gym center by ID
-    public ArrayList<Center> getUnapprovedGymCenters() {
-        centerDAO.addDummyDataCenter();
-        ArrayList<Center> flipfitCenters = centerDAO.getDummyData();
-        ArrayList<Center> unapprovedCenters = new ArrayList<>();
-        for (Center center : flipfitCenters) {
-            if (!center.isApproved()) {
-                unapprovedCenters.add(center);
-            }
-        }
-        return unapprovedCenters;
-    }
+
 
 
 
@@ -112,7 +102,7 @@ public class FlipfitAdminMenu {
         if (action == 1) {
             ArrayList<Center> allGymCenters = adminService.getAllGymCenters();
             if (allGymCenters.isEmpty()) {
-                displayErrorMessage("No unapproved gym centers found.");
+                displayErrorMessage("No gym centers found.");
             } else {
                 displaySuccessMessage("all Gym Centers:");
                 displayTableMessage("----------------------------");
@@ -131,7 +121,7 @@ public class FlipfitAdminMenu {
 
 
         } else if (action == 7) {
-            ArrayList<Center> unapprovedCenters = getUnapprovedGymCenters();
+            ArrayList<Center> unapprovedCenters = adminService.getAllUnapprovedGymCenters();
             if (unapprovedCenters.isEmpty()) {
                 displayErrorMessage("No unapproved gym centers found.");
             } else {
@@ -147,24 +137,10 @@ public class FlipfitAdminMenu {
                 }
                 System.out.println("----------------------------");
                 int centerId;
-                centerId = 1;
-                while (centerId != 0) {
-                    System.out.println("Enter the ID of the gym center to approve (or 0 to exit");
-                    centerId = scanner.nextInt();
-                    boolean f = false;
-                    for (Center center : unapprovedCenters) {
-                        if (center.getCenterId() == centerId) {
-                            f = true;
-                            center.setApproved(true);
-                            System.out.println("\n \u001B[32mGym center with ID " + centerId + " has been approved.\n\n\u001B[0m");
-                            break; // Exit the loop once the center is found and approved
-                        }
-                    }
-                    if (f == false) {
-                        System.out.println("\u001B[31mNo centre for the given centreID\u001B[0m");
-                    }
-
-                }
+                System.out.println("Enter the ID of the gym center to approve (or 0 to exit");
+                centerId = scanner.nextInt();
+                adminService.approveCenter(centerId);
+                System.out.println("\n \u001B[32mGym center with ID " + centerId + " has been approved.\n\n\u001B[0m");
             }
         } else if (action == 5) {
             ArrayList<Slot> unapprovedSlots = getUnapprovedSlots();
