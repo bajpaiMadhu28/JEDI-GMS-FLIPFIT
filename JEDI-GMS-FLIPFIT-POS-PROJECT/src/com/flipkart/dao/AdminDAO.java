@@ -11,7 +11,7 @@ import com.flipkart.bean.Customer;
 import com.flipkart.constant.SqlQueryConstant;
 import com.flipkart.utils.DBUtils;
 
-public class AdminDAO {
+public class AdminDAO implements AdminDAOInterface {
 
     ArrayList<Admin> flipfitAdmin = new ArrayList<Admin>();
     Connection conn = null;

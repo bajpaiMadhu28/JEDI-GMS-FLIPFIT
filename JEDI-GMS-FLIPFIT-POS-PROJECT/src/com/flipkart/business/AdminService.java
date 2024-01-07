@@ -5,6 +5,7 @@ import com.flipkart.bean.Center;
 import com.flipkart.bean.Customer;
 import com.flipkart.bean.Slot;
 import com.flipkart.dao.AdminDAO;
+import com.flipkart.dao.AdminDAOInterface;
 import com.flipkart.dao.SlotDAO;
 
 import java.sql.ResultSet;
@@ -13,11 +14,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class AdminService {
-    private AdminDAO adminDAO;
+    private AdminDAOInterface adminDAO;
     private SlotDAO slotDAO=new SlotDAO();
 
     // Constructor
-    public AdminService(AdminDAO adminDAO) {
+    public AdminService(AdminDAOInterface adminDAO) {
         this.adminDAO = adminDAO;
     }
 

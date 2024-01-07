@@ -25,7 +25,7 @@ public class FlipfitAdminMenu {
     //    private CenterDAO centerDAO;
     private PaymentService paymentService;
     private SlotService slotService;
-    private AdminDAO adminDAO = new AdminDAO();
+    private AdminDAOInterface adminDAO = new AdminDAO();
 
     private SlotDAO slotDAO = new SlotDAO();
 
@@ -163,7 +163,6 @@ public class FlipfitAdminMenu {
 
 // Print centered text in blue color
         System.out.println(String.format("%" + padding + "s%s%" + padding + "s", "", text, ""));
-        adminDAO.addDummyAdminData();
         if (adminService.authenticateAdmin(username, password)) {
             displayLoggedInAdminMenu();
         } else {
@@ -186,9 +185,8 @@ public class FlipfitAdminMenu {
         String password = inputUtils.getStringInput("Enter your password: ");
         String department = inputUtils.getStringInput("Enter your department: ");
 
-        String adminId = adminDAO.getAdminID();
 
-        Admin admin = new Admin(username, password, adminId, department);
+        Admin admin = new Admin(username, password, null, department);
         adminService.registerAdmin(admin);
 
 
