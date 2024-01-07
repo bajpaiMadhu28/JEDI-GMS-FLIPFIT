@@ -138,9 +138,10 @@ public class SlotDAO {
     }
 
     // Book a slot for a customer
-    public void bookSlot(Slot slot) {
+    public Boolean bookSlot(Slot slot) {
         // Implementation to book a slot
         // Validate input, check availability, update database, etc.
+        Boolean bookedSuccessfully=true;
         try{
             conn = DBUtils.getConnection();
             stmt = conn.prepareStatement(SqlQueryConstant.BOOK_SLOT);
@@ -159,7 +160,9 @@ public class SlotDAO {
         }catch(Exception e){
             //Handle errors for Class.forName
             e.printStackTrace();
+            bookedSuccessfully=false;
         }
+        return bookedSuccessfully;
     }
 
     // Update the waitlist for a slot
