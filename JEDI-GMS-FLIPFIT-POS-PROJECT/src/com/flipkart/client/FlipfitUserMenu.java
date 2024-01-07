@@ -16,6 +16,10 @@ public class FlipfitUserMenu {
         this.gymOwnerMenu = gymOwnerMenu;
     }
 
+    public FlipfitUserMenu() {
+
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -30,13 +34,26 @@ public class FlipfitUserMenu {
 
     // Display the main user menu
     public void displayMenu() {
-        System.out.println("Welcome to Flipfit !");
-        System.out.println("1. Login");
+        String boldBlue = "\033[1;34m"; // Bold: \033[1m, Blue: \033[34m
+        String reset = "\033[0m"; // Reset to default
+
+        // Text to be centered
+        String text = "! WELCOME TO FLIPFIT !";
+        int screenWidth = 80; // Adjust this value based on your console width
+
+        // Calculate padding for centering text
+        int padding = (screenWidth - text.length()) / 2;
+        String paddingString = new String(new char[padding]).replace("\0", " ");
+
+        // Output centered text in bold and blue color
+        System.out.println(paddingString + boldBlue + text + reset);
+        // Output in bold and blue color
+        System.out.println("\n1. Login");
         System.out.println("2. Registration");
         System.out.println("3. Update Password");
-        System.out.println("4. Exit");
+        System.out.println("4. Exit\n");
 
-        int choice = getIntInput("Enter your choice: ");
+        int choice = getIntInput("\nEnter your choice: \n");
 
         switch (choice) {
             case 1:
@@ -49,7 +66,7 @@ public class FlipfitUserMenu {
                 updatePasswordMenu();
                 break;
             case 4:
-                System.out.println("Exiting Flipfit. Goodbye!");
+                System.out.println("\nExiting Flipfit. Goodbye!\n");
                 break;
             default:
                 System.out.println("Invalid choice. Please try again.");
@@ -57,12 +74,13 @@ public class FlipfitUserMenu {
         }
     }
 
+
     // Login menu
-    private void loginMenu() {
+    void loginMenu() {
         // Get username, password, and role from the user
         String username = getStringInput("Enter your username: ");
         String password = getStringInput("Enter your password: ");
-        int role = getIntInput("Enter your role (1 for Customer, 2 for GymOwner, 3 for Admin): ");
+        int role = getIntInput("Enter your role : \n1 for Customer, \n2 for GymOwner, \n3 for Admin\n ");
 
         // Based on the role, display the corresponding menu
         switch (role) {
@@ -85,7 +103,23 @@ public class FlipfitUserMenu {
     private void registrationMenu() {
         // Implementation for user registration
         // You can add logic to register a new user
-        System.out.println("Registration menu placeholder.");
+        int role = getIntInput("Enter your role : \n1 for Customer, \n2 for GymOwner, \n3 for Admin\n ");
+
+        // Based on the role, display the corresponding menu
+        switch (role) {
+            case 1:
+                customerMenu.displayRegistrationMenu();
+                break;
+            case 2:
+                gymOwnerMenu.displayRegistrationMenu();
+                break;
+            case 3:
+                adminMenu.displayAdminRegistrationMenu();
+                break;
+            default:
+                System.out.println("Invalid role. Please try again.");
+                registrationMenu();
+        }
     }
 
     // Update password menu

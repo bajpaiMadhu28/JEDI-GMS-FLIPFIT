@@ -1,5 +1,6 @@
 package com.flipkart.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Slot {
@@ -7,6 +8,13 @@ public class Slot {
     private Date date;
     private String time;
     private Integer centerId;
+    private boolean isAvailable;
+    private ArrayList<String> waitlistedCustomerIds;
+    private String customerId;
+
+    private boolean isApproved;
+
+
 
     // Constructor
     public Slot(Integer slotId, Date date, String time, Integer centerId) {
@@ -14,6 +22,10 @@ public class Slot {
         this.date = date;
         this.time = time;
         this.centerId = centerId;
+        this.isAvailable=true;
+        this.waitlistedCustomerIds=new ArrayList<String>();
+        this.customerId=null;
+        this.isApproved = false;
     }
 
     // Getter and setter methods
@@ -47,5 +59,40 @@ public class Slot {
 
     public void setCenterId(Integer centerId) {
         this.centerId = centerId;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    public ArrayList<String> getWaitlistedCustomerIds() {
+        return waitlistedCustomerIds;
+    }
+
+    public void addWaitlistedCustomerIds(String customerId) {
+        waitlistedCustomerIds.add(customerId);
+    }
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public Boolean getApproved() {
+        return isApproved;
+    }
+
+    public void setApproved(Boolean approved) {
+        isApproved = approved;
+    }
+
+    public void setWaitlistedCustomerIds(ArrayList<String> waitlistedCustomerIds) {
+        this.waitlistedCustomerIds = waitlistedCustomerIds;
     }
 }
