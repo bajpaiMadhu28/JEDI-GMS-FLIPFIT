@@ -20,7 +20,7 @@ public class InputUtils {
     // Utility method to get string input from the user
     public String getStringInput(String prompt) {
         System.out.print(prompt);
-        return scanner.next();
+        return scanner.nextLine();
     }
 
     // Utility method to get date input from the user

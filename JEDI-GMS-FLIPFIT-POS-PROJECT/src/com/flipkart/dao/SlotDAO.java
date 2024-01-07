@@ -51,7 +51,7 @@ public class SlotDAO implements SlotInterfaceDAO {
 
     public Integer getSlotId() {
         int newSlotId = slots.size();
-        return ++newSlotId;
+        return (newSlotId + 1);
     }
 
     // Retrieve Slot details by slotId

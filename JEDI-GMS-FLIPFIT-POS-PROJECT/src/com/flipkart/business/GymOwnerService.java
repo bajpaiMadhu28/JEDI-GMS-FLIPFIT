@@ -70,9 +70,11 @@ public class GymOwnerService {
     }
 
     public void displayAllGyms(String username, String password) {
-        centerDAO.addDummyDataCenter();
+//        centerDAO.addDummyDataCenter();
         String ownerId = getGymOwnerIdByLoginCreds(username, password);
         System.out.println("\n\nGym name    -     Gym location    -     Gym Id");
+//        System.out.println("Center size = "+ centerDAO.getDummyData().size());
+
         for (Center center : centerDAO.getDummyData()) {
             if (center.getOwnerId().equals(ownerId)) {
                 System.out.println(center.getName() + "   -   " + center.getLocation() + "   -   " + center.getCenterId());
@@ -120,5 +122,9 @@ public class GymOwnerService {
 
     public String getGymOwnerId() {
         return gymOwnerDAO.getGymOwnerId();
+    }
+
+    public void addGymsToDummyData() {
+        centerDAO.addDummyDataCenter();
     }
 }

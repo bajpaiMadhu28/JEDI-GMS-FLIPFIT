@@ -22,7 +22,7 @@ public class FlipfitCustomerMenu {
     private CenterService centerService = new CenterService();
     private PaymentService paymentService;
     private SlotDAO slotDAO = new SlotDAO();
-    private SlotService slotService = new SlotService(slotDAO);
+    private SlotService slotService = new SlotService();
 
     private String customerId;
     InputUtils inputUtils = new InputUtils();

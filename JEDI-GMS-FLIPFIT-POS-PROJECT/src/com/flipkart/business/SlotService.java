@@ -10,12 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SlotService {
-    private SlotInterfaceDAO slotDAO;
-
-    // Constructor
-    public SlotService(SlotInterfaceDAO slotDAO) {
-        this.slotDAO = slotDAO;
-    }
+    private SlotInterfaceDAO slotDAO = new SlotDAO();
 
     // Business logic methods for slots
 
@@ -80,12 +75,16 @@ public class SlotService {
     }
 
     public ArrayList<Slot> getAllDummySlots() {
-        slotDAO.addDummyDataSlot();
+//        System.out.println("Slot Array size = " + slotDAO.getAllDummySlots().size());
         return slotDAO.getAllDummySlots();
     }
 
     public Integer getSlotId() {
         return slotDAO.getSlotId();
+    }
+
+    public void addDummyDataSlots() {
+        slotDAO.addDummyDataSlot();
     }
 
     // Other business methods

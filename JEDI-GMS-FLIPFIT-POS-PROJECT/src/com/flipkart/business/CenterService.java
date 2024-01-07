@@ -25,7 +25,8 @@ public class CenterService {
     }
 
     public Center getCenterByOwnerId(String ownerId) {
-        centerDAO.addDummyDataCenter();;
+//        centerDAO.addDummyDataCenter();;
+//        System.out.println(centerDAO.getDummyData());
         for (Center center : centerDAO.getDummyData()) {
             if (center.getOwnerId().equals(ownerId)) {
                 return center;
@@ -65,6 +66,10 @@ public class CenterService {
 
     public Integer getCenterId() {
         return centerDAO.getCenterId();
+    }
+
+    public void addDummyDataCenter() {
+        centerDAO.addDummyDataCenter();
     }
 
     // Other business methods
