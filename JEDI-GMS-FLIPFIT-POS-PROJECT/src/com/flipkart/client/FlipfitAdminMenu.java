@@ -11,12 +11,15 @@ import com.flipkart.dao.*;
 import com.flipkart.business.AdminService;
 import com.flipkart.business.PaymentService;
 import com.flipkart.business.SlotService;
+import com.flipkart.exception.AuthenticationFailedException;
+import com.flipkart.exception.InvalidMenuOptionException;
 import com.flipkart.utils.InputUtils;
 import com.flipkart.dao.BookingDAO;
 import com.flipkart.dao.CenterDAO;
 import com.flipkart.dao.AdminDAO;
 import com.flipkart.dao.SlotDAO;
 import com.flipkart.utils.InputUtils;
+
 
 public class FlipfitAdminMenu {
     private Scanner scanner;
@@ -97,7 +100,6 @@ public class FlipfitAdminMenu {
 
     // Display unapproved gym centers and approve by ID
     private void displayLoggedInAdminMenu() {
-//        System.out.println("\u001B[34m\n1 - Approve Gym Center\n2 - approve Slots\u001B[0m");
         System.out.println("1. View All Gyms");
         System.out.println("2. View All Gym Owners");
         System.out.println("3. View Pending Gym Owner Requests");
@@ -107,101 +109,109 @@ public class FlipfitAdminMenu {
         System.out.println("7. Approve Single Gym Request ");
         System.out.println("8. Approve All Gym Requests");
         System.out.println("9. Exit");
+
         Scanner scanner = new Scanner(System.in);
         int action = scanner.nextInt();
-        if (action == 1) {
-            ArrayList<Center> allGymCenters = adminService.getAllGymCenters();
-            if (allGymCenters.isEmpty()) {
-                displayErrorMessage("No unapproved gym centers found.");
-            } else {
-                displaySuccessMessage("all Gym Centers:");
-                displayTableMessage("----------------------------");
-                System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m |%n", "Center ID", "Name");
-                displayTableMessage("----------------------------");
-                for (Center center : allGymCenters) {
-                    System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m |%n", center.getCenterId(), center.getName());
+        try {
+            switch (action) {
+                case 1:
+                    ArrayList<Center> allGymCenters = adminService.getAllGymCenters();
+                    if (allGymCenters.isEmpty()) {
+                        displayErrorMessage("No unapproved gym centers found.");
+                    } else {
+                        displaySuccessMessage("all Gym Centers:");
+                        displayTableMessage("----------------------------");
+                        System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m |%n", "Center ID", "Name");
+                        displayTableMessage("----------------------------");
+                        for (Center center : allGymCenters) {
+                            System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m |%n", center.getCenterId(), center.getName());
+                            displayTableMessage("----------------------------");
+                        }
+                        System.out.println("----------------------------");
+                    }
+                    break;
 
-                    displayTableMessage("----------------------------");
+                case 2:
+                    // Your code for option 2
+                    break;
 
-                }
-                System.out.println("----------------------------");
-            }
-        } else if (action == 2) {
+                case 7:
+                    ArrayList<Center> unapprovedCenters = getUnapprovedGymCenters();
+                    if (unapprovedCenters.isEmpty()) {
+                        displayErrorMessage("No unapproved gym centers found.");
+                    } else {
+                        displaySuccessMessage("Unapproved Gym Centers:");
+                        displayTableMessage("----------------------------");
+                        System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m |%n", "Center ID", "Name");
+                        displayTableMessage("----------------------------");
+                        for (Center center : unapprovedCenters) {
+                            System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m |%n", center.getCenterId(), center.getName());
+                            displayTableMessage("----------------------------");
+                        }
+                        System.out.println("----------------------------");
 
-
-
-        } else if (action == 7) {
-            ArrayList<Center> unapprovedCenters = getUnapprovedGymCenters();
-            if (unapprovedCenters.isEmpty()) {
-                displayErrorMessage("No unapproved gym centers found.");
-            } else {
-                displaySuccessMessage("Unapproved Gym Centers:");
-                displayTableMessage("----------------------------");
-                System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m |%n", "Center ID", "Name");
-                displayTableMessage("----------------------------");
-                for (Center center : unapprovedCenters) {
-                    System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m |%n", center.getCenterId(), center.getName());
-
-                    displayTableMessage("----------------------------");
-
-                }
-                System.out.println("----------------------------");
-                int centerId;
-                centerId = 1;
-                while (centerId != 0) {
-                    System.out.println("Enter the ID of the gym center to approve (or 0 to exit");
-                    centerId = scanner.nextInt();
-                    boolean f = false;
-                    for (Center center : unapprovedCenters) {
-                        if (center.getCenterId() == centerId) {
-                            f = true;
-                            center.setApproved(true);
-                            System.out.println("\n \u001B[32mGym center with ID " + centerId + " has been approved.\n\n\u001B[0m");
-                            break; // Exit the loop once the center is found and approved
+                        int centerId = 1;
+                        while (centerId != 0) {
+                            System.out.println("Enter the ID of the gym center to approve (or 0 to exit)");
+                            centerId = scanner.nextInt();
+                            boolean f = false;
+                            for (Center center : unapprovedCenters) {
+                                if (center.getCenterId() == centerId) {
+                                    f = true;
+                                    center.setApproved(true);
+                                    System.out.println("\n \u001B[32mGym center with ID " + centerId + " has been approved.\n\n\u001B[0m");
+                                    break;
+                                }
+                            }
+                            if (!f) {
+                                System.out.println("\u001B[31mNo centre for the given centreID\u001B[0m");
+                            }
                         }
                     }
-                    if (f == false) {
-                        System.out.println("\u001B[31mNo centre for the given centreID\u001B[0m");
-                    }
+                    break;
 
-                }
-            }
-        } else if (action == 5) {
-            ArrayList<Slot> unapprovedSlots = getUnapprovedSlots();
-            if (unapprovedSlots.isEmpty()) {
-                System.out.println("\u001B[31mNo unapproved gym slots found.\u001B[0m");
-            } else {
-                System.out.println("\u001B[32mUnapproved Gym Slots:\u001B[0m");
-                System.out.println("\u001B[33m-----------------------------------------------------------------\u001B[0m");
-                System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m | \u001B[33m%-15s\u001B[0m |\n", "Centre ID", "Name", "Slot ID");
-                System.out.println("\u001B[33m-----------------------------------------------------------------\u001B[0m");
-                for (Slot slot : unapprovedSlots) {
-                    System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m | \u001B[33m%-15s\u001B[0m |\n", slot.getCenterId(), slot.getTime(), slot.getSlotId());
-                }
-                System.out.println("\u001B[33m-----------------------------------------------------------------\u001B[0m");
-                int slotId;
-                slotId = 1;
-                while (slotId != 0) {
-                    System.out.println("\u001B[33mEnter the ID of the gym slot to approve (or 0 to exit):\u001B[0m");
-                    slotId = scanner.nextInt();
-                    boolean found = false;
-                    for (Slot slot : unapprovedSlots) {
-                        if (slot.getSlotId() == slotId) {
-                            slot.setApproved(true);
-                            System.out.println("\u001B[32mGym slot with ID " + slotId + " has been approved.\u001B[0m");
-                            found = true;
-                            break; // Exit the loop once the slot is found and approved
+                case 5:
+                    ArrayList<Slot> unapprovedSlots = getUnapprovedSlots();
+                    if (unapprovedSlots.isEmpty()) {
+                        System.out.println("\u001B[31mNo unapproved gym slots found.\u001B[0m");
+                    } else {
+                        System.out.println("\u001B[32mUnapproved Gym Slots:\u001B[0m");
+                        System.out.println("\u001B[33m-----------------------------------------------------------------\u001B[0m");
+                        System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m | \u001B[33m%-15s\u001B[0m |\n", "Centre ID", "Name", "Slot ID");
+                        System.out.println("\u001B[33m-----------------------------------------------------------------\u001B[0m");
+                        for (Slot slot : unapprovedSlots) {
+                            System.out.printf("| \u001B[33m%-10s\u001B[0m | \u001B[33m%-15s\u001B[0m | \u001B[33m%-15s\u001B[0m |\n", slot.getCenterId(), slot.getTime(), slot.getSlotId());
+                        }
+                        System.out.println("\u001B[33m-----------------------------------------------------------------\u001B[0m");
+
+                        int slotId = 1;
+                        while (slotId != 0) {
+                            System.out.println("\u001B[33mEnter the ID of the gym slot to approve (or 0 to exit):\u001B[0m");
+                            slotId = scanner.nextInt();
+                            boolean found = false;
+                            for (Slot slot : unapprovedSlots) {
+                                if (slot.getSlotId() == slotId) {
+                                    slot.setApproved(true);
+                                    System.out.println("\u001B[32mGym slot with ID " + slotId + " has been approved.\u001B[0m");
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found) {
+                                System.out.println("\u001B[31mGym slot with ID does not exist\u001B[0m");
+                            }
                         }
                     }
-                    if (!found) {
-                        System.out.println("\u001B[31mGym slot with ID does not exist\u001B[0m");
-                    }
-                }
-            }
+                    System.out.println("\u001B[32mExiting admin menu.\u001B[0m");
+                    break;
 
-            System.out.println("\u001B[32mExiting admin menu.\u001B[0m");
+                default:
+                    throw new InvalidMenuOptionException("Invalid menu option: " + action);
+            }
+        }catch(InvalidMenuOptionException e){
+                System.out.println(e.getMessage());
+            }
         }
-    }
 
 
     public void displayMenu(String username, String password) {
@@ -213,15 +223,19 @@ public class FlipfitAdminMenu {
 
 // Print centered text in blue color
         System.out.println(String.format("%" + padding + "s%s%" + padding + "s", "", text, ""));
-        adminDAO.addDummyAdminData();
-        if (adminService.authenticateAdmin(username, password)) {
-            displayLoggedInAdminMenu();
-        } else {
-            System.out.println("Incorrect Credentials");
+        try {
+            adminDAO.addDummyAdminData();
+            if (adminService.authenticateAdmin(username, password)) {
+                displayLoggedInAdminMenu();
+            } else {
+                throw new AuthenticationFailedException("Incorrect Credentials");
+            }
+        } catch (AuthenticationFailedException e) {
+            System.out.println("Authentication failed: " + e.getMessage());
         }
-
-        // Implementation to display the customer menu
     }
+        // Implementation to display the customer menu
+
 
     public void displayAdminRegistrationMenu() {
         String text = "\u001B[34mAdmin Registration Menu !!!\u001B[0m";

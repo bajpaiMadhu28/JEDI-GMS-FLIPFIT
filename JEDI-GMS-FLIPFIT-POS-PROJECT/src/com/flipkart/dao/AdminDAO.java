@@ -9,9 +9,10 @@ import java.util.List;
 import com.flipkart.bean.Admin;
 import com.flipkart.bean.Customer;
 import com.flipkart.constant.SqlQueryConstant;
+import com.flipkart.exception.InvalidCredentialsException;
 import com.flipkart.utils.DBUtils;
 
-public class AdminDAO {
+public class AdminDAO implements AdminDAOInterface{
 
     ArrayList<Admin> flipfitAdmin = new ArrayList<Admin>();
     Connection conn = null;
@@ -60,42 +61,33 @@ public class AdminDAO {
         return flipfitAdmin;
     }
 
-    public boolean authenticateAdmin(String username,String password){
-        boolean isAuthenticated=false;
-        try{
-
-            // Step 4 make/open  a connection
-
-            //			      System.out.println("Connecting to database...");
+    public boolean authenticateAdmin(String username, String password) {
+        boolean isAuthenticated = false;
+        try {
             conn = DBUtils.getConnection();
-
-            //STEP 4: Execute a query
-            //			      System.out.println("Creating statement...");
-            //String sql = "UPDATE Employees set age=? WHERE id=?";
-            // String sql1="delete from employee where id=?";
-            // stmt.setInt(1, 101);
             stmt = conn.prepareStatement(SqlQueryConstant.AUTHENTICATE_ADMIN);
 
-            // Hard coded d
-            //Bind values into the parameters.
+            // Hard coded
+            // Bind values into the parameters.
             stmt.setString(1, username);
             stmt.setString(2, password);
 
             ResultSet output = stmt.executeQuery();
-            if(output.next()) {
-                isAuthenticated=true;
+            if (output.next()) {
+                isAuthenticated = true;
+            } else {
+                throw new InvalidCredentialsException("Invalid admin credentials.");
             }
-            //STEP 6: Clean-up environment
-            // rs.close();
-        }catch(SQLException se){
-            //Handle errors for JDBC
+        } catch (SQLException se) {
+            // Handle errors for JDBC
             se.printStackTrace();
-        }catch(Exception e){
-            //Handle errors for Class.forName
+        } catch (Exception e) {
+            // Handle errors for Class.forName
             e.printStackTrace();
         }
         return isAuthenticated;
     }
+
 
     public ResultSet getAllUnapprovedCenters(){
         ResultSet answerSet=null;
