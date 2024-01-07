@@ -30,7 +30,7 @@ public class FlipfitAdminMenu {
     private SlotDAO slotDAO = new SlotDAO();
 
     private CenterDAO centerDAO = new CenterDAO();
-    private AdminService adminService = new AdminService(adminDAO);
+    private AdminServiceInterface adminService = new AdminService(adminDAO);
 
     InputUtils inputUtils = new InputUtils();
 

@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AdminService {
+public class AdminService implements AdminServiceInterface {
     private AdminDAOInterface adminDAO;
     private SlotDAO slotDAO=new SlotDAO();
 
