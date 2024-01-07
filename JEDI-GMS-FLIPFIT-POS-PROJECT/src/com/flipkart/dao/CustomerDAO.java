@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import com.flipkart.utils.DBUtils;
 
-public class CustomerDAO {
+public class CustomerDAO implements CustomerDAOInterface {
     ArrayList<Customer> flipfitCustomers = new ArrayList<Customer>();
     static Integer customerId=0;
     Connection conn = null;

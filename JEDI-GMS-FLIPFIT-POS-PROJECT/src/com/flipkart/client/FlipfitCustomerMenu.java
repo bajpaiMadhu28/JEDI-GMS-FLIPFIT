@@ -7,16 +7,13 @@ import com.flipkart.business.CenterService;
 import com.flipkart.business.CustomerService;
 import com.flipkart.business.PaymentService;
 import com.flipkart.business.SlotService;
-import com.flipkart.dao.BookingDAO;
-import com.flipkart.dao.CenterDAO;
-import com.flipkart.dao.CustomerDAO;
-import com.flipkart.dao.SlotDAO;
+import com.flipkart.dao.*;
 import com.flipkart.utils.InputUtils;
 
 public class FlipfitCustomerMenu {
     private Scanner scanner;
     private BookingDAO bookingDAO = new BookingDAO();
-    private CustomerDAO customerDAO=new CustomerDAO();
+    private CustomerDAOInterface customerDAO=new CustomerDAO();
     private CenterDAO centerDAO=new CenterDAO();
     private CustomerService customerService=new CustomerService(customerDAO,bookingDAO);
     private CenterService centerService=new CenterService(centerDAO);
@@ -113,7 +110,6 @@ public class FlipfitCustomerMenu {
     }
     public void displayMenu(String username, String password) {
         System.out.println("\u001B[36mYou are inside Customer Menu !!!\u001B[0m");
-        customerDAO.addDummyDataCustomer();
         if (customerService.authenticateCustomer(username, password)) {
             System.out.println("\u001B[32mActual Customer Options!!!\u001B[0m");
             customerId = customerService.getCustomerIdByLoginCreds(username, password);
@@ -131,9 +127,8 @@ public class FlipfitCustomerMenu {
         String username = inputUtils.getStringInput("Enter your username: ");
         String password = inputUtils.getStringInput("Enter your password: ");
 
-        String generatedCustomerId=customerDAO.getCustomerId();
 
-        Customer customer = new Customer(username,password,generatedCustomerId,name,email);
+        Customer customer = new Customer(username,password,null,name,email);
         customerService.registerCustomer(customer);
 //        displayMenu(username,password);
     }

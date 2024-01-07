@@ -4,6 +4,7 @@ import com.flipkart.bean.Booking;
 import com.flipkart.bean.Customer;
 import com.flipkart.dao.BookingDAO;
 import com.flipkart.dao.CustomerDAO;
+import com.flipkart.dao.CustomerDAOInterface;
 import com.flipkart.exception.BookingException;
 import com.flipkart.exception.CustomerAlreadyBookedException;
 
@@ -11,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerService {
-    private CustomerDAO customerDAO;
+    private CustomerDAOInterface customerDAO;
     private BookingDAO bookingDAO;
 
     // Constructor
-    public CustomerService(CustomerDAO customerDAO, BookingDAO bookingDAO) {
+    public CustomerService(CustomerDAOInterface customerDAO, BookingDAO bookingDAO) {
         this.customerDAO = customerDAO;
         this.bookingDAO = bookingDAO;
     }
