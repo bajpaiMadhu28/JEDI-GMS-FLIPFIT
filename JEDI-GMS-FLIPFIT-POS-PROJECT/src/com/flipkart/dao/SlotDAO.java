@@ -23,10 +23,10 @@ public class SlotDAO {
     // Add methods for CRUD operations on Slot entities
 
     public void addDummyDataSlot(){
-        slots.add(new Slot(1,new Date(),"9 AM - 10 AM",1));
-        slots.add(new Slot(2,new Date(),"10 AM - 11 AM",1));
-        slots.add(new Slot(3,new Date(),"11 AM - 12 PM",1));
-        slots.add(new Slot(4,new Date(),"12 PM - 1 PM",1));
+        slots.add(new Slot(1, (java.sql.Date) new Date(),"9 AM - 10 AM",1));
+        slots.add(new Slot(2,(java.sql.Date)new Date(),"10 AM - 11 AM",1));
+        slots.add(new Slot(3,(java.sql.Date)new Date(),"11 AM - 12 PM",1));
+        slots.add(new Slot(4,(java.sql.Date) new Date(),"12 PM - 1 PM",1));
         slots.get(0).setAvailable(false);
         slots.get(0).setCustomerId("45");
         slots.get(0).addWaitlistedCustomerIds("test ID 123");

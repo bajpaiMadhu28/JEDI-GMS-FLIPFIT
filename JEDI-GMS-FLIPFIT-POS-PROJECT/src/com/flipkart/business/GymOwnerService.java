@@ -95,12 +95,7 @@ public class GymOwnerService {
     }
 
     public void addGymSlot(Slot slot) {
-        slotDAO.addDummyDataSlot();
-        if (!slotDAO.isSlotAlreadyExists(slot)) {
-            slotDAO.addSlot(slot);
-        } else {
-            System.out.println("Error: Slot already exists.");
-        }
+        gymOwnerDAO.addGymSlot(slot);
     }
 
     private boolean isValidDateFormat(String date) {

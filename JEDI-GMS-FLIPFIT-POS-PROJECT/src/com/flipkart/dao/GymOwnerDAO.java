@@ -3,6 +3,7 @@ package com.flipkart.dao;
 import com.flipkart.bean.Center;
 import com.flipkart.bean.Customer;
 import com.flipkart.bean.GymOwner;
+import com.flipkart.bean.Slot;
 import com.flipkart.constant.SqlQueryConstant;
 import com.flipkart.utils.DBUtils;
 
@@ -174,6 +175,34 @@ public class GymOwnerDAO implements GymOwnerInterfaceDAO {
             stmt.setString(1, center.getName());  // This would set age
             stmt.setString(2,center.getLocation());
             stmt.setString(3, center.getOwnerId());
+            stmt.executeUpdate();
+
+            //STEP 6: Clean-up environment
+            // rs.close();
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+
+    }
+
+    public void addGymSlot(Slot slot){
+        try{
+
+            // Step 4 make/open  a connection
+
+            //			      System.out.println("Connecting to database...");
+            conn = DBUtils.getConnection();
+            stmt = conn.prepareStatement(SqlQueryConstant.INSERT_GYM_SLOT_QUERY);
+
+            // Hard coded d
+            //Bind values into the parameters.
+            stmt.setDate(1, slot.getDate());  // This would set age
+            stmt.setString(2,slot.getTime());
+            stmt.setInt(3, slot.getCenterId());
             stmt.executeUpdate();
 
             //STEP 6: Clean-up environment

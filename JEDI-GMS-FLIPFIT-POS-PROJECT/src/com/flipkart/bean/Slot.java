@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Slot {
     private Integer slotId;
-    private Date date;
+    private java.sql.Date date;
     private String time;
     private Integer centerId;
     private boolean isAvailable;
@@ -17,7 +17,7 @@ public class Slot {
 
 
     // Constructor
-    public Slot(Integer slotId, Date date, String time, Integer centerId) {
+    public Slot(Integer slotId, java.sql.Date date, String time, Integer centerId) {
         this.slotId = slotId;
         this.date = date;
         this.time = time;
@@ -37,11 +37,11 @@ public class Slot {
         this.slotId = slotId;
     }
 
-    public Date getDate() {
+    public java.sql.Date getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(java.sql.Date date) {
         this.date = date;
     }
 

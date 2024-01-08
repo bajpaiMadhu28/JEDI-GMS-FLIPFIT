@@ -1,10 +1,12 @@
 package com.flipkart.client;
 
+import java.util.Date;
 import java.util.Scanner;
 
 import com.flipkart.bean.Center;
 import com.flipkart.bean.Customer;
 import com.flipkart.bean.GymOwner;
+import com.flipkart.bean.Slot;
 import com.flipkart.business.*;
 import com.flipkart.dao.*;
 import com.flipkart.utils.InputUtils;
@@ -70,10 +72,10 @@ public class FlipfitGymOwnerMenu {
                 displayGymDetailsEditForm(username, password);
                 displayLoggedInUserMenu(username, password);
                 break;
-//            case 5:
-//                displaySlotDetailsMenu(username, password);
-//                displayLoggedInUserMenu(username, password);
-//                break;
+            case 5:
+                displaySlotDetailsMenu(username, password);
+                displayLoggedInUserMenu(username, password);
+                break;
             default:
                 System.out.println("Invalid function. Please try again.");
                 displayLoggedInUserMenu(username, password);
@@ -84,43 +86,36 @@ public class FlipfitGymOwnerMenu {
         System.out.println("All Registered Gym under you : ");
         gymOwnerService.displayAllGyms(username, password);
     }
-//
-//    public void displaySlotDetailsMenu(String username, String password) {
-//        int functionCode = inputUtils.getIntInput("\nEnter your functions : \n1 to add slot." +
-//                "\n2 to delete slot. \n\nEnter Input : ");
-//
-//        switch (functionCode) {
-//            case 1:
-//                addNewSlot(username, password);
-//                break;
+
+    public void displaySlotDetailsMenu(String username, String password) {
+        displayAllGyms(username, password);
+
+        int functionCode = inputUtils.getIntInput("\nEnter your functions : \n1 to add slot." +
+                "\n2 to delete slot. \n\nEnter Input : ");
+
+        switch (functionCode) {
+            case 1:
+                addNewSlot(username, password);
+                break;
 //            case 2:
 //                removeExistingSlot(username, password);
 //                break;
-//            default:
-//                System.out.println("Invalid function. Please try again.");
-//                displaySlotDetailsMenu(username, password);
-//        }
-//    }
-//
-//    public void addNewSlot(String username, String password) {
-//        Integer slotId = slotService.getSlotId();
-//        String date = inputUtils.getDateInput("Enter the date (DD/MM/YYYY) : ", "dd/MM/yyyy");
-//        String time = inputUtils.getStringInput("Enter slot timings (eg HH:MM AM - HH:MM PM) : ");
-//        String ownerId = gymOwnerService.getGymOwnerIdByLoginCreds(username, password);
-//
-//        Slot slot = new Slot(slotId, date, time, centerService.getCenterByOwnerId(ownerId).getCenterId());
-//
-//        gymOwnerService.addGymSlot(slot);
-//        System.out.println("Slot date    -    Slot time   -    Slot Id ");
-//
-//        for (Slot updatedSlots : slotService.getAllDummySlots()) {
-//            String centerId = updatedSlots.getCenterId().toString();
-//
-//            if ((updatedSlots.getDate().equals(date)) && centerService.getOwnerIdByCenterId(centerId).equals(ownerId)) {
-//                System.out.println(updatedSlots.getDate() + "      -     " + updatedSlots.getTime() + "    -    " + updatedSlots.getSlotId());
-//            }
-//        }
-//    }
+            default:
+                System.out.println("Invalid function. Please try again.");
+                displaySlotDetailsMenu(username, password);
+        }
+    }
+
+    public void addNewSlot(String username, String password) {
+        Integer centerId = inputUtils.getIntInput("Enter Gym ID");
+        String date = inputUtils.getDateInput("Enter the date (DD/MM/YYYY) : ", "dd/MM/yyyy");
+        String time = inputUtils.getStringInput("Enter slot timings (eg HH:MM AM - HH:MM PM) : ");
+
+        java.util.Date utilDate = new java.util.Date();
+        Slot slot = new Slot(null, new java.sql.Date(utilDate.getTime()), time, centerId);
+
+        gymOwnerService.addGymSlot(slot);
+    }
 //
 //    public void removeExistingSlot(String username, String password) {
 //        String ownerId = gymOwnerService.getGymOwnerIdByLoginCreds(username, password);
