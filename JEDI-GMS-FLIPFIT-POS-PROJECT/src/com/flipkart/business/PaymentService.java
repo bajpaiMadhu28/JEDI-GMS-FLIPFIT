@@ -1,13 +1,12 @@
 package com.flipkart.business;
 
 import com.flipkart.bean.Payment;
-import com.flipkart.dao.PaymentDAO;
-import com.flipkart.dao.PaymentInterfaceDAO;
+import com.flipkart.dao.PaymentDAOInterface;
 
-public class PaymentService {
-    private PaymentInterfaceDAO paymentDAO;
+public class PaymentService implements PaymentServiceInterface {
+    private PaymentDAOInterface paymentDAO;
 
-    public PaymentService(PaymentInterfaceDAO paymentDAO) {
+    public PaymentService(PaymentDAOInterface paymentDAO) {
         this.paymentDAO = paymentDAO;
     }
 

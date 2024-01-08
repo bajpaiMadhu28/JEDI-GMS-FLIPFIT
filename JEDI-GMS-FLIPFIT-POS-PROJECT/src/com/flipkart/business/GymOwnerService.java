@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class GymOwnerService {
-    private GymOwnerDAO gymOwnerDAO = new GymOwnerDAO();
-    private SlotDAO slotDAO = new SlotDAO();
-    private CenterDAO centerDAO = new CenterDAO();
+public class GymOwnerService implements GymOwnerServiceInterface{
+    private GymOwnerDAOInterface gymOwnerDAO = new GymOwnerDAO();
+    private SlotDAOInterface slotDAO = new SlotDAO();
+    private CenterDAOInterface centerDAO = new CenterDAO();
     final String ANSI_RESET = "\u001B[0m";
     final String ANSI_YELLOW = "\u001B[33m";
     final String ANSI_GREEN = "\u001B[32m";
@@ -99,7 +99,7 @@ public class GymOwnerService {
         gymOwnerDAO.addGymSlot(slot);
     }
 
-    private boolean isValidDateFormat(String date) {
+    public boolean isValidDateFormat(String date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         dateFormat.setLenient(false);
         try {

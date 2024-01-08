@@ -11,6 +11,9 @@ import com.flipkart.constant.CommonConstant;
 import com.flipkart.dao.*;
 import com.flipkart.utils.InputUtils;
 
+/**
+ * Class representing the customer menu for the Flipfit application.
+ */
 public class FlipfitCustomerMenu {
     private Scanner scanner;
     private BookingDAO bookingDAO = new BookingDAO();
@@ -42,7 +45,10 @@ public class FlipfitCustomerMenu {
 
     // Methods for customer menu options
 
-    private void displaySlotsForCenter(){
+    /**
+     * Display available slots for a selected center and allow booking.
+     */
+    private void displaySlotsForCenter() {
         int centerId = inputUtils.getIntInput("Enter Center ID to see slots: ");
 //        slotDAO.addDummyDataSlot();
         if(slotService.getAllSlots(centerId)){
@@ -54,6 +60,9 @@ public class FlipfitCustomerMenu {
 //        }
     }
 
+    /**
+     * Display options to update customer information.
+     */
     private void displayCustomerUpdate() {
         System.out.println("\u001B[33m\n== Update Customer Information ===\u001B[0m");
 
@@ -67,7 +76,9 @@ public class FlipfitCustomerMenu {
         customerService.updateCustomerInfo(name,email,username,password,customerId);
     }
 
-
+    /**
+     * Display options to cancel a booked slot.
+     */
     private void displayCancelBooking() {
         System.out.println("\n");
         System.out.println("\u001B[31m\n==== Cancel Booking ====\u001B[0m");
@@ -75,6 +86,9 @@ public class FlipfitCustomerMenu {
         slotService.cancelBooking(slotId);
     }
 
+    /**
+     * Display booked slots for the customer and allow cancelation.
+     */
     private void displayBookedCustomerSlots() {
         System.out.println("\u001B[33m\n==== Booked Customer Slots ====\u001B[0m");
         System.out.println("\n");
@@ -95,6 +109,9 @@ public class FlipfitCustomerMenu {
 
     }
 
+    /**
+     * Display the main menu for a logged-in user.
+     */
     private void displayLoggedInUserMenu() {
         System.out.println("\u001B[33m\n==== Logged In User Menu ====\u001B[0m");
         int functionCode = inputUtils.getIntInput("\u001B[36m\nMake a choice :\n1 - Display Centers \n2 - Edit Profile \n3 - View Booked Slots\n \u001B[0m");
@@ -114,6 +131,14 @@ public class FlipfitCustomerMenu {
                 displayLoggedInUserMenu();
         }
     }
+
+    /**
+     * Display the main customer menu based on provided username and password.
+     *
+     * @param username The customer username.
+     * @param password The customer password.
+     */
+
     public void displayMenu(String username, String password) {
         System.out.println("\u001B[36mYou are inside Customer Menu !!!\u001B[0m");
         if (customerService.authenticateCustomer(username, password)) {
@@ -126,6 +151,10 @@ public class FlipfitCustomerMenu {
 
         // Implementation to display the customer menu
     }
+
+    /**
+     * Display the customer registration menu.
+     */
     public void displayRegistrationMenu() {
         System.out.println("\u001B[36mYou are inside Customer Registration Menu !!!\u001B[0m");
         String name = inputUtils.getStringInput(CommonConstant.INPUT_NAME);

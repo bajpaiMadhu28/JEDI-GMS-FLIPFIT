@@ -67,9 +67,9 @@ public class CenterService {
     }
 
     public Center getCenterByOwnerId(String ownerId) {
-        for (Center center : centerDAO.getDummyData()) {
-            System.out.println(center.getOwnerId() + " - " + ownerId);
-            if (center.getOwnerId().equals(ownerId)) {
+        for(Center center : centerDAO.getDummyData()) {
+            System.out.println(center.getOwnerId()+ " - " + ownerId);
+            if(center.getOwnerId().equals(ownerId)) {
                 return center;
             }
         }

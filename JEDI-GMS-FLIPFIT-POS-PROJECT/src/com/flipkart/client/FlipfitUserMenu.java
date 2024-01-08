@@ -5,6 +5,9 @@ import com.flipkart.exception.*;
 
 import java.util.Scanner;
 
+/**
+ * Class representing the main menu for Flipfit users, including customers, gym owners, and administrators.
+ */
 public class FlipfitUserMenu {
     private Scanner scanner;
     private FlipfitAdminMenu adminMenu;
@@ -19,10 +22,12 @@ public class FlipfitUserMenu {
         this.gymOwnerMenu = gymOwnerMenu;
     }
 
+    // Empty constructor
     public FlipfitUserMenu() {
 
     }
 
+    // Main method to run the application
     public static void main(String[] args) throws InvalidChoiceException, RegistrationFailedException {
         Scanner scanner = new Scanner(System.in);
 

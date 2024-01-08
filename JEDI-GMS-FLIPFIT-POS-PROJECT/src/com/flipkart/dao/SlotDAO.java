@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-public class SlotDAO {
+public class SlotDAO implements SlotDAOInterface {
 
     ArrayList<Slot> slots = new ArrayList<Slot>();
     Connection conn = null;

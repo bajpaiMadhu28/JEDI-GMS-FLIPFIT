@@ -13,6 +13,9 @@ import com.flipkart.exception.InvalidChoiceException;
 import com.flipkart.exception.RegistrationFailedException;
 import com.flipkart.utils.InputUtils;
 
+/**
+ * Class representing the menu for Gym Owners in the Flipfit application.
+ */
 public class FlipfitGymOwnerMenu {
     private Scanner scanner;
     private CustomerService customerService;
@@ -31,27 +34,12 @@ public class FlipfitGymOwnerMenu {
 
     InputUtils inputUtils = new InputUtils();
 
-    // Constructor
-//    public FlipfitGymOwnerMenu(
-//            Scanner scanner,
-//            CenterService centerService,
-//            CustomerService customerService,
-//            PaymentService paymentService,
-//            SlotService slotService
-//    ) {
-//        this.scanner = scanner;
-//        this.centerService = centerService;
-//        this.customerService = customerService;
-//        this.paymentService = paymentService;
-//        this.slotService = slotService;
-//    }
-
-//    private void displaySlotsForCenter() {
-//        int centerId = inputUtils.getIntInput("\nEnter Center ID to see slots: ");
-//        slotDAO.addDummyDataSlot();
-//        slotService.getAllSlots(centerId);
-//    }
-//
+    /**
+     * Display the main menu for a logged-in Gym Owner.
+     *
+     * @param username The Gym Owner's username.
+     * @param password The Gym Owner's password.
+     */
     private void displayLoggedInUserMenu(String username, String password) {
         int functionCode = inputUtils.getIntInput("\nEnter your functions \n0 to EXIT \n1 to display all Gyms . \n2 for Edit Your Profile." +
                 " \n3 for Registering New Gym. \n4 for Editing Gym details. \n5 for Editing slot details. \n\nEnter Input : ");
@@ -85,11 +73,23 @@ public class FlipfitGymOwnerMenu {
         }
     }
 
+    /**
+     * Display all registered gyms under the Gym Owner.
+     *
+     * @param username The Gym Owner's username.
+     * @param password The Gym Owner's password.
+     */
     public void displayAllGyms(String username, String password) {
         System.out.println("All Registered Gym under you : ");
         gymOwnerService.displayAllGyms(username, password);
     }
 
+    /**
+     * Display the slot details menu for adding or deleting slots.
+     *
+     * @param username The Gym Owner's username.
+     * @param password The Gym Owner's password.
+     */
     public void displaySlotDetailsMenu(String username, String password) {
         displayAllGyms(username, password);
 
@@ -109,6 +109,12 @@ public class FlipfitGymOwnerMenu {
         }
     }
 
+    /**
+     * Add a new slot for a Gym.
+     *
+     * @param username The Gym Owner's username.
+     * @param password The Gym Owner's password.
+     */
     public void addNewSlot(String username, String password) {
         Integer centerId = inputUtils.getIntInput("Enter Gym ID");
         String date = inputUtils.getDateInput("Enter the date (DD/MM/YYYY) : ", "dd/MM/yyyy");
@@ -128,6 +134,12 @@ public class FlipfitGymOwnerMenu {
         System.out.println("Slot deleted Successfully !!!");
     }
 
+    /**
+     * Register a new Gym.
+     *
+     * @param username The Gym Owner's username.
+     * @param password The Gym Owner's password.
+     */
     public void registerNewCenter(String username, String password) {
         String name = inputUtils.getStringInput("Enter Gym's name: ");
         String location = inputUtils.getStringInput("Enter Gym's location: ");
@@ -140,7 +152,13 @@ public class FlipfitGymOwnerMenu {
         System.out.println("\nThese are all your listed Gyms !!!");
         displayAllGyms(username, password);
     }
-//
+
+    /**
+     * Display the main menu for the Gym Owner.
+     *
+     * @param username The Gym Owner's username.
+     * @param password The Gym Owner's password.
+     */
     public void displayMenu(String username, String password) {
         System.out.println("\nYou are inside Gym Owner Menu !!!");
 
@@ -153,6 +171,9 @@ public class FlipfitGymOwnerMenu {
         }
     }
 
+    /**
+     * Display the registration menu for Gym Owners.
+     */
     public void displayRegistrationMenu() throws RegistrationFailedException {
         System.out.println("\nYou are inside Gym Owner Registration Menu !!!");
         String name = inputUtils.getStringInput("Enter your name: ");
@@ -164,6 +185,9 @@ public class FlipfitGymOwnerMenu {
         gymOwnerService.registerGymOwner(gymOwner);
     }
 
+    /**
+     * Display the form for updating Gym Owner details.
+     */
     public void displayGymOwnerUpdateForm() {
         System.out.println("\nPlease Enter Updated Gym Owner Details :");
 
@@ -174,7 +198,13 @@ public class FlipfitGymOwnerMenu {
 
         gymOwnerService.updateGymOwnerProfile(new GymOwner(name, username, password, gymOwnerId, email));
     }
-//
+
+    /**
+     * Display the form for updating Gym details.
+     *
+     * @param username The Gym Owner's username.
+     * @param password The Gym Owner's password.
+     */
     public void displayGymDetailsEditForm(String username, String password) {
         System.out.println("\nPlease Enter Updated Gym Details along with Gym ID from above :");
 

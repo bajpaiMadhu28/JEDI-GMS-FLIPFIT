@@ -23,7 +23,6 @@ public class SlotService {
     final String ANSI_RED = "\u001B[31m";
 
 
-
     // Constructor
     public SlotService(SlotDAO slotDAO) {
         this.slotDAO = slotDAO;
