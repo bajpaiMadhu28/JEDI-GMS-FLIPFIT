@@ -16,9 +16,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class GymOwnerService implements GymOwnerServiceInterface{
-    private GymOwnerDAOInterface gymOwnerDAO = new GymOwnerDAO();
-    private SlotDAOInterface slotDAO = new SlotDAO();
+public class GymOwnerService{
+    private GymOwnerDAO gymOwnerDAO = new GymOwnerDAO();
+    private SlotDAO slotDAO = new SlotDAO();
     private CenterDAOInterface centerDAO = new CenterDAO();
     final String ANSI_RESET = "\u001B[0m";
     final String ANSI_YELLOW = "\u001B[33m";

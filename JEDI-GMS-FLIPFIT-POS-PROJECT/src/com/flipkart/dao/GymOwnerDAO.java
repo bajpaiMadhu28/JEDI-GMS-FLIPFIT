@@ -14,7 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class GymOwnerDAO implements GymOwnerDAOInterface {
+public class GymOwnerDAO {
     ArrayList<GymOwner> flipfitGymOwners = new ArrayList<GymOwner>();
     Connection conn = null;
     PreparedStatement stmt = null;
@@ -244,18 +244,6 @@ public class GymOwnerDAO implements GymOwnerDAOInterface {
             }
         }
         throw new GymOwnerNotFoundException("No Gym Owner found with ownerId: " + ownerId);
-    }
-
-    @Override
-    public void updateGymOwner(GymOwner gymOwner) {
-        String ownerId = gymOwner.getOwnerId();
-
-        for (int i = 0 ; i < flipfitGymOwners.size(); i++) {
-            if(flipfitGymOwners.get(i).getOwnerId().equals(ownerId)) {
-                flipfitGymOwners.set(i, gymOwner);
-            }
-        }
-
     }
 
     // Delete GymOwner by ownerId
