@@ -1,7 +1,6 @@
 package com.flipkart.dao;
 
 import com.flipkart.bean.Center;
-import com.flipkart.bean.Customer;
 import com.flipkart.bean.GymOwner;
 import com.flipkart.bean.Slot;
 import com.flipkart.constant.SqlQueryConstant;
@@ -13,9 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import static com.flipkart.dao.CustomerDAO.customerId;
-
-public class GymOwnerDAO implements GymOwnerInterfaceDAO {
+public class GymOwnerDAO implements GymOwnerDAOInterface {
     ArrayList<GymOwner> flipfitGymOwners = new ArrayList<GymOwner>();
     Connection conn = null;
     PreparedStatement stmt = null;

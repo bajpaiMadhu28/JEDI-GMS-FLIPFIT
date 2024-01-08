@@ -4,22 +4,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.flipkart.bean.Center;
 import com.flipkart.bean.GymOwner;
 import com.flipkart.dao.CenterDAO;
+import com.flipkart.dao.CenterDAOInterface;
 
-public class CenterService {
-    private CenterDAO centerDAO;
+public class CenterService implements CenterServiceInterface {
+    private CenterDAOInterface centerDAO = new CenterDAO();
 
     final String ANSI_RESET = "\u001B[0m";
     final String ANSI_YELLOW = "\u001B[33m";
     final String ANSI_GREEN = "\u001B[32m";
 
-
-    // Constructor
-    public CenterService(CenterDAO centerDAO) {
-        this.centerDAO = centerDAO;
-    }
 
     // Business logic methods for centers
     public void getAllCenters() {
@@ -43,7 +40,6 @@ public class CenterService {
         }
 
 
-
 // Assuming centerList is the list of Center objects to be displayed in tabular format
 
 // Print table header
@@ -60,15 +56,15 @@ public class CenterService {
         System.out.println(ANSI_YELLOW + "------------------------------------------------------------" + ANSI_RESET);
     }
 
-        public Center getCenterById(int centerId) {
+    public Center getCenterById(int centerId) {
         // Implementation to get a center by ID
         return null;
     }
 
     public Center getCenterByOwnerId(String ownerId) {
-        for(Center center : centerDAO.getDummyData()) {
-            System.out.println(center.getOwnerId()+ " - " + ownerId);
-            if(center.getOwnerId().equals(ownerId)) {
+        for (Center center : centerDAO.getDummyData()) {
+            System.out.println(center.getOwnerId() + " - " + ownerId);
+            if (center.getOwnerId().equals(ownerId)) {
                 return center;
             }
         }

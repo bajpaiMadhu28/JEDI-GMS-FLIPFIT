@@ -1,46 +1,50 @@
 package com.flipkart.client;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
 import com.flipkart.bean.Admin;
 import com.flipkart.bean.Center;
 import com.flipkart.bean.Slot;
-import com.flipkart.business.*;
-import com.flipkart.constant.CommonConstant;
-import com.flipkart.dao.*;
 import com.flipkart.business.AdminService;
-import com.flipkart.business.PaymentService;
-import com.flipkart.business.SlotService;
-import com.flipkart.utils.InputUtils;
-import com.flipkart.dao.CenterDAO;
+import com.flipkart.business.AdminServiceInterface;
+import com.flipkart.constant.CommonConstant;
 import com.flipkart.dao.AdminDAO;
-import com.flipkart.dao.SlotDAO;
+import com.flipkart.dao.AdminDAOInterface;
+import com.flipkart.utils.InputUtils;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
+/**
+ * Class representing the admin menu for the Flipfit application.
+ */
 public class FlipfitAdminMenu {
-    private Scanner scanner;
-    private CenterService centerService;
-
-    //    private CenterDAO centerDAO;
-    private PaymentService paymentService;
-    private SlotService slotService;
     private AdminDAOInterface adminDAO = new AdminDAO();
-
-    private SlotDAO slotDAO = new SlotDAO();
-
-    private CenterDAO centerDAO = new CenterDAO();
     private AdminServiceInterface adminService = new AdminService(adminDAO);
 
     InputUtils inputUtils = new InputUtils();
 
+    /**
+     * Display success message in green color.
+     *
+     * @param message The success message to be displayed.
+     */
     private void displaySuccessMessage(String message) {
         System.out.println("\u001B[32m" + message + "\u001B[0m"); // Green color for success message
     }
 
+    /**
+     * Display error message in red color.
+     *
+     * @param message The error message to be displayed.
+     */
     private void displayErrorMessage(String message) {
         System.out.println("\u001B[31m" + message + "\u001B[0m"); // Red color for error message
     }
 
+    /**
+     * Display table message in yellow color.
+     *
+     * @param message The table message to be displayed.
+     */
     private void displayTableMessage(String message) {
         System.out.println("\u001B[33m" + message + "\u001B[0m"); // Yellow color for table message
     }
@@ -70,8 +74,9 @@ public class FlipfitAdminMenu {
     // Method to approve a gym center by ID
 
 
-
-    // Display unapproved gym centers and approve by ID
+    /**
+     * Display the logged-in admin menu options.
+     */
     private void displayLoggedInAdminMenu() {
 //        System.out.println("\u001B[34m\n1 - Approve Gym Center\n2 - approve Slots\u001B[0m");
         System.out.println("1. View All Gyms");
@@ -103,7 +108,6 @@ public class FlipfitAdminMenu {
                 System.out.println("----------------------------");
             }
         } else if (action == 2) {
-
 
 
         } else if (action == 7) {
@@ -152,6 +156,12 @@ public class FlipfitAdminMenu {
         }
     }
 
+    /**
+     * Display the main admin menu based on provided username and password.
+     *
+     * @param username The admin username.
+     * @param password The admin password.
+     */
 
     public void displayMenu(String username, String password) {
         String text = "\u001B[34mAdmin Menu !!!\u001B[0m";
@@ -165,12 +175,15 @@ public class FlipfitAdminMenu {
         if (adminService.authenticateAdmin(username, password)) {
             displayLoggedInAdminMenu();
         } else {
-           System.out.println(CommonConstant.INCORRECT_CREDENTIALS);
+            System.out.println(CommonConstant.INCORRECT_CREDENTIALS);
         }
 
         // Implementation to display the customer menu
     }
 
+    /**
+     * Display admin registration menu.
+     */
     public void displayAdminRegistrationMenu() {
         String text = "\u001B[34mAdmin Registration Menu !!!\u001B[0m";
         int width = 80; // Adjust this value based on your console width

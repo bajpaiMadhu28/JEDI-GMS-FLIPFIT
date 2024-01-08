@@ -2,11 +2,12 @@ package com.flipkart.business;
 
 import com.flipkart.bean.Customer;
 import com.flipkart.dao.BookingDAO;
+import com.flipkart.dao.BookingDAOInterface;
 import com.flipkart.dao.CustomerDAOInterface;
 
-public class CustomerService {
+public class CustomerService implements CustomerServiceInterface {
     private CustomerDAOInterface customerDAO;
-    private BookingDAO bookingDAO;
+    private BookingDAOInterface bookingDAO;
 
     // Constructor
     public CustomerService(CustomerDAOInterface customerDAO, BookingDAO bookingDAO) {
