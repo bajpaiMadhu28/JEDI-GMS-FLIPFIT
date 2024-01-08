@@ -5,6 +5,7 @@ import com.flipkart.bean.Customer;
 import com.flipkart.bean.GymOwner;
 import com.flipkart.bean.Slot;
 import com.flipkart.dao.*;
+import com.flipkart.exception.RegistrationFailedException;
 import com.flipkart.utils.InputUtils;
 
 import java.sql.ResultSet;
@@ -23,7 +24,7 @@ public class GymOwnerService {
     final String ANSI_YELLOW = "\u001B[33m";
     final String ANSI_GREEN = "\u001B[32m";
 
-    public void registerGymOwner(GymOwner gymOwner) {
+    public void registerGymOwner(GymOwner gymOwner) throws RegistrationFailedException {
         gymOwnerDAO.registerGymOwner(gymOwner);
     }
 

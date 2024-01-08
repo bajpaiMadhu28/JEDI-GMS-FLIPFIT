@@ -1,8 +1,14 @@
 package com.flipkart.utils;
+
+import com.flipkart.exception.DataEntryException;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
+
+import static com.flipkart.constant.CommonConstant.RED_COLOR;
+import static com.flipkart.constant.CommonConstant.YELLOW_COLOR;
 
 public class InputUtils {
     Scanner scanner = new Scanner(System.in);
@@ -37,15 +43,13 @@ public class InputUtils {
                 SimpleDateFormat outputSdf = new SimpleDateFormat(dateFormat);
                 return outputSdf.format(parsedDate);
             } catch (ParseException e) {
-                System.out.println("Invalid date format. Please enter date in the format: " + dateFormat);
-                System.out.print(prompt);
+                System.out.println(RED_COLOR + "Invalid date format. Please enter date in the format: " + dateFormat + YELLOW_COLOR);
+                throw new DataEntryException(); // Throw DataEntryException on incorrect format
             }
         }
     }
 
-
-
-    public void readEnter(){
+    public void readEnter() {
         scanner.next();
     }
 }

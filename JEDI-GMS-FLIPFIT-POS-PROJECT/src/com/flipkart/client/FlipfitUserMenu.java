@@ -1,6 +1,7 @@
 package com.flipkart.client;
 
 import com.flipkart.constant.CommonConstant;
+import com.flipkart.exception.*;
 
 import java.util.Scanner;
 
@@ -22,7 +23,7 @@ public class FlipfitUserMenu {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidChoiceException, RegistrationFailedException {
         Scanner scanner = new Scanner(System.in);
 
         // Assuming you have instances of FlipfitAdminMenu, FlipfitCustomerMenu, and FlipfitGymOwnerMenu
@@ -35,7 +36,7 @@ public class FlipfitUserMenu {
     }
 
     // Display the main user menu
-    public void displayMenu() {
+    public void displayMenu() throws InvalidChoiceException, RegistrationFailedException {
         String boldBlue = "\033[1;34m"; // Bold: \033[1m, Blue: \033[34m
         String reset = "\033[0m"; // Reset to default
 
@@ -71,38 +72,58 @@ public class FlipfitUserMenu {
                 System.out.println("\nExiting Flipfit. Goodbye!\n");
                 break;
             default:
-                System.out.println("Invalid choice. Please try again.");
                 displayMenu();
+                throw new InvalidChoiceException();
         }
     }
 
 
     // Login menu
-    void loginMenu() {
+    void loginMenu() throws InvalidChoiceException, RegistrationFailedException {
         // Get username, password, and role from the user
-        String username = getStringInput(CommonConstant.INPUT_USERNAME);
-        String password = getStringInput(CommonConstant.INPUT_PASSWORD);
-        int role = getIntInput("Enter your role : \n1 for Customer, \n2 for GymOwner, \n3 for Admin\n ");
+        try {
+            // Get username, password, and role from the user
+            String username = getStringInput(CommonConstant.INPUT_USERNAME);
+            String password = getStringInput(CommonConstant.INPUT_PASSWORD);
+            int role = getIntInput("Enter your role : \n1 for Customer, \n2 for GymOwner, \n3 for Admin\n ");
 
-        // Based on the role, display the corresponding menu
-        switch (role) {
-            case 1:
-                customerMenu.displayMenu(username, password);
-                break;
-            case 2:
-                gymOwnerMenu.displayMenu(username, password);
-                break;
-            case 3:
-                adminMenu.displayMenu(username, password);
-                break;
-            default:
-                System.out.println(CommonConstant.INVALID_ROLE);
-                loginMenu();
+            if (isUserNotFound(username, password, role)) {
+                throw new UserNotFoundException("User not found");
+            }
+
+            // Validate the user based on your logic
+            if (isUserInvalid(username, password, role)) {
+                throw new UserInvalidException("Invalid credentials");
+            }
+
+            // Based on the role, display the corresponding menu
+            switch (role) {
+                case 1:
+                    customerMenu.displayMenu(username, password);
+                    break;
+                case 2:
+                    gymOwnerMenu.displayMenu(username, password);
+                    break;
+                case 3:
+                    adminMenu.displayMenu(username, password);
+                    break;
+                default:
+                    throw new InvalidChoiceException();
+            }
+        } catch (InvalidChoiceException e) {
+            System.out.println(e.getMessage());
+            displayMenu();
+        } catch (LoginFailedException e) {
+            System.out.println(e.getMessage());
+            displayMenu();
+        } catch (UserInvalidException | UserNotFoundException e) {
+            // Handle UserInvalidException and UserNotFoundException appropriately
+            throw new RuntimeException(e);
         }
     }
 
     // Registration menu
-    private void registrationMenu() {
+    private void registrationMenu() throws RegistrationFailedException {
         // Implementation for user registration
         // You can add logic to register a new user
         int role = getIntInput("Enter your role : \n1 for Customer, \n2 for GymOwner, \n3 for Admin\n ");
@@ -146,5 +167,15 @@ public class FlipfitUserMenu {
     private String getStringInput(String prompt) {
         System.out.print(prompt);
         return scanner.next();
+    }
+    private boolean isUserInvalid(String username, String password, int role) {
+        // Add your validation logic here
+        // For example, check against a database or other conditions
+        return false;
+    }
+    private boolean isUserNotFound(String username, String password, int role) {
+        // Add your logic to check if the user is not found
+        // For example, check against your user database
+        return false;
     }
 }
