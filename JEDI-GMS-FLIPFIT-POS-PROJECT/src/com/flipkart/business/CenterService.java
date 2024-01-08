@@ -77,13 +77,7 @@ public class CenterService {
     }
 
     public void updateCenterProfile(Center center) {
-        Center centerUpdated = getCenterByOwnerId(center.getOwnerId());
-
-        centerUpdated.setCenterId(center.getCenterId());
-        centerUpdated.setOwnerId(center.getOwnerId());
-        centerUpdated.setName(center.getName());
-        centerUpdated.setLocation(center.getLocation());
-
+        centerDAO.updateCenterInfo(center);
         System.out.println(ANSI_GREEN + "\nProfile updated successfully! \n\nUpdated profile is" + ANSI_RESET);
 
         System.out.println("Updated Gym name : " + center.getName());

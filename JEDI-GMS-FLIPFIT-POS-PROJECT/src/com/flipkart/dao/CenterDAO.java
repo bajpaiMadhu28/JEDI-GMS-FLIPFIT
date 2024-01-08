@@ -57,5 +57,28 @@ public class CenterDAO {
         return answerSet;
     }
 
+    public void updateCenterInfo(Center center){
+        try{
+            conn = DBUtils.getConnection();
+            stmt = conn.prepareStatement(SqlQueryConstant.UPDATE_CENTER_INFO);
+
+            // Hard coded d
+            //Bind values into the parameters.
+            stmt.setString(1,center.getName());
+            stmt.setString(2,center.getLocation());
+            stmt.setInt(3,center.getCenterId());
+            stmt.executeUpdate();
+
+            //STEP 6: Clean-up environment
+            // rs.close();
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
+    }
+
     // Other center-related methods
 }

@@ -26,5 +26,6 @@ public class SqlQueryConstant {
     public static final String GET_CENTERS_FOR_GYM_OWNER="Select * From center Where owner_id=?";
     public static final String UPDATE_GYM_OWNER_INFO="Update gym_owner Set name=?,username=?,password=?,email=? WHERE id=?";
     public static final String INSERT_GYM_CENTER_QUERY = "INSERT INTO center(name,location,owner_id) values(?, ?, ?)";
+    public static final String UPDATE_CENTER_INFO="Update center Set name=?,location=? WHERE id=?";
 
 }

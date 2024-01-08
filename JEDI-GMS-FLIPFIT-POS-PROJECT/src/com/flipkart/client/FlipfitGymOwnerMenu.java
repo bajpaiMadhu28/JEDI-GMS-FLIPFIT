@@ -65,10 +65,11 @@ public class FlipfitGymOwnerMenu {
                 registerNewCenter(username, password);
                 displayLoggedInUserMenu(username, password);
                 break;
-//            case 4:
-//                displayGymDetailsEditForm(username, password);
-//                displayLoggedInUserMenu(username, password);
-//                break;
+            case 4:
+                displayAllGyms(username, password);
+                displayGymDetailsEditForm(username, password);
+                displayLoggedInUserMenu(username, password);
+                break;
 //            case 5:
 //                displaySlotDetailsMenu(username, password);
 //                displayLoggedInUserMenu(username, password);
@@ -198,23 +199,15 @@ public class FlipfitGymOwnerMenu {
         gymOwnerService.updateGymOwnerProfile(new GymOwner(name, username, password, gymOwnerId, email));
     }
 //
-//    public void displayGymDetailsEditForm(String username, String password) {
-//        GymOwner gymOwner = gymOwnerService.getGymOwnerByLoginCreds(username, password);
-//        Center center = centerService.getCenterByOwnerId(gymOwner.getOwnerId());
-//
-//        System.out.println("\nCurrent Gym Details : ");
-//        System.out.println("Gym Name : " + center.getName());
-//        System.out.println("Gym Location : " + center.getLocation());
-//        System.out.println("Gym Id : " + center.getCenterId());
-//        System.out.println("Owner Id : " + center.getOwnerId());
-//
-//        System.out.println("\nPlease Enter Updated Gym Details :");
-//
-//        String name = inputUtils.getStringInput("Enter Gym's name: ");
-//        String location = inputUtils.getStringInput("Enter your Gym's location: ");
-//
-//        centerService.updateCenterProfile(new Center(center.getCenterId(), name, location, gymOwner.getOwnerId()));
-//    }
+    public void displayGymDetailsEditForm(String username, String password) {
+        System.out.println("\nPlease Enter Updated Gym Details along with Gym ID from above :");
+
+        Integer centerId = inputUtils.getIntInput("Enter Gym ID");
+        String name = inputUtils.getStringInput("Enter Gym's name: ");
+        String location = inputUtils.getStringInput("Enter your Gym's location: ");
+
+        centerService.updateCenterProfile(new Center(centerId, name, location, gymOwnerId));
+    }
 
     // Other gym owner menu methods
 }
