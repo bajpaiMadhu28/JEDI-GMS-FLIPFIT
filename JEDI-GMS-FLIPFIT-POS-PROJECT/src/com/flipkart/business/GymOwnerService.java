@@ -109,8 +109,7 @@ public class GymOwnerService {
         }
     }
 
-    public void removeGymSlot(String slotId) {
-        slotDAO.addDummyDataSlot();
+    public void removeGymSlot(Integer slotId) {
         slotDAO.deleteSlot(slotId);
     }
 

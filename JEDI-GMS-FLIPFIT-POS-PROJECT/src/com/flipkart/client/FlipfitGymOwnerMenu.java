@@ -15,9 +15,10 @@ public class FlipfitGymOwnerMenu {
     private Scanner scanner;
     private CustomerService customerService;
     private PaymentService paymentService;
-    private SlotService slotService;
+
 
     private SlotDAO slotDAO = new SlotDAO();
+    private SlotService slotService=new SlotService(slotDAO);
     private CenterDAO centerDAO = new CenterDAO();
     private GymOwnerDAO gymOwnerDAO = new GymOwnerDAO();
     private GymOwnerService gymOwnerService = new GymOwnerService();
@@ -97,9 +98,9 @@ public class FlipfitGymOwnerMenu {
             case 1:
                 addNewSlot(username, password);
                 break;
-//            case 2:
-//                removeExistingSlot(username, password);
-//                break;
+            case 2:
+                removeExistingSlot(username, password);
+                break;
             default:
                 System.out.println("Invalid function. Please try again.");
                 displaySlotDetailsMenu(username, password);
@@ -117,35 +118,14 @@ public class FlipfitGymOwnerMenu {
         gymOwnerService.addGymSlot(slot);
     }
 //
-//    public void removeExistingSlot(String username, String password) {
-//        String ownerId = gymOwnerService.getGymOwnerIdByLoginCreds(username, password);
-//
-//        System.out.println("Size is : " + slotService.getAllDummySlots().size());
-//        System.out.println("\n\nSlot date    -    Slot time   -    Slot Id ");
-//
-//        for (Slot updatedSlots : slotService.getAllDummySlots()) {
-//            String centerId = updatedSlots.getCenterId().toString();
-//
-//            if (centerService.getOwnerIdByCenterId(centerId).equals(ownerId)) {
-//                System.out.println(updatedSlots.getDate() + "      -     " + updatedSlots.getTime() + "    -    " + updatedSlots.getSlotId());
-//            }
-//        }
-//
-//        String slotId = inputUtils.getStringInput("\n\nEnter the Slot Id to remove the Slot : ");
-//
-//        gymOwnerService.removeGymSlot(slotId);
-//
-//        System.out.println("\n\nSlot date    -    Slot time ");
-//        for (Slot updatedSlots : slotService.getAllDummySlots()) {
-//            String centerId = updatedSlots.getCenterId().toString();
-//
-//            if (centerService.getOwnerIdByCenterId(centerId).equals(ownerId)) {
-//                System.out.println(updatedSlots.getDate() + "      -     " + updatedSlots.getTime());
-//            }
-//        }
-//        System.out.println("Slot deleted Successfully !!!");
-//    }
-//
+    public void removeExistingSlot(String username, String password) {
+        Integer centerId = inputUtils.getIntInput("Enter Gym ID");
+        slotService.getAllSlots(centerId);
+        Integer slotId = inputUtils.getIntInput("\n\nEnter the Slot Id to remove the Slot : ");
+        gymOwnerService.removeGymSlot(slotId);
+        System.out.println("Slot deleted Successfully !!!");
+    }
+
     public void registerNewCenter(String username, String password) {
         String name = inputUtils.getStringInput("Enter Gym's name: ");
         String location = inputUtils.getStringInput("Enter Gym's location: ");

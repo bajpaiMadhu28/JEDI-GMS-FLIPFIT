@@ -28,5 +28,6 @@ public class SqlQueryConstant {
     public static final String INSERT_GYM_CENTER_QUERY = "INSERT INTO center(name,location,owner_id) values(?, ?, ?)";
     public static final String UPDATE_CENTER_INFO="Update center Set name=?,location=? WHERE id=?";
     public static final String INSERT_GYM_SLOT_QUERY = "INSERT INTO slot(date,time,center_id,is_available) values(?, ?, ?, 1)";
+    public static final String REMOVE_GYM_SLOT_QUERY="DELETE FROM slot WHERE id=?";
 
 }

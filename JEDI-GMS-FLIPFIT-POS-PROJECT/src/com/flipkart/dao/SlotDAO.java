@@ -125,9 +125,23 @@ public class SlotDAO {
     }
 
     // Delete Slot by slotId
-    public void deleteSlot(String slotId) {
+    public void deleteSlot(Integer slotId) {
         // Implementation to delete slot details from the database based on the slotId
         // You may use JDBC or any other data access mechanism
+        try{
+            conn = DBUtils.getConnection();
+            stmt = conn.prepareStatement(SqlQueryConstant.REMOVE_GYM_SLOT_QUERY);
+            stmt.setInt(1, slotId);
+            stmt.executeUpdate();
+            //STEP 6: Clean-up environment
+            // rs.close();
+        }catch(SQLException se){
+            //Handle errors for JDBC
+            se.printStackTrace();
+        }catch(Exception e){
+            //Handle errors for Class.forName
+            e.printStackTrace();
+        }
     }
 
     // Get available slots for a center
