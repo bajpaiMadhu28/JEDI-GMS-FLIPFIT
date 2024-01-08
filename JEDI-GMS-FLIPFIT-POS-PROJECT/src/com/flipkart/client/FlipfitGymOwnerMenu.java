@@ -11,6 +11,7 @@ import com.flipkart.business.*;
 import com.flipkart.dao.*;
 import com.flipkart.exception.InvalidChoiceException;
 import com.flipkart.exception.RegistrationFailedException;
+import com.flipkart.utils.DateUtils;
 import com.flipkart.utils.InputUtils;
 
 /**
@@ -164,6 +165,7 @@ public class FlipfitGymOwnerMenu {
 
         if (gymOwnerService.authenticateGymOwner(username, password)) {
             System.out.println("Actual Gym Owner Options!!!");
+            DateUtils.getLoggedInDateTime();
             gymOwnerId = gymOwnerService.getGymOwnerIdByLoginCreds(username, password);
             displayLoggedInUserMenu(username, password);
         } else {

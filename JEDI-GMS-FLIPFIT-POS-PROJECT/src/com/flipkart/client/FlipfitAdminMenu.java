@@ -8,6 +8,7 @@ import com.flipkart.business.AdminServiceInterface;
 import com.flipkart.constant.CommonConstant;
 import com.flipkart.dao.AdminDAO;
 import com.flipkart.dao.AdminDAOInterface;
+import com.flipkart.utils.DateUtils;
 import com.flipkart.utils.InputUtils;
 
 import java.util.ArrayList;
@@ -173,6 +174,7 @@ public class FlipfitAdminMenu {
 // Print centered text in blue color
         System.out.println(String.format("%" + padding + "s%s%" + padding + "s", "", text, ""));
         if (adminService.authenticateAdmin(username, password)) {
+            DateUtils.getLoggedInDateTime();
             displayLoggedInAdminMenu();
         } else {
             System.out.println(CommonConstant.INCORRECT_CREDENTIALS);

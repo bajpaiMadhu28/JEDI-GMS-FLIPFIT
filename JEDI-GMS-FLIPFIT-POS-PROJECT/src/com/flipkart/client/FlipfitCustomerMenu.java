@@ -9,6 +9,7 @@ import com.flipkart.business.PaymentService;
 import com.flipkart.business.SlotService;
 import com.flipkart.constant.CommonConstant;
 import com.flipkart.dao.*;
+import com.flipkart.utils.DateUtils;
 import com.flipkart.utils.InputUtils;
 
 /**
@@ -143,6 +144,7 @@ public class FlipfitCustomerMenu {
         System.out.println("\u001B[36mYou are inside Customer Menu !!!\u001B[0m");
         if (customerService.authenticateCustomer(username, password)) {
             System.out.println("\u001B[32mActual Customer Options!!!\u001B[0m");
+            DateUtils.getLoggedInDateTime();
             customerId = customerService.getCustomerIdByLoginCreds(username, password);
             displayLoggedInUserMenu();
         } else {

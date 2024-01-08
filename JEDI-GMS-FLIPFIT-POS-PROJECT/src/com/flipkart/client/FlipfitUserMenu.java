@@ -101,6 +101,8 @@ public class FlipfitUserMenu {
                 throw new UserInvalidException("Invalid credentials");
             }
 
+
+
             // Based on the role, display the corresponding menu
             switch (role) {
                 case 1:
