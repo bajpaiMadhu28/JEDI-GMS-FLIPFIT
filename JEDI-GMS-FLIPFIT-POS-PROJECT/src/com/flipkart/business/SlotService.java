@@ -4,6 +4,7 @@ import com.flipkart.bean.Booking;
 import com.flipkart.bean.Center;
 import com.flipkart.bean.Slot;
 import com.flipkart.dao.SlotDAO;
+import com.flipkart.exception.BookingFailedException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -153,7 +154,7 @@ public class SlotService {
                     System.out.println("Slot Booked Successfully");
                 }
                 else{
-                    System.out.println("ERROR in booking slot");
+                    throw new BookingFailedException("ERROR in booking slot");
                 }
             }catch (Exception ex){
 

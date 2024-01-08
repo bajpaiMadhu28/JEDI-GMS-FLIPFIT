@@ -7,6 +7,7 @@ import java.util.List;
 import com.flipkart.bean.Center;
 import com.flipkart.bean.GymOwner;
 import com.flipkart.dao.CenterDAO;
+import com.flipkart.exception.CentreNotFoundException;
 
 public class CenterService {
     private CenterDAO centerDAO;
@@ -66,14 +67,14 @@ public class CenterService {
     }
 
     public Center getCenterByOwnerId(String ownerId) {
-        for(Center center : centerDAO.getDummyData()) {
-            System.out.println(center.getOwnerId()+ " - " + ownerId);
-            if(center.getOwnerId().equals(ownerId)) {
+        for (Center center : centerDAO.getDummyData()) {
+            System.out.println(center.getOwnerId() + " - " + ownerId);
+            if (center.getOwnerId().equals(ownerId)) {
                 return center;
             }
         }
-        System.out.println("Center Not found by owner Id !");
-        return null;
+
+        throw new CentreNotFoundException("Center not found with owner ID: " + ownerId);
     }
 
     public void updateCenterProfile(Center center) {

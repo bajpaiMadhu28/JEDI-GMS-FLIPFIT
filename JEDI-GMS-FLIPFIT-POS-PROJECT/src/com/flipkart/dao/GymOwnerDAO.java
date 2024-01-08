@@ -5,6 +5,8 @@ import com.flipkart.bean.Customer;
 import com.flipkart.bean.GymOwner;
 import com.flipkart.bean.Slot;
 import com.flipkart.constant.SqlQueryConstant;
+import com.flipkart.exception.GymOwnerNotFoundException;
+import com.flipkart.exception.RegistrationFailedException;
 import com.flipkart.utils.DBUtils;
 
 import java.sql.Connection;
@@ -23,33 +25,31 @@ public class GymOwnerDAO implements GymOwnerInterfaceDAO {
     static Integer gymOwnerId = 0;
 
     // Register a new GymOwner
-    public void registerGymOwner(GymOwner gymOwner) {
-        // Implementation to register a new gym owner in the database
-        // You may use JDBC or any other data access mechanism
-        try{
-
-            // Step 4 make/open  a connection
-
-            //			      System.out.println("Connecting to database...");
+    public void registerGymOwner(GymOwner gymOwner) throws RegistrationFailedException {
+        try {
+            // Implementation to register a new gym owner in the database
+            // You may use JDBC or any other data access mechanism
             conn = DBUtils.getConnection();
             stmt = conn.prepareStatement(SqlQueryConstant.INSERT_GYM_OWNER_QUERY);
 
             // Hard coded d
             //Bind values into the parameters.
-            stmt.setString(1, gymOwner.getOwnerName());  // This would set age
-            stmt.setString(2,gymOwner.getUsername());
+            stmt.setString(1, gymOwner.getOwnerName());
+            stmt.setString(2, gymOwner.getUsername());
             stmt.setString(3, gymOwner.getPassword());
             stmt.setString(4, gymOwner.getEmail());
             stmt.executeUpdate();
 
             //STEP 6: Clean-up environment
             // rs.close();
-        }catch(SQLException se){
+        } catch (SQLException se) {
             //Handle errors for JDBC
             se.printStackTrace();
-        }catch(Exception e){
+            throw new RegistrationFailedException(gymOwner.getOwnerId());
+        } catch (Exception e) {
             //Handle errors for Class.forName
             e.printStackTrace();
+            throw new RegistrationFailedException(gymOwner.getOwnerId());
         }
     }
 
@@ -240,14 +240,13 @@ public class GymOwnerDAO implements GymOwnerInterfaceDAO {
     }
 
     // Retrieve GymOwner details by ownerId
-    public GymOwner getGymOwnerById(String ownerId) {
+    public GymOwner getGymOwnerById(String ownerId) throws GymOwnerNotFoundException {
         for (GymOwner gymOwner : flipfitGymOwners) {
             if (gymOwner.getOwnerId().equals(ownerId)) {
                 return gymOwner;
             }
         }
-        System.out.println("No Gym Owner with this id found");
-        return null;
+        throw new GymOwnerNotFoundException("No Gym Owner found with ownerId: " + ownerId);
     }
 
     @Override

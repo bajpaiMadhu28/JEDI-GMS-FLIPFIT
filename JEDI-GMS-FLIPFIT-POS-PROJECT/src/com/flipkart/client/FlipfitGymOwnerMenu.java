@@ -9,6 +9,8 @@ import com.flipkart.bean.GymOwner;
 import com.flipkart.bean.Slot;
 import com.flipkart.business.*;
 import com.flipkart.dao.*;
+import com.flipkart.exception.InvalidChoiceException;
+import com.flipkart.exception.RegistrationFailedException;
 import com.flipkart.utils.InputUtils;
 
 public class FlipfitGymOwnerMenu {
@@ -141,7 +143,6 @@ public class FlipfitGymOwnerMenu {
 //
     public void displayMenu(String username, String password) {
         System.out.println("\nYou are inside Gym Owner Menu !!!");
-//        centerDAO.addDummyDataCenter();
 
         if (gymOwnerService.authenticateGymOwner(username, password)) {
             System.out.println("Actual Gym Owner Options!!!");
@@ -152,7 +153,7 @@ public class FlipfitGymOwnerMenu {
         }
     }
 
-    public void displayRegistrationMenu() {
+    public void displayRegistrationMenu() throws RegistrationFailedException {
         System.out.println("\nYou are inside Gym Owner Registration Menu !!!");
         String name = inputUtils.getStringInput("Enter your name: ");
         String email = inputUtils.getStringInput("Enter your email: ");
