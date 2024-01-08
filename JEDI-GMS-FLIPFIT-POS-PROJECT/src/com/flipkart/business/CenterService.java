@@ -53,9 +53,9 @@ public class CenterService {
         System.out.println("------------------------------------------------------------" + ANSI_RESET);
 
 // Loop through the list and display each center in tabular format
-        for (Center center : centerList) {
+        centerList.forEach(center -> {
             System.out.printf("| %-10s | %-20s | %-20s |%n", center.getCenterId(), center.getName(), center.getLocation());
-        }
+        });
 
 // Print table footer
         System.out.println(ANSI_YELLOW + "------------------------------------------------------------" + ANSI_RESET);
@@ -64,17 +64,6 @@ public class CenterService {
         public Center getCenterById(int centerId) {
         // Implementation to get a center by ID
         return null;
-    }
-
-    public Center getCenterByOwnerId(String ownerId) {
-        for(Center center : centerDAO.getDummyData()) {
-            System.out.println(center.getOwnerId()+ " - " + ownerId);
-            if(center.getOwnerId().equals(ownerId)) {
-                return center;
-            }
-        }
-
-        throw new CentreNotFoundException("Center not found with owner ID: " + ownerId);
     }
 
     public void updateCenterProfile(Center center) {

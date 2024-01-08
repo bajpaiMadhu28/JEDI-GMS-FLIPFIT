@@ -98,14 +98,14 @@ public class SlotService {
         System.out.println("| Slot ID |  Slot Date  |  Slot Time    |  Availability    |");
         System.out.println("------------------------------------------------------------");
 
-        for (Slot currentSlot : currentSlots) {
+        currentSlots.forEach(currentSlot->{
             String slotString = String.format("| %-8d| %-12s| %-12s | %-14b   |",
                     currentSlot.getSlotId(),
                     currentSlot.getDate().toString(),
                     currentSlot.getTime(),
                     currentSlot.isAvailable());
             System.out.println(slotString);
-        }
+        });
 
         System.out.println("------------------------------------------------------------" + ANSI_RESET);
         return flag;
@@ -249,10 +249,10 @@ public class SlotService {
         System.out.println(ANSI_YELLOW + "Slot ID      | Slot Date    | Slot Time    | Availability" + ANSI_RESET);
         System.out.println(ANSI_YELLOW + "-------------|--------------|--------------|--------------" + ANSI_RESET);
 
-        for (Slot currentSlot : bookedSlots) {
+        bookedSlots.forEach(currentSlot->{
             String slotString = String.format("%-13d| %-13s| %-13s| %-13b", currentSlot.getSlotId(), currentSlot.getDate().toString(), currentSlot.getTime(), currentSlot.isAvailable());
             System.out.println(ANSI_YELLOW + slotString + ANSI_RESET);
-        }
+        });
     }
 
 
