@@ -1,5 +1,7 @@
 package com.flipkart.client;
 
+import com.flipkart.constant.CommonConstant;
+
 import java.util.Scanner;
 
 public class FlipfitUserMenu {
@@ -78,8 +80,8 @@ public class FlipfitUserMenu {
     // Login menu
     void loginMenu() {
         // Get username, password, and role from the user
-        String username = getStringInput("Enter your username: ");
-        String password = getStringInput("Enter your password: ");
+        String username = getStringInput(CommonConstant.INPUT_USERNAME);
+        String password = getStringInput(CommonConstant.INPUT_PASSWORD);
         int role = getIntInput("Enter your role : \n1 for Customer, \n2 for GymOwner, \n3 for Admin\n ");
 
         // Based on the role, display the corresponding menu
@@ -94,7 +96,7 @@ public class FlipfitUserMenu {
                 adminMenu.displayMenu(username, password);
                 break;
             default:
-                System.out.println("Invalid role. Please try again.");
+                System.out.println(CommonConstant.INVALID_ROLE);
                 loginMenu();
         }
     }
@@ -117,7 +119,7 @@ public class FlipfitUserMenu {
                 adminMenu.displayAdminRegistrationMenu();
                 break;
             default:
-                System.out.println("Invalid role. Please try again.");
+                System.out.println(CommonConstant.INVALID_ROLE);
                 registrationMenu();
         }
     }
@@ -133,7 +135,7 @@ public class FlipfitUserMenu {
     private int getIntInput(String prompt) {
         System.out.print(prompt);
         while (!scanner.hasNextInt()) {
-            System.out.println("Invalid input. Please enter a valid number.");
+            System.out.println(CommonConstant.INVALID_ROLE);
             scanner.next(); // Consume the invalid input
             System.out.print(prompt);
         }
