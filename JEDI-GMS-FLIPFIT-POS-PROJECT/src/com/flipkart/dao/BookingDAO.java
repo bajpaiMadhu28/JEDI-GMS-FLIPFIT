@@ -1,9 +1,10 @@
 package com.flipkart.dao;
 
 import java.util.List;
+
 import com.flipkart.bean.Booking;
 
-public class BookingDAO {
+public class BookingDAO implements BookingInterfaceDAO {
 
     // Add methods for CRUD operations on Booking entities
 
