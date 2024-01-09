@@ -203,7 +203,7 @@ public class SlotService {
         }
     }
 
-    public void showBookedSlots(String customerId) {
+    public ArrayList<Slot> showBookedSlots(String customerId) {
         ResultSet bookedSlotsInfo = slotDAO.getBookedSlotsByCustomerId(customerId);
 
         ArrayList<Slot> bookedSlots = new ArrayList<Slot>();
@@ -253,6 +253,8 @@ public class SlotService {
             String slotString = String.format("%-13d| %-13s| %-13s| %-13b", currentSlot.getSlotId(), currentSlot.getDate().toString(), currentSlot.getTime(), currentSlot.isAvailable());
             System.out.println(ANSI_YELLOW + slotString + ANSI_RESET);
         });
+
+        return bookedSlots;
     }
 
 

@@ -68,4 +68,10 @@ public class CustomerController {
         customerService.updateCustomerInfo(customer.getName(),customer.getEmail(),customer.getUsername(),customer.getPassword(),customer.getCustomerId());
         return "Customer Updated";
     }
+
+    @GET
+    @Path("/bookedSlots")
+    public ArrayList<Slot> viewSlotsForCustomer(@QueryParam("customerId") String customerId){
+        return slotService.showBookedSlots(customerId);
+    }
 }
