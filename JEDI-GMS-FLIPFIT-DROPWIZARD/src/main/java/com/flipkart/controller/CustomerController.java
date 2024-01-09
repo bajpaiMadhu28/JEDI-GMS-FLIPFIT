@@ -2,20 +2,17 @@ package com.flipkart.controller;
 
 import com.flipkart.bean.Center;
 import com.flipkart.bean.Customer;
+import com.flipkart.bean.Slot;
 import com.flipkart.business.CenterService;
-import com.flipkart.dao.CenterDAO;
+import com.flipkart.business.SlotService;
+import com.flipkart.dao.*;
 import com.flipkart.dropWizardModels.AuthenticateCustomer;
+import com.flipkart.dropWizardModels.BookSlot;
 import com.flipkart.dropWizardModels.RegisterCustomer;
 import com.flipkart.business.CustomerService;
-import com.flipkart.dao.BookingDAO;
-import com.flipkart.dao.CustomerDAO;
-import com.flipkart.dao.CustomerDAOInterface;
 import com.flipkart.dropWizardModels.ViewCenter;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 
@@ -25,8 +22,10 @@ public class CustomerController {
     private BookingDAO bookingDAO = new BookingDAO();
     private CustomerDAOInterface customerDAO=new CustomerDAO();
     private CenterDAO centerDAO=new CenterDAO();
+    private SlotDAO slotDAO = new SlotDAO();
     private CustomerService customerService=new CustomerService(customerDAO,bookingDAO);
     private CenterService centerService=new CenterService(centerDAO);
+    private SlotService slotService=new SlotService(slotDAO);
 
     @POST
     @Path("/register")
@@ -48,5 +47,25 @@ public class CustomerController {
     @Path("/centers")
     public ArrayList<Center> viewAllCenters(){
         return centerService.getAllCenters();
+    }
+
+    @GET
+    @Path("/slots")
+    public ArrayList<Slot> viewSlotsForCenter(@QueryParam("centerId") Integer centerId){
+        return slotService.getAllSlots(centerId);
+    }
+
+    @POST
+    @Path("/bookSlot")
+    public String bookGymSlot(BookSlot bookSlot){
+        slotService.bookSlot(bookSlot.getSlotId(),bookSlot.getCustomerId());
+        return "Slot Booked Successfully";
+    }
+
+    @PUT
+    @Path("/update")
+    public String updateCustomer(RegisterCustomer customer){
+        customerService.updateCustomerInfo(customer.getName(),customer.getEmail(),customer.getUsername(),customer.getPassword(),customer.getCustomerId());
+        return "Customer Updated";
     }
 }

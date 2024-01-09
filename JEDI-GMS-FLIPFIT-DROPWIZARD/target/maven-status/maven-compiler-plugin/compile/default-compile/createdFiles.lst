@@ -8,6 +8,7 @@ com/flipkart/exception/DataEntryException.class
 com/flipkart/bean/Customer.class
 com/flipkart/business/CustomerService.class
 com/flipkart/bean/User.class
+com/flipkart/dropWizardModels/BookSlot.class
 com/flipkart/dao/AdminDAOInterface.class
 com/flipkart/business/AdminServiceInterface.class
 com/flipkart/business/CustomerServiceInterface.class

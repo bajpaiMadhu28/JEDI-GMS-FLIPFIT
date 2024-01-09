@@ -44,7 +44,7 @@ public class SlotService {
     // Business logic methods for slots
 
     // Get available slots for a given center
-    public boolean getAllSlots(Integer centerId) {
+    public ArrayList<Slot> getAllSlots(Integer centerId) {
         boolean flag = true;
         // Implementation to get available slots for a center
         // Query database, apply business rules, etc.
@@ -91,7 +91,7 @@ public class SlotService {
         if (currentSlots.isEmpty()) {
             flag = false;
             System.out.println("\u001B[31mNo available slots\u001B[0m");
-            return flag;
+            return currentSlots;
         }
 
         System.out.println(ANSI_YELLOW + "------------------------------------------------------------");
@@ -108,7 +108,7 @@ public class SlotService {
         });
 
         System.out.println("------------------------------------------------------------" + ANSI_RESET);
-        return flag;
+        return currentSlots;
     }
 
     // Book a slot for a customer
@@ -164,7 +164,7 @@ public class SlotService {
 // Inside your method where the booking takes place
                 if (slotDAO.bookSlot(currentSlot)) {
                     System.out.println("Make Payment of $500");
-                    String upiId = inputUtils.getStringInput("Enter UPI Id : ");
+                    String upiId = "testUpiId";
                     double amount = 500.0; // Assuming fixed amount for booking
                     boolean isSuccessful = true; // Assuming the payment is successful
 
@@ -184,7 +184,7 @@ public class SlotService {
             Integer currentWaitlist = currentSlot.getWaitlistedCustomerIds().size();
             if (slotDAO.bookSlot(currentSlot)) {
                 System.out.println("Make Payment of $500");
-                String upiId = inputUtils.getStringInput("Enter UPI Id : ");
+                String upiId = "testUpiId";
                 double amount = 500.0; // Assuming fixed amount for booking
                 boolean isSuccessful = true; // Assuming the payment is successful
 

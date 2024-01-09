@@ -5,6 +5,7 @@ public class RegisterCustomer {
     private String email; // Email address of the customer
     private String username; // Username of the user
     private String password; // Password of the user
+    private String customerId;
 
     public String getName() {
         return name;
@@ -38,5 +39,12 @@ public class RegisterCustomer {
         this.password = password;
     }
 
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
 
 }

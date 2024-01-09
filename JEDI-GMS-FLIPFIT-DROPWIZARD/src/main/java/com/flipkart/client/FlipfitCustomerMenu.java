@@ -52,7 +52,7 @@ public class FlipfitCustomerMenu {
     private void displaySlotsForCenter() {
         int centerId = inputUtils.getIntInput("Enter Center ID to see slots: ");
 //        slotDAO.addDummyDataSlot();
-        if(slotService.getAllSlots(centerId)){
+        if(!slotService.getAllSlots(centerId).isEmpty()){
             int slotId = inputUtils.getIntInput("Enter Slot ID to book slot: ");
             slotService.bookSlot(slotId,customerId);
         }
