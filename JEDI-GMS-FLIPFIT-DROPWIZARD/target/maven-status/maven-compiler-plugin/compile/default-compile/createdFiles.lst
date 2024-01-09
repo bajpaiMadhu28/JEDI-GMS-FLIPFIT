@@ -5,6 +5,7 @@ com/flipkart/exception/CentreNotFoundException.class
 com/flipkart/validator/PaymentValidator.class
 com/flipkart/dao/PaymentDAOInterface.class
 com/flipkart/exception/DataEntryException.class
+com/flipkart/dropWizardModels/CancelSlot.class
 com/flipkart/bean/Customer.class
 com/flipkart/business/CustomerService.class
 com/flipkart/bean/User.class

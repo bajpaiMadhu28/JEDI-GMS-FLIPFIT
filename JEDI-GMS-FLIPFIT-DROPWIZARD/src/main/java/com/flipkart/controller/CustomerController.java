@@ -6,11 +6,8 @@ import com.flipkart.bean.Slot;
 import com.flipkart.business.CenterService;
 import com.flipkart.business.SlotService;
 import com.flipkart.dao.*;
-import com.flipkart.dropWizardModels.AuthenticateCustomer;
-import com.flipkart.dropWizardModels.BookSlot;
-import com.flipkart.dropWizardModels.RegisterCustomer;
+import com.flipkart.dropWizardModels.*;
 import com.flipkart.business.CustomerService;
-import com.flipkart.dropWizardModels.ViewCenter;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -73,5 +70,12 @@ public class CustomerController {
     @Path("/bookedSlots")
     public ArrayList<Slot> viewSlotsForCustomer(@QueryParam("customerId") String customerId){
         return slotService.showBookedSlots(customerId);
+    }
+
+    @POST
+    @Path("/cancelSlotBooking")
+    public String cancelSlotBooking(CancelSlot cancelSlot){
+        slotService.cancelBooking(cancelSlot.getSlotId());
+        return "Slot Booking Cancelled";
     }
 }
